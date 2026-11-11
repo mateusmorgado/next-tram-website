@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Next Tram</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Ask your assistant when the next tram leaves. Your stop, your direction, your walking time. Live for Leipzig (LVB) and Berlin (BVG).">
+<link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="Next Tram, back to top">
+      <img src="assets/img/icon.svg" alt="" width="32" height="32">
+      <span>Next Tram</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#problem">Problem</a>
+      <a href="#answer">How it works</a>
+      <a href="#walk">Walk time</a>
+      <a href="#watch">Watch</a>
+    </nav>
+    <a class="btn btn-small" href="https://github.com/mateusmorgado/next-tram">Get it</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="dot"></span> Live for Leipzig · LVB and Berlin · BVG</p>
+        <h1 class="display">
+          <span class="line">When is</span>
+          <span class="line">the next</span>
+          <span class="line accent">tram<span class="q">?</span></span>
+        </h1>
+        <p class="lede">Ask your assistant. It knows your stop, your direction and how long you take to walk there. A timer starts, and you know when to leave the house.</p>
+        <div class="cta-row">
+          <a class="btn" href="https://github.com/mateusmorgado/next-tram">Get Next Tram</a>
+          <a class="btn btn-ghost" href="#answer">See how it works</a>
+        </div>
+      </div>
+
+      <!-- VIDEO SLOT: hero. Drop a portrait clip at assets/video/hey-google.mp4
+           and replace the .slot-placeholder div with:
+           <video src="assets/video/hey-google.mp4" autoplay muted loop playsinline poster="assets/img/phone-light.png"></video> -->
+      <figure class="video-slot hero-video" data-slot="hey-google">
+        <div class="slot-placeholder">
+          <span class="slot-tag">Video coming</span>
+          <p class="slot-quote">“Hey Google, when is the tram?”</p>
+          <div class="board" aria-label="Sample answer">
+            <div class="board-row">
+              <span class="badge">3</span>
+              <span class="board-dir">→ Knautkleeberg</span>
+            </div>
+            <div class="board-big"><span id="hero-min">6</span><small>min</small></div>
+            <div class="board-leave"><span class="walker">🚶</span> <span id="hero-leave">Leave in 2 min</span></div>
+          </div>
+          <span class="slot-note">Placeholder. Your recording goes here.</span>
+        </div>
+        <figcaption>Asking out loud, at home, shoes half on.</figcaption>
+      </figure>
+    </div>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>Edlichstraße</span><i>●</i><span>Torgauer Platz</span><i>●</i><span>Hauptbahnhof</span><i>●</i><span>Augustusplatz</span><i>●</i><span>S+U Warschauer Str.</span><i>●</i><span>U Eberswalder Str.</span><i>●</i>
+        <span>Edlichstraße</span><i>●</i><span>Torgauer Platz</span><i>●</i><span>Hauptbahnhof</span><i>●</i><span>Augustusplatz</span><i>●</i><span>S+U Warschauer Str.</span><i>●</i><span>U Eberswalder Str.</span><i>●</i>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROBLEM ============ -->
+  <section class="section problem" id="problem">
+    <div class="wrap">
+      <p class="kicker">The problem</p>
+      <h2 class="h2">Six steps to learn one number.</h2>
+      <p class="body-l">The official apps in Germany are built to plan any journey across the whole network. When you only want your tram from your stop, you still go through all of it.</p>
+
+      <ol class="steps" aria-label="Checking a tram in a typical transport app">
+        <li><span class="n">1</span><b>Open the app</b><span>Unlock, find the icon.</span></li>
+        <li><span class="n">2</span><b>Wait for it to load</b><span>Splash screen, maybe a banner.</span></li>
+        <li><span class="n">3</span><b>Pick your stop</b><span>Again. Every time.</span></li>
+        <li><span class="n">4</span><b>Find your direction</b><span>Scroll past lines you never take.</span></li>
+        <li><span class="n">5</span><b>Do the delay math</b><span>Planned 13:12, +3. So 13:15?</span></li>
+        <li><span class="n">6</span><b>Guess your walk</b><span>Is that enough time to get there?</span></li>
+      </ol>
+
+      <div class="versus">
+        <div class="versus-them">
+          <span class="label">The usual way</span>
+          <span class="big">6 steps</span>
+        </div>
+        <div class="versus-us">
+          <span class="label">Next Tram</span>
+          <span class="big">1 question</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE BRIDGE ============ -->
+  <section class="section bridge" id="answer">
+    <div class="wrap">
+      <p class="kicker">The answer</p>
+      <h2 class="h2">The bridge between your tram and your assistant.</h2>
+      <p class="body-l">Transport apps don’t connect to anything else. Your assistant can’t open them, read them or ask them a question. Next Tram makes that connection: it fetches the live departure data in real time and strips it down to the part that matters to you.</p>
+
+      <div class="flow" role="img" aria-label="Live departure data flows into Next Tram, which sends one short answer to your assistant">
+        <div class="flow-node">
+          <span class="label">Live data</span>
+          <b>LVB / MDV</b>
+          <b>BVG / VBB</b>
+          <span class="mono small">every departure, every line, every stop</span>
+        </div>
+        <div class="flow-arrow" aria-hidden="true"><span></span></div>
+        <div class="flow-node flow-core">
+          <img src="assets/img/icon.svg" alt="" width="56" height="56">
+          <b>Next Tram</b>
+          <span class="mono small">your stop · your direction · your walk</span>
+        </div>
+        <div class="flow-arrow" aria-hidden="true"><span></span></div>
+        <div class="flow-node">
+          <span class="label">Your assistant</span>
+          <b>One answer</b>
+          <span class="mono small">“Tram 3 leaves in 6 minutes. Leave in 2 minutes.”</span>
+        </div>
+      </div>
+
+      <div class="ask">
+        <div class="ask-q">
+          <span class="label">You</span>
+          <p>“When is the next tram?”</p>
+        </div>
+        <div class="ask-a">
+          <span class="label">Your assistant</span>
+          <p>“Tram 3 towards Knautkleeberg leaves in 6 minutes, at 13:15. Leave in 2 minutes.”</p>
+          <div class="timer" aria-hidden="true">
+            <span class="timer-bar"><span id="timer-fill"></span></span>
+            <span class="mono" id="timer-text">Leave in 2:00</span>
+          </div>
+        </div>
+      </div>
+      <p class="fine">Sample answer, written the way Next Tram phrases it.</p>
+
+      <div class="assistants">
+        <div><b>Voice assistants</b><span>Save your stop and favourite destination once. Then just ask.</span></div>
+        <div><b>Alexa skill</b><span>“Alexa, ask Next Tram when the next tram is.”</span></div>
+        <div><b>Claude and AI assistants</b><span>An MCP server answers “next tram” for any MCP client.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DIRECTION ============ -->
+  <section class="section direction" id="direction">
+    <div class="wrap split">
+      <div class="split-copy">
+        <p class="kicker">Direction first</p>
+        <h2 class="h2">You know the way. You need the minute.</h2>
+        <p class="body-l">You already know how to connect to where you’re going. Next Tram only shows trams heading your direction, and tells you which stop to walk to and when to walk out the door.</p>
+        <ul class="ticks">
+          <li><b>Go to stop.</b> The stop that gets you there first.</li>
+          <li><b>Leave in 2 min.</b> A countdown to your front door, not to the platform.</li>
+          <li><b>Trip back.</b> One tap flips the route to bring you home.</li>
+          <li><b>Tap to track.</b> Lock the countdown onto one tram until it leaves.</li>
+        </ul>
+      </div>
+      <figure class="phone">
+        <img src="assets/img/phone-light.png" alt="Next Tram on a phone: go to Torgauer Platz, Tram 3 in 6 minutes, leave in 2 minutes" width="541" height="1101" loading="lazy">
+        <figcaption>App screenshot with sample departures.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ TWO STOPS ============ -->
+  <section class="section stops" id="stops">
+    <div class="wrap">
+      <p class="kicker">Two stops</p>
+      <h2 class="h2">Served by two stops? Program both.</h2>
+      <p class="body-l">Many homes sit between two stops with different lines. Set a Stop 1 and a Stop 2, each with its own walking time. Next Tram checks both at the same time and sends you to the one that gets you there first.</p>
+
+      <div class="stop-pair">
+        <div class="stop-card">
+          <span class="label">Stop 1 · 2 min walk</span>
+          <b class="stop-name">Edlichstraße</b>
+          <div class="stop-dep"><span class="badge">7</span><span class="stop-min">10 min</span><span class="mono">13:20</span></div>
+        </div>
+        <div class="stop-card best">
+          <span class="label">Stop 2 · 4 min walk <em>Best</em></span>
+          <b class="stop-name">Torgauer Platz</b>
+          <div class="stop-dep"><span class="badge">3</span><span class="stop-min">6 min</span><span class="mono">13:15</span></div>
+        </div>
+      </div>
+      <p class="fine">Sample departures from the app’s default Leipzig route.</p>
+    </div>
+  </section>
+
+  <!-- ============ DELAYS ============ -->
+  <section class="section delays" id="delays">
+    <div class="wrap split split-rev">
+      <div class="split-copy">
+        <p class="kicker">Real time</p>
+        <h2 class="h2">Late tram? No math.</h2>
+        <p class="body-l">When a tram runs late, the official app shows you the timetable and a delay, and you work out the rest. Next Tram reads the real-time data and does it for you. The minutes you see already include the delay.</p>
+      </div>
+      <div class="math" aria-label="Example: planned 13:12 plus 3 minutes delay is 13:15">
+        <div class="math-them">
+          <span class="label">Official app</span>
+          <p class="mono">13:12 <span class="late">+3</span></p>
+          <p class="math-think">13:12 plus 3 is 13:15. It’s 13:09 now, so 6 minutes. My walk is 4, so I leave in… 2?</p>
+        </div>
+        <div class="math-us">
+          <span class="label">Next Tram</span>
+          <p class="math-answer">Leave in 2 min</p>
+          <p class="mono small">delay already counted</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WALK TIME ============ -->
+  <section class="section walk" id="walk">
+    <div class="wrap">
+      <p class="kicker">Your pace</p>
+      <h2 class="h2">You set the walking time.</h2>
+      <p class="body-l">The big operators guess how fast you walk. You know better. Set your own minutes to each stop, tailored to your speed, and Next Tram plans around them. A tram that leaves before you could reach it is skipped and marked too tight.</p>
+
+      <div class="walk-demo">
+        <div class="walk-controls">
+          <label for="walk-range" class="label">My walk to Torgauer Platz</label>
+          <div class="walk-value"><output id="walk-out" for="walk-range">4</output><span>min</span></div>
+          <input type="range" id="walk-range" min="1" max="12" value="4" step="1">
+          <p class="fine">Try it. Tram 3 leaves in 6 min, the next one in 14 min.</p>
+        </div>
+        <div class="walk-result" id="walk-result" aria-live="polite">
+          <span class="label" id="walk-tram">Tram 3 · 13:15</span>
+          <p class="walk-advice" id="walk-advice">🚶 Leave in 2 min</p>
+          <p class="walk-note" id="walk-note">You’ll reach the stop with time to spare.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NO LOGIN ============ -->
+  <section class="section nologin" id="private">
+    <div class="wrap">
+      <div class="no-grid">
+        <div><span class="no">No</span><b>account</b></div>
+        <div><span class="no">No</span><b>login</b></div>
+        <div><span class="no">No</span><b>database</b></div>
+        <div><span class="no">No</span><b>API keys</b></div>
+      </div>
+      <p class="body-l center-l">Your routes stay on your device. Next Tram asks the public transit data directly and keeps nothing about you anywhere else.</p>
+    </div>
+  </section>
+
+  <!-- ============ WATCH ============ -->
+  <section class="section watch" id="watch">
+    <div class="wrap split">
+      <div class="split-copy">
+        <p class="kicker">On your wrist</p>
+        <h2 class="h2">Already on Android smartwatches.</h2>
+        <p class="body-l">On Wear OS, Next Tram switches to a round, glanceable layout. Step through the next trams with the arrow buttons, tap the countdown to refresh, tap the route to switch favourites.</p>
+        <div class="soon">
+          <span class="soon-tag">Coming</span>
+          <p><b>An Android app (APK).</b> Next Tram installs today as a web app on Android phones and watches. A native APK is on the way.</p>
+        </div>
+      </div>
+      <div class="watch-media">
+        <figure class="watch-face">
+          <img src="assets/img/watch-flow.gif" alt="Animation: stepping through the next trams on the watch with the arrow buttons" width="320" height="320" loading="lazy">
+          <figcaption>Watch layout with sample departures.</figcaption>
+        </figure>
+        <!-- VIDEO SLOT: watch. Drop a clip at assets/video/watch.mp4 and replace
+             the .slot-placeholder div with:
+             <video src="assets/video/watch.mp4" autoplay muted loop playsinline></video> -->
+        <figure class="video-slot watch-video" data-slot="watch">
+          <div class="slot-placeholder">
+            <span class="slot-tag">Video coming</span>
+            <p class="slot-quote small">Checking the tram on the watch</p>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PHONE FLOW ============ -->
+  <section class="section flowshot" id="app">
+    <div class="wrap split split-rev">
+      <div class="split-copy">
+        <p class="kicker">On your phone</p>
+        <h2 class="h2">Glance, tap, go.</h2>
+        <p class="body-l">The phone app opens on your route with the countdown already running. Tap a departure to follow it. Tap ⇅ for the trip back, which checks both home stops so you take whichever gets you home first.</p>
+      </div>
+      <figure class="phone phone-gif">
+        <img src="assets/img/phone-flow.gif" alt="Animation: tapping a stop card tracks that tram, back to fastest, then the trip back" width="360" height="751" loading="lazy">
+        <figcaption>Recorded with sample departures.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ GET IT ============ -->
+  <section class="section get" id="get">
+    <div class="wrap get-in">
+      <h2 class="display display-s">Just ask.<br><span class="accent">Next tram.</span></h2>
+      <p class="body-l">Free on GitHub. Works in Leipzig and Berlin today.</p>
+      <div class="cta-row">
+        <a class="btn" href="https://github.com/mateusmorgado/next-tram">Get it on GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span class="brand"><img src="assets/img/icon.svg" alt="" width="24" height="24"> Next Tram</span>
+    <span class="fine">Live data via Transitous and transport.rest. Not affiliated with LVB, MDV, BVG or VBB.</span>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>
