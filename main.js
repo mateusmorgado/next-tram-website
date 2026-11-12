@@ -43,18 +43,20 @@
     const step = setInterval(() => { n -= 1; if (countEl) countEl.textContent = n > 0 ? n : 'now'; if (n <= 0) { clearInterval(step); setTimeout(startIntro, 260); } }, 320);
   }
 
-  /* ---------- hero reel: three films cut into each other ---------- */
-  const clips = $$('.reel__clip');
+  /* ---------- hero reel: one edit that intercuts the three films ---------- */
+  // Chapters are time ranges in assets/video/hero-*.mp4 (15.4 s): Ask = the question,
+  // Leave = phone away, watch check, the run starts, Make it = all three boardings.
+  const heroV = $('[data-hero-video]');
   const chapters = $$('[data-chapter]');
-  const wipe = $('.reel__wipe');
   const vq = $('[data-voice-q]'), va = $('[data-voice-a]'), vt = $('[data-voice-t]');
+  const CUES = [0, 2.65, 6.52];
   const VOICE = [
     { q: '“Hey Google, when’s the next tram?”', a: 'Tram 3 to Hauptbahnhof leaves Torgauer Platz in 6 minutes. Leave in 2.' },
     { q: 'Timer running', a: 'Tram 3 is on time. Your 4 minute walk is already counted in.' },
     { q: 'Tram 3 · Torgauer Platz', a: 'Doors open. You made it.' }
   ];
-  const CLIP_MAX = 8; // seconds each film plays before the cut
-  let cur = 0, clipStart = performance.now(), typer = null, reelVisible = true, autoplayOk = !reduce;
+  const FALLBACK_DUR = 15.4;
+  let cur = -1, typer = null, reelVisible = true, autoplayOk = !reduce, t0 = performance.now();
 
   const typeText = (el, text) => {
     if (!el) return; clearInterval(typer);
@@ -64,54 +66,40 @@
   };
   const vsr = $('[data-voice-sr]');
   const setVoice = i => { if (vq) vq.textContent = VOICE[i].q; typeText(va, VOICE[i].a); if (vsr) vsr.textContent = `${VOICE[i].q} ${VOICE[i].a}`; };
-
-  const go = (i, user = false) => {
-    if (!clips.length) return;
-    i = (i + clips.length) % clips.length;
-    if (i === cur && !user) return;
-    const prev = clips[cur], next = clips[i];
-    if (prev !== next) {
-      clips.forEach(c => c.classList.remove('is-prev'));
-      prev.classList.remove('is-active'); prev.classList.add('is-prev');
-      void next.offsetWidth;
-      next.classList.add('is-active');
-      if (wipe && !reduce) { wipe.classList.remove('is-go'); void wipe.offsetWidth; wipe.classList.add('is-go'); }
-      const pv = prev.querySelector('video');
-      setTimeout(() => { prev.classList.remove('is-prev'); if (pv) { pv.pause(); try { pv.currentTime = 0; } catch (e) {} } }, 1200);
-    }
-    cur = i; clipStart = performance.now();
-    chapters.forEach((c, k) => { c.classList.toggle('is-active', k === i); c.setAttribute('aria-current', k === i ? 'true' : 'false'); const bar = c.querySelector('i'); if (bar) bar.style.transform = k < i ? 'scaleX(1)' : 'scaleX(0)'; });
-    const v = next.querySelector('video');
-    load(v); try { v.currentTime = 0; } catch (e) {}
-    if (reelVisible) tryPlay(v).catch(() => { autoplayOk = false; });
-    load(clips[(i + 1) % clips.length].querySelector('video')); // warm up the next film
+  const dur = () => (heroV && heroV.duration) || FALLBACK_DUR;
+  const chapterAt = t => { let i = 0; CUES.forEach((c, k) => { if (t >= c) i = k; }); return i; };
+  const setChapter = i => {
+    if (i === cur) return; cur = i;
+    chapters.forEach((c, k) => { c.classList.toggle('is-active', k === i); c.setAttribute('aria-current', k === i ? 'true' : 'false'); });
     setVoice(i);
   };
-  chapters.forEach(c => c.addEventListener('click', () => go(+c.dataset.chapter, true)));
-  const heroEl = $('[data-hero]');
-  if (heroEl && matchMedia('(hover: hover) and (pointer: fine)').matches) heroEl.addEventListener('click', e => { if (!e.target.closest('a, button')) go(cur + 1, true); });
+  chapters.forEach(c => c.addEventListener('click', () => {
+    const k = +c.dataset.chapter;
+    if (heroV) { try { heroV.currentTime = CUES[k] + 0.01; } catch (e) {} }
+    t0 = performance.now() - CUES[k] * 1000; setChapter(k);
+  }));
 
-  if (clips.length) {
-    const first = clips[0].querySelector('video'); load(first);
-    tryPlay(first).catch(() => { autoplayOk = false; });
-    setVoice(0);
+  if (heroV) {
+    load(heroV);
+    tryPlay(heroV).catch(() => { autoplayOk = false; });
+    setChapter(0);
     const loop = now => {
-      const v = clips[cur].querySelector('video');
-      const dur = Math.min(CLIP_MAX, (v && v.duration) || CLIP_MAX);
-      const t = autoplayOk && v && !v.paused ? v.currentTime : (now - clipStart) / 1000;
-      if (!reelVisible) clipStart = now - t * 1000;
-      const p = Math.min(1, t / dur);
-      const bar = chapters[cur] && chapters[cur].querySelector('i');
-      if (bar) bar.style.transform = `scaleX(${p})`;
-      if (vt) vt.textContent = mmss(120 * (1 - (cur + p) / clips.length));
-      if (!reduce && reelVisible && p >= 1) go(cur + 1);
+      const d = dur();
+      const t = autoplayOk && !heroV.paused ? heroV.currentTime : ((now - t0) / 1000) % d;
+      if (!reelVisible) t0 = now - t * 1000;
+      if (!reduce) setChapter(chapterAt(t));
+      chapters.forEach((c, k) => {
+        const bar = c.querySelector('i'); if (!bar) return;
+        const s = CUES[k], e = CUES[k + 1] || d;
+        bar.style.transform = `scaleX(${Math.min(1, Math.max(0, (t - s) / (e - s)))})`;
+      });
+      if (vt) vt.textContent = mmss(120 * (1 - t / d));
       requestAnimationFrame(loop);
     };
     requestAnimationFrame(loop);
     new IntersectionObserver(([e]) => {
       reelVisible = e.isIntersecting;
-      const v = clips[cur].querySelector('video');
-      if (reelVisible) tryPlay(v).catch(() => {}); else v.pause();
+      if (reelVisible) tryPlay(heroV).catch(() => {}); else heroV.pause();
     }, { threshold: 0.05 }).observe($('[data-hero]'));
   }
 

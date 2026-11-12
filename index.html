@@ -46,19 +46,13 @@
 
 <main id="top">
 
-  <!-- ============ HERO: the three films cut into each other ============ -->
-  <section class="hero" data-hero data-cursor="Next">
+  <!-- ============ HERO: one short edit intercutting the three films ============ -->
+  <section class="hero" data-hero>
     <div class="hero__reel" data-reel>
-      <figure class="reel__clip is-active" data-clip="0">
-        <video muted playsinline preload="metadata" poster="assets/video/ask-poster.jpg" data-src="assets/video/ask"></video>
+      <figure class="reel__clip">
+        <video muted playsinline loop preload="metadata" poster="assets/video/hero-poster.jpg" data-src="assets/video/hero" data-hero-video></video>
       </figure>
-      <figure class="reel__clip" data-clip="1">
-        <video muted playsinline preload="none" poster="assets/video/leave-poster.jpg" data-src="assets/video/leave"></video>
-      </figure>
-      <figure class="reel__clip" data-clip="2">
-        <video muted playsinline preload="none" poster="assets/video/run-poster.jpg" data-src="assets/video/run"></video>
-      </figure>
-      <div class="reel__wipe" aria-hidden="true"></div>
+      <div class="fine-grain" aria-hidden="true"></div>
       <div class="hero__shade" aria-hidden="true"></div>
     </div>
 
@@ -219,6 +213,7 @@
   <section class="film" data-film>
     <div class="film__frame" data-film-frame>
       <video muted playsinline loop preload="none" poster="assets/video/leave-poster.jpg" data-src="assets/video/leave" data-lazy></video>
+      <div class="fine-grain" aria-hidden="true"></div>
     </div>
     <div class="film__caption wrap">
       <p class="label label--light">(04) When to leave</p>
@@ -338,6 +333,7 @@
   <section class="film film--run" data-film>
     <div class="film__frame" data-film-frame>
       <video muted playsinline loop preload="none" poster="assets/video/run-poster.jpg" data-src="assets/video/run" data-lazy></video>
+      <div class="fine-grain" aria-hidden="true"></div>
     </div>
     <div class="film__caption wrap">
       <h2 class="h-xl">Make it. Every time.</h2>
