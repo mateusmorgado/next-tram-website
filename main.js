@@ -236,7 +236,7 @@
         const el = $(`[data-sc-min="${i}"]`); if (el) el.textContent = `${Math.floor(s.next / 60)} min`;
         if (cards[i]) cards[i].classList.toggle('is-best', s === best);
       });
-      app.stop.textContent = best.name; app.line.textContent = best.line; app.dest.textContent = `→ ${best.dest}`;
+      app.stop.textContent = best.name; app.line.textContent = best.line; app.line.dataset.line = best.line; app.dest.textContent = `→ ${best.dest}`;
       app.ghost.textContent = best.short; app.min.textContent = Math.floor(best.next / 60);
       app.sec.textContent = mmss(best.next); app.walk.textContent = `${best.walk} min walk`;
       const leave = Math.floor((best.next - best.walk * 60) / 60);
@@ -256,7 +256,7 @@
     ];
     const out = $('[data-walk-out]'), leaveEl = $('[data-walk-leave]'), list = $('[data-walk-list]');
     const lineEl = $('.wline'), ticks = $('[data-ticks]');
-    ticks.innerHTML = DEPS.map(d => `<span class="tick" style="left:${d.m / MAX * 100}%"><b class="badge">${d.line}</b><span class="mono">${d.m}&prime;</span></span>`).join('');
+    ticks.innerHTML = DEPS.map(d => `<span class="tick" style="left:${d.m / MAX * 100}%"><b class="badge" data-line="${d.line}">${d.line}</b><span class="mono">${d.m}&prime;</span></span>`).join('');
     const tickEls = $$('.tick', ticks);
     const render = () => {
       const w = +range.value;
@@ -270,7 +270,7 @@
       DEPS.forEach((d, i) => { tickEls[i].classList.toggle('is-tight', d.m < w); tickEls[i].classList.toggle('is-pick', d === pick); });
       list.innerHTML = DEPS.slice(0, 4).map(d => {
         const tight = d.m < w, isPick = d === pick;
-        return `<li class="${tight ? 'is-tight' : ''}"><b class="badge">${d.line}</b><span>${d.dest} <span class="mono">in ${d.m} min</span></span><span class="tag">${tight ? 'too tight' : isPick ? 'your tram' : ''}</span></li>`;
+        return `<li class="${tight ? 'is-tight' : ''}"><b class="badge" data-line="${d.line}">${d.line}</b><span>${d.dest} <span class="mono">in ${d.m} min</span></span><span class="tag">${tight ? 'too tight' : isPick ? 'your tram' : ''}</span></li>`;
       }).join('');
     };
     range.addEventListener('input', render); render();
@@ -289,7 +289,7 @@
       if (!wVis.on) return;
       k = (k + 1) % STATES.length; const s = STATES[k];
       face.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, fill: 'forwards' }).onfinish = () => {
-        Object.keys(W).forEach(key => { if (W[key]) W[key].textContent = s[key]; });
+        Object.keys(W).forEach(key => { if (W[key]) W[key].textContent = s[key]; }); [W.line, W.ghost].forEach(el => { if (el) el.dataset.line = s.line; });
         face.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, fill: 'forwards' });
       };
     }, 3600);

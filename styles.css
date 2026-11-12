@@ -344,10 +344,19 @@ html.js .manifesto .w.is-lit { opacity: 1; }
 /* line badge, as in the app */
 .badge {
   display: inline-grid; place-items: center; min-width: 2.3em; padding: 3px 7px;
-  background: var(--tram-red); color: #fff; border-radius: 7px;
+  background: var(--line-bg, var(--tram-red)); color: var(--line-fg, #fff); border-radius: 7px;
   font-family: var(--f-display); font-weight: 750; font-style: normal; font-size: .85em; line-height: 1.25;
   font-variant-numeric: tabular-nums; letter-spacing: 0;
+  transition: background-color .3s, color .3s;
 }
+
+/* Line colours, set per badge with data-line (JS keeps it in step when a line changes).
+   Lines without an entry keep the app's default tram red.
+   Berlin trams: VBB network colours (vbb-line-colors). */
+[data-line="M1"]  { --line-bg: #63b9e9; }
+[data-line="M10"] { --line-bg: #007b3d; }
+[data-line="M13"] { --line-bg: #00a092; }
+/* Leipzig trams (LVB): */
 
 /* ---------- films ---------- */
 .film { position: relative; padding-block: clamp(24px, 4vw, 64px); }
@@ -543,7 +552,7 @@ html.flood .walk { background: transparent; }
   display: grid; place-content: center; justify-items: center; gap: 1.6cqw; text-align: center;
   container-type: inline-size;
 }
-.watch__ghost { position: absolute; inset: 0; display: grid; place-items: center; font-size: 44cqw; font-weight: 800; color: var(--tram-red); opacity: .2; letter-spacing: -0.05em; line-height: 1; transform: translateY(-8%); }
+.watch__ghost { position: absolute; inset: 0; display: grid; place-items: center; font-size: 44cqw; font-weight: 800; color: var(--line-bg, var(--tram-red)); opacity: .2; letter-spacing: -0.05em; line-height: 1; transform: translateY(-8%); }
 .watch__face > *:not(.watch__ghost) { position: relative; }
 .watch__dir { font-size: 4.8cqw; font-weight: 600; }
 .watch__stop { font-size: 6.2cqw; }
