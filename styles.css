@@ -356,7 +356,13 @@ html.js .manifesto .w.is-lit { opacity: 1; }
 [data-line="M1"]  { --line-bg: #63b9e9; }
 [data-line="M10"] { --line-bg: #007b3d; }
 [data-line="M13"] { --line-bg: #00a092; }
-/* Leipzig trams (LVB): */
+/* Leipzig trams (LVB network map, Nov 2026): four line families. */
+[data-line="1"], [data-line="3"], [data-line="N17"] { --line-bg: #65b32e; }
+[data-line="2"], [data-line="8"], [data-line="9"] { --line-bg: #ffcc00; --line-fg: #1d1d1b; }
+[data-line="4"], [data-line="7"], [data-line="12"], [data-line="15"] { --line-bg: #213a8f; }
+[data-line="10"], [data-line="11"], [data-line="14"], [data-line="16"], [data-line="N10"] { --line-bg: #e30613; }
+/* yellow lines on the yellow walk band: keep the badge edge visible */
+.walk .badge:is([data-line="2"], [data-line="8"], [data-line="9"]) { box-shadow: inset 0 0 0 1.5px #1d1d1b; }
 
 /* ---------- films ---------- */
 .film { position: relative; padding-block: clamp(24px, 4vw, 64px); }
