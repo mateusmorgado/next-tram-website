@@ -365,7 +365,7 @@
       // 2 strip
       swap(0, 1);
       tl.to(others, { height: 0, paddingTop: 0, paddingBottom: 0, opacity: 0, borderWidth: 0, stagger: 0.04, duration: 0.6 }, '<')
-        .to(keep, { backgroundColor: '#ffd400', color: '#0b0b0c', scale: 1.12, duration: 0.4 }, '-=0.2')
+        .to(keep, { backgroundColor: '#14382a', boxShadow: 'inset 0 0 0 2px #3ecf8e', scale: 1.12, duration: 0.4 }, '-=0.2')
         .to({}, { duration: 0.5 });
       // 3 say
       swap(1, 2);
@@ -379,8 +379,8 @@
     const walkSec = $('[data-walk-section]');
     if (walkSec) {
       doc.classList.add('flood');
-      gsap.fromTo(document.body, { backgroundColor: '#0b0b0c' }, { backgroundColor: '#ffd400', ease: 'none', immediateRender: false, scrollTrigger: { trigger: walkSec, start: 'top 85%', end: 'top 35%', scrub: true } });
-      gsap.fromTo(document.body, { backgroundColor: '#ffd400' }, { backgroundColor: '#0b0b0c', ease: 'none', immediateRender: false, scrollTrigger: { trigger: walkSec, start: 'bottom 35%', end: 'bottom top', scrub: true } });
+      gsap.fromTo(document.body, { backgroundColor: '#101114' }, { backgroundColor: '#ffd400', ease: 'none', immediateRender: false, scrollTrigger: { trigger: walkSec, start: 'top 85%', end: 'top 35%', scrub: true } });
+      gsap.fromTo(document.body, { backgroundColor: '#ffd400' }, { backgroundColor: '#101114', ease: 'none', immediateRender: false, scrollTrigger: { trigger: walkSec, start: 'bottom 35%', end: 'bottom top', scrub: true } });
     }
 
     // the delay sum collapses into one instruction

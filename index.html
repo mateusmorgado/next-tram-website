@@ -10,7 +10,7 @@
 <link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300..800&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500;600&family=Doto:wght@600..900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,slnt,wght@8..144,-10..0,300..800&family=Roboto+Mono:wght@400;500&family=Doto:wght@600..900&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -30,7 +30,7 @@
 
 <header class="nav" data-nav>
   <a class="nav__brand" href="#top" aria-label="Next Tram, back to top">
-    <span class="nav__mark" aria-hidden="true"></span>
+    <img class="nav__mark" src="assets/img/icon.svg" alt="" width="30" height="30">
     <span>Next Tram</span>
   </a>
   <div class="nav__live mono" aria-hidden="true">
@@ -68,7 +68,7 @@
       <div class="subs">
         <p class="subs__q"><span class="subs__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span data-voice-q>&ldquo;Hey Google, when&rsquo;s the next tram?&rdquo;</span></p>
         <p class="subs__a" data-voice-a>Tram 3 to Hauptbahnhof leaves Torgauer Platz in 6&nbsp;minutes. Leave in&nbsp;2.</p>
-        <p class="subs__timer mono" aria-hidden="true"><span>Leave in</span> <b class="dot" data-voice-t>2:00</b></p>
+        <p class="subs__timer mono" aria-hidden="true"><span>Leave in</span> <b class="num" data-voice-t>2:00</b></p>
       </div>
 
       <p class="sr-only" aria-live="polite" data-voice-sr></p>
@@ -119,7 +119,7 @@
       </p>
       <div class="punch">
         <p class="punch__lead">You only wanted one number.</p>
-        <div class="punch__num" role="img" aria-label="6 minutes"><span class="dot" data-punch>6</span><span class="punch__unit mono">min</span></div>
+        <div class="punch__num" role="img" aria-label="6 minutes"><span class="num" data-punch>6</span><span class="punch__unit mono">min</span></div>
       </div>
     </div>
   </section>
@@ -170,7 +170,7 @@
         <div class="ssay" data-ssay>
           <div class="ring ring--lg">
             <svg viewBox="0 0 200 200"><circle class="ring__bg" cx="100" cy="100" r="88"></circle><circle class="ring__fg" cx="100" cy="100" r="88" data-ring></circle></svg>
-            <div class="ring__label"><span class="dot" data-ring-t>2:00</span><small>until you leave</small></div>
+            <div class="ring__label"><span class="num" data-ring-t>2:00</span><small>until you leave</small></div>
           </div>
           <p class="ssay__line">&ldquo;Tram 3 leaves in 6 minutes. Leave in 2.&rdquo;</p>
           <ul class="assistants"><li>Gemini</li><li>Alexa</li><li>Siri</li><li>ChatGPT</li><li>Claude</li></ul>
@@ -207,7 +207,7 @@
         <div class="panel__vis say" aria-hidden="true">
           <div class="ring">
             <svg viewBox="0 0 200 200"><circle class="ring__bg" cx="100" cy="100" r="88"></circle><circle class="ring__fg" cx="100" cy="100" r="88" data-ring></circle></svg>
-            <div class="ring__label"><span class="dot" data-ring-t>2:00</span><small>until you leave</small></div>
+            <div class="ring__label"><span class="num" data-ring-t>2:00</span><small>until you leave</small></div>
           </div>
           <ul class="assistants"><li>Gemini</li><li>Alexa</li><li>Siri</li><li>ChatGPT</li><li>Claude</li></ul>
         </div>
@@ -303,7 +303,7 @@
       </div>
       <div class="walk__ctl">
         <label for="walk-range" class="walk__label mono">My walk to Torgauer Platz</label>
-        <div class="walk__num"><span class="dot" data-walk-out>4</span><small class="mono">min</small></div>
+        <div class="walk__num"><span class="num" data-walk-out>4</span><small class="mono">min</small></div>
         <input type="range" id="walk-range" min="1" max="12" step="1" value="4" data-walk aria-describedby="walk-leave">
         <div class="walk__scale mono" aria-hidden="true"><span>1 min</span><span>12 min</span></div>
         <div class="wline" aria-hidden="true">
@@ -325,11 +325,11 @@
       <h2 class="h-xl late__title">Late? Already counted.</h2>
       <div class="eq" data-eq role="img" aria-label="Instead of working out 18:13 plus 4 minutes delay minus a 4 minute walk, you hear: leave in 2 minutes">
         <div class="eq__old mono" aria-hidden="true"><span>18:13</span><span class="eq__delay">+4</span><span>&minus;&nbsp;4&nbsp;walk</span><span>=&nbsp;?</span></div>
-        <div class="eq__new" aria-hidden="true"><span class="mono">You hear</span><b class="dot">Leave in 2 min</b></div>
+        <div class="eq__new" aria-hidden="true"><span class="mono">You hear</span><b>Leave in 2 min</b></div>
       </div>
       <div class="late__foot">
         <p class="body-lg">No more mental arithmetic on the LVB or BVG app. Delays are folded into the countdown, and punctuality comes as one plain word.</p>
-        <ul class="punctual mono"><li>early</li><li class="is-on">on time</li><li>late</li><li>+late</li><li>++late</li></ul>
+        <ul class="punctual"><li class="p-early">early</li><li class="p-ok">on time</li><li class="p-late">late</li><li class="p-late2">+late</li><li class="p-late3">++late</li></ul>
       </div>
     </div>
   </section>
