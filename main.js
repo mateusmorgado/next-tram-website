@@ -1,4 +1,4 @@
-/* Next Tram showcase, v2. Every effect is an enhancement: the page reads fully without JS,
+/* nextTram showcase, v2. Every effect is an enhancement: the page reads fully without JS,
    and without GSAP/Lenis (CDN blocked) it falls back to IntersectionObserver. */
 (() => {
   'use strict';
