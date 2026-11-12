@@ -174,15 +174,9 @@ html.no-loader .loader { display: none; }
 /* ---------- hero ---------- */
 .hero { position: relative; height: 100svh; min-height: 660px; overflow: hidden; background: var(--ink); }
 .hero__reel { position: absolute; inset: 0; overflow: hidden; will-change: clip-path; }
-.reel__clip { position: absolute; inset: 0; margin: 0; overflow: hidden; clip-path: inset(0 0 0 100%); z-index: 1; }
-.reel__clip.is-active { clip-path: inset(0 0 0 0); z-index: 3; transition: clip-path 1.15s var(--ease); }
-.reel__clip.is-prev { clip-path: inset(0 0 0 0); z-index: 2; }
-.reel__clip video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.14); }
-.reel__clip.is-active video { animation: drift 9s linear forwards; }
-@keyframes drift { from { transform: scale(1.14); } to { transform: scale(1.2); } }
-.reel__wipe { position: absolute; top: 0; bottom: 0; left: 0; width: 9vw; transform: translateX(100vw); will-change: transform; background: var(--signal); z-index: 4; pointer-events: none; }
-.reel__wipe.is-go { animation: wipe 1.15s var(--ease) forwards; }
-@keyframes wipe { from { transform: translateX(100vw); } to { transform: translateX(-9vw); } }
+.reel__clip { position: absolute; inset: 0; margin: 0; overflow: hidden; }
+.reel__clip video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.14); animation: drift 16s ease-in-out infinite alternate; }
+@keyframes drift { from { transform: scale(1.14); } to { transform: scale(1.19); } }
 .hero__shade {
   position: absolute; inset: 0; z-index: 5; pointer-events: none;
   background:
