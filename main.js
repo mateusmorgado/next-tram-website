@@ -227,7 +227,7 @@
     ];
     const cards = $$('[data-stopcard]');
     let last = performance.now();
-    const SPEED = reduce ? 0 : 4; // demo time runs 4x
+    const SPEED = reduce ? 0 : 1; // a live timer: one second per second
     const step = () => {
       const now = performance.now(); const dt = (now - last) / 1000 * SPEED; last = now;
       STOPS.forEach(s => { s.next -= dt; while (s.next < s.walk * 60) s.next += s.every; });
@@ -237,8 +237,8 @@
         if (cards[i]) cards[i].classList.toggle('is-best', s === best);
       });
       app.stop.textContent = best.name; app.line.textContent = best.line; app.line.dataset.line = best.line; app.dest.textContent = `→ ${best.dest}`;
-      app.ghost.textContent = best.short; app.min.textContent = Math.floor(best.next / 60);
-      app.sec.textContent = mmss(best.next); app.walk.textContent = `${best.walk} min walk`;
+      app.ghost.textContent = best.short; app.min.textContent = mmss(best.next); // big mm:ss timer, like the watch
+      app.sec.textContent = `${Math.floor(best.next / 60)} min`; app.walk.textContent = `${best.walk} min walk`;
       const leave = Math.floor((best.next - best.walk * 60) / 60);
       app.leave.textContent = leave <= 0 ? 'Leave now' : `Leave in ${leave} min`;
     };
@@ -276,23 +276,32 @@
     range.addEventListener('input', render); render();
   }
 
-  /* ---------- watch face cycles routes ---------- */
+  /* ---------- watch face: live countdown, cycles routes ---------- */
   const W = { ghost: $('[data-w-ghost]'), stop: $('[data-w-stop]'), line: $('[data-w-line]'), dest: $('[data-w-dest]'), time: $('[data-w-time]'), leave: $('[data-w-leave]') };
   if (W.time && !reduce) {
     const STATES = [
-      { ghost: 'M10', stop: 'S+U Warschauer Str.', line: 'M10', dest: '→ Friedrich', time: '11:32', leave: 'Leave in 9 min' },
-      { ghost: '3', stop: 'Torgauer Platz', line: '3', dest: '→ Knautkleeberg', time: '18:13', leave: 'Leave in 2 min' },
-      { ghost: '7', stop: 'Edlichstraße', line: '7', dest: '→ Böhlitz-E.', time: '18:18', leave: 'Leave in 8 min' }
+      { ghost: 'M10', stop: 'S+U Warschauer Str.', line: 'M10', dest: '→ Friedrich', secs: 692, walk: 2, every: 300 },
+      { ghost: '3', stop: 'Torgauer Platz', line: '3', dest: '→ Knautkleeberg', secs: 389, walk: 4, every: 600 },
+      { ghost: '7', stop: 'Edlichstraße', line: '7', dest: '→ Böhlitz-E.', secs: 600, walk: 2, every: 600 }
     ];
-    const face = $('.watch__face'); let k = 0; const wVis = seen(face);
+    const face = $('.watch__face'); let k = 0, n = 0; const wVis = seen(face);
+    const tick = () => {
+      const s = STATES[k];
+      W.time.textContent = mmss(s.secs);
+      const leave = Math.floor(s.secs / 60) - s.walk;
+      W.leave.textContent = leave <= 0 ? 'Leave now' : `Leave in ${leave} min`;
+    };
     setInterval(() => {
       if (!wVis.on) return;
+      STATES.forEach(s => { s.secs -= 1; if (s.secs < s.walk * 60) s.secs += s.every; });
+      if (++n % 5) { tick(); return; }
       k = (k + 1) % STATES.length; const s = STATES[k];
       face.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, fill: 'forwards' }).onfinish = () => {
-        Object.keys(W).forEach(key => { if (W[key]) W[key].textContent = s[key]; }); [W.line, W.ghost].forEach(el => { if (el) el.dataset.line = s.line; });
-        face.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, fill: 'forwards' });
+        ['ghost', 'stop', 'line', 'dest'].forEach(key => { if (W[key]) W[key].textContent = s[key]; }); [W.line, W.ghost].forEach(el => { if (el) el.dataset.line = s.line; });
+        tick(); face.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, fill: 'forwards' });
       };
-    }, 3600);
+    }, 1000);
+    tick();
   }
 
   /* ---------- scroll choreography (GSAP) ---------- */
