@@ -175,15 +175,22 @@ html.no-loader .loader { display: none; }
 .hero { position: relative; height: 100svh; min-height: 660px; overflow: hidden; background: var(--ink); }
 .hero__reel { position: absolute; inset: 0; overflow: hidden; will-change: clip-path; }
 .reel__clip { position: absolute; inset: 0; margin: 0; overflow: hidden; }
+.reel__clip video, .film__frame video { filter: var(--film-filter); }
 .reel__clip video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.01); animation: drift 16s ease-in-out infinite alternate; }
 @keyframes drift { from { transform: scale(1.01); } to { transform: scale(1.06); } }
 /* fine, light grain over the hero and the films (the modern web kind, not a vintage look) */
 .fine-grain {
-  position: absolute; inset: -100px; z-index: 4; pointer-events: none; opacity: .2; mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 1'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='3' intercept='-1'/%3E%3CfeFuncG type='linear' slope='3' intercept='-1'/%3E%3CfeFuncB type='linear' slope='3' intercept='-1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  position: absolute; inset: -100px; z-index: 4; pointer-events: none; opacity: .28; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 1'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='3' intercept='-1'/%3E%3CfeFuncG type='linear' slope='3' intercept='-1'/%3E%3CfeFuncB type='linear' slope='3' intercept='-1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
   background-size: 220px 220px;
   animation: hgrain .5s steps(3) infinite;
 }
+/* 16mm look over the films: soft contrast, a little faded, teal lifted shadows, warm highlights,
+   and kept a touch brighter than the reference stills */
+:root { --film-filter: brightness(1.12) contrast(1.04) saturate(1.08) sepia(.06); }
+.film-tone { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.film-tone::before { content: ""; position: absolute; inset: 0; background: #12292e; mix-blend-mode: lighten; opacity: .6; }
+.film-tone::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(120 190 210 / .18), rgb(255 170 100 / .22) 55%); mix-blend-mode: soft-light; }
 @keyframes hgrain { 0% { transform: translate(0,0) } 33% { transform: translate(-37px,23px) } 66% { transform: translate(29px,-41px) } 100% { transform: translate(0,0) } }
 .hero__shade {
   position: absolute; inset: 0; z-index: 5; pointer-events: none;
@@ -381,6 +388,7 @@ html.no-loader .loader { display: none; }
 .film__frame { position: relative; width: 100%; height: min(100svh, 64vw); min-height: 480px; overflow: hidden; background: var(--ink-2); }
 .film__frame video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.01); }
 .film__frame .fine-grain { z-index: 1; }
+.film__frame .film-tone { z-index: 1; }
 .film__frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgb(16 17 20 / .85), rgb(16 17 20 / 0) 55%); pointer-events: none; }
 .film__caption { position: absolute; left: 0; right: 0; bottom: clamp(64px, 9vw, 150px); z-index: 2; margin-inline: auto; }
 .film__caption .h-xl { max-width: 12ch; }
