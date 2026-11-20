@@ -26,22 +26,55 @@
   const load = v => { if (reduce) return; if (v && !v.getAttribute('src')) { v.src = `${v.dataset.src}-${small ? 720 : 1080}.mp4`; } };
   const tryPlay = v => { if (reduce || !v) return Promise.reject(); const p = v.play(); return p && p.catch ? p : Promise.resolve(); };
 
-  /* ---------- loader ---------- */
-  const loader = $('.loader');
-  const countEl = $('[data-loader-count]');
-  let introDone = false;
-  const startIntro = () => {
-    if (introDone) return; introDone = true;
-    loader && loader.classList.add('is-done');
-    if (motion) {
-      gsap.from('.hero__title .word', { yPercent: 115, duration: 1.4, ease: 'expo.out', stagger: 0.08, delay: 0.2 });
-      gsap.from(['.hero__kicker', '.subs', '.hero__bottom'], { opacity: 0, y: 24, duration: 1.1, ease: 'expo.out', delay: 0.6, stagger: 0.1 });
-    }
+  /* ---------- intro: the hand-off ----------
+     The inline script at the top of <body> decides whether the intro plays (html.js-intro), starts
+     it once the display face is in (html.intro-play) and skips it on any input (html.intro-skip).
+     The trams and the green stop are CSS. This waits for the trams to clear, then drops the word
+     into its place in the hero title as the screen lifts, and removes the intro. */
+  const loader = $('[data-loader]');
+  const heroWord = $('.hero__title .word--trams');
+  // the hero's own entrance; from-tweens take their start state at once, so nothing flashes in place first
+  const heroIn = (handoff, delay = 0) => {
+    if (!motion) return;
+    const words = $$('.hero__title .word').filter(w => !(handoff && w === heroWord));
+    gsap.from(words, { yPercent: 115, duration: 1.2, ease: 'expo.out', stagger: 0.08, delay });
+    gsap.from(['.hero__kicker', '.subs', '.hero__bottom'], { opacity: 0, y: 24, duration: 1.1, ease: 'expo.out', delay: delay + 0.2, stagger: 0.1 });
   };
-  if (reduce || !loader) { doc.classList.add('no-loader'); introDone = true; }
+  let introEnded = false;
+  const endIntro = () => {
+    if (introEnded) return; introEnded = true;
+    doc.classList.add('intro-done', 'no-loader');
+    if (loader) loader.remove();
+  };
+  // no intro this time, or it was skipped / its CSS safety net fired before this script arrived
+  if (!loader || !doc.classList.contains('js-intro') || doc.classList.contains('intro-skip') || performance.now() > 3300) endIntro();
   else {
-    let n = 3;
-    const step = setInterval(() => { n -= 1; if (countEl) countEl.textContent = n > 0 ? n : 'now'; if (n <= 0) { clearInterval(step); setTimeout(startIntro, 260); } }, 320);
+    doc.classList.add('intro-live'); // this script has it from here: the CSS safety nets stand down
+    const word = $('[data-loader-word]'), lvb = $('.loader__tram--lvb');
+    let phase = 'trams';
+    const out = () => {
+      if (phase !== 'trams') return; phase = 'out';
+      const a = word.getBoundingClientRect(), b = heroWord && heroWord.getBoundingClientRect();
+      if (b && b.width && b.top >= 0 && b.bottom <= innerHeight) {
+        word.style.setProperty('--dx', `${b.left - a.left}px`);
+        word.style.setProperty('--dy', `${b.top - a.top}px`);
+        word.addEventListener('transitionend', e => { if (e.propertyName === 'transform') endIntro(); });
+      } else loader.classList.add('is-far'); // page restored mid-scroll: no hero to land in, just fade
+      loader.classList.add('is-out');
+      heroIn(true, 0.36); // "Just ask." rises out of its line as the word lands under it
+      setTimeout(endIntro, 700);
+    };
+    const skip = () => {
+      if (phase !== 'trams') return; phase = 'skip';
+      heroIn(false);
+      setTimeout(endIntro, 300);
+    };
+    new MutationObserver(() => { if (doc.classList.contains('intro-skip')) skip(); }).observe(doc, { attributes: true, attributeFilter: ['class'] });
+    // the trams may already be through if this script came in late
+    const anims = lvb.getAnimations ? lvb.getAnimations() : [];
+    if (doc.classList.contains('intro-play') && anims.length && anims.every(x => x.playState === 'finished')) out();
+    else lvb.addEventListener('animationend', () => setTimeout(out, 40), { once: true });
+    setTimeout(out, 2600); // and never hold the page longer than this
   }
 
   /* ---------- hero reel: one edit that intercuts the three films ---------- */

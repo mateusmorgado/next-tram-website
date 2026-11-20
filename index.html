@@ -16,12 +16,31 @@
 </head>
 <body>
 
-<!-- Preloader: a stop display counting down. A CSS animation removes it even without JS. -->
-<div class="loader" aria-hidden="true">
-  <div class="loader__board dot">
-    <span class="loader__line">3</span>
-    <span class="loader__dest">Hauptbahnhof</span>
-    <span class="loader__min" data-loader-count>3</span>
+<!-- Intro (about 1.4 s, once per visit): an LVB tram from Leipzig and a BVG tram from Berlin cross
+     through "nextTram." from opposite ends and leave the letters lit, the full stop turns go green,
+     and the word drops into its place in the hero as the screen lifts. Any click, key or scroll
+     skips it; reduced motion and no-JS visitors never see it. Add ?intro to the URL to replay it. -->
+<script>
+(function (h) {
+  // play once per visit (or with ?intro), never with reduced motion
+  var seen = false, force = /[?&]intro\b/.test(location.search);
+  try { seen = !!sessionStorage.getItem('nt:intro'); sessionStorage.setItem('nt:intro', '1'); } catch (e) {}
+  if ((seen && !force) || !window.matchMedia || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  h.classList.add('js-intro');
+  // any click, key, wheel or touch skips it
+  var on = ['pointerdown', 'keydown', 'wheel', 'touchstart'];
+  var skip = function () { if (!h.classList.contains('intro-done')) h.classList.add('intro-skip'); on.forEach(function (t) { removeEventListener(t, skip, true); }); };
+  on.forEach(function (t) { addEventListener(t, skip, { capture: true, passive: true }); });
+  // start as soon as the display face is in (cached: at once), so the word never swaps fonts mid-run
+  var go = function () { requestAnimationFrame(function () { h.classList.add('intro-play'); }); };
+  var face = document.fonts && document.fonts.load ? document.fonts.load('700 100px "Roboto Flex"') : null;
+  Promise.race([face, new Promise(function (r) { setTimeout(r, 600); })]).then(go, go);
+})(document.documentElement);
+</script>
+<div class="loader" aria-hidden="true" data-loader>
+  <div class="loader__stage">
+    <p class="loader__word" data-loader-word><span class="loader__ghost">nextTram.</span><span class="loader__fill loader__fill--l">nextTram.</span><span class="loader__fill loader__fill--r">nextTram.</span><span class="loader__tram loader__tram--lvb">nextTram.</span><span class="loader__tram loader__tram--bvg">nextTram.</span><span class="loader__stop">nextTram<b>.</b></span></p>
+    <p class="loader__meta mono"><span>LVB Leipzig &rarr;</span><span>&larr; BVG Berlin</span></p>
   </div>
 </div>
 

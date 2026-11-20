@@ -17,6 +17,10 @@ npx serve .        # or: python3 -m http.server
 | `assets/video/` | `ask`, `leave`, `run` films at 720p and 1080p, plus posters |
 | `assets/img/photo/` | Tram photos at 1200 and 2400 px, WebP and JPG |
 
+## Intro
+
+A 1.4 s intro plays once per visit: an LVB tram and a BVG tram cross through "nextTram." from opposite ends, the full stop turns green, and the word drops into its place in the hero. Any click, key, scroll or touch skips it, and it never plays with reduced motion or without JS. Add `?intro` to the URL to see it again (`/?intro`).
+
 ## App animations
 
 `assets/app-demos/` is built from the app's source (`src/app/screens/intro` in [next-tram](https://github.com/mateusmorgado/next-tram)) so the site shows exactly what the app shows. The built files are committed; to refresh them after the app changes:

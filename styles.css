@@ -6,7 +6,7 @@
    heavy tabular countdowns, line badges, pill chips, punctuality chips, the green leave bar and
    the faint gradient monogram.
    From the site: tram yellow for the physical world (trams, stop displays, the walk band) and a
-   dot-matrix face only on the stop-display ticker and loader. Green means the app's answer. */
+   dot-matrix face only on the stop-display ticker. Green means the app's answer. */
 :root {
   /* palette */
   --ink: #101114;          /* app background */
@@ -103,26 +103,100 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .h-md { font-size: clamp(1.6rem, 2.6vw, 2.6rem); line-height: 1.02; letter-spacing: -0.035em; }
 .body-lg { font-size: clamp(1.05rem, 1.3vw, 1.28rem); line-height: 1.5; color: var(--mute); max-width: 33em; margin: 1.6rem 0 0; font-weight: 400; }
 
-/* ---------- loader ---------- */
-.loader {
+/* ---------- intro ----------
+   About 1.4 s. 0 s: the word is a faint shadow of itself. 0.05 s: an LVB car (blue skirt, silver
+   body, yellow roof) runs in from the left and a BVG car (black, yellow, black, white) from the
+   right, through the letters, and each leaves them lit behind it. 0.75 s: the full stop turns go
+   green. 0.85 s: the screen lifts and the word drops into its place in the hero title, the same
+   size, so it only moves. The inline script at the top of <body> sets html.js-intro (play it),
+   html.intro-play (the face is in, go) and html.intro-skip; main.js sets html.intro-live once it
+   has taken over the hand-off, which switches off the CSS safety nets below. */
+.loader { display: none; }
+html.js-intro .loader {
+  --drop: cubic-bezier(.5, 0, .1, 1);
   position: fixed; inset: 0; z-index: 100;
-  background: var(--ink);
   display: grid; place-items: center;
-  animation: loader-out .8s var(--ease) 2s forwards; /* safety net without JS */
+  animation: loader-bail .3s linear 3.5s forwards; /* safety net if main.js never runs */
 }
-.loader.is-done { animation: loader-out .8s var(--ease) forwards; }
-@keyframes loader-out { to { clip-path: inset(0 0 100% 0); visibility: hidden; } }
-.loader__board {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .5em;
-  width: calc(100vw - 2 * var(--gutter));
-  font-size: clamp(1.5rem, 7.4vw, 8rem); line-height: 1;
-  color: var(--signal);
-  text-shadow: 0 0 .25em rgb(255 212 0 / .35);
-}
-.loader__line { background: var(--signal); color: var(--signal-ink); padding: .04em .22em; text-shadow: none; }
-.loader__dest { overflow: hidden; white-space: nowrap; text-overflow: clip; }
-.loader__min { min-width: 2.2ch; text-align: right; }
+html.intro-live .loader { animation: none; }
 html.no-loader .loader { display: none; }
+html.js-intro.intro-skip .loader { opacity: 0; visibility: hidden; pointer-events: none; animation: none; transition: opacity .28s ease-out, visibility 0s .28s; }
+@keyframes loader-bail { to { opacity: 0; visibility: hidden; } }
+.loader::before { content: ""; position: absolute; inset: 0; background: var(--ink); transition: clip-path .58s var(--drop); clip-path: inset(0 0 0 0); }
+.loader.is-out { pointer-events: none; }
+.loader.is-out::before { clip-path: inset(0 0 100% 0); }
+
+.loader__stage { position: relative; display: flex; }
+/* the same face, size and spacing as the hero title's "nextTram.", so the hand-off is a pure move */
+.loader__word {
+  position: relative; margin: 0; white-space: nowrap;
+  font-size: clamp(4.2rem, 16.2vw, 19.5rem); line-height: .82; letter-spacing: -0.068em; font-weight: 700;
+  transition: transform .58s var(--drop), opacity .3s;
+}
+.loader.is-out .loader__word { transform: translate(var(--dx, 0px), var(--dy, 0px)); }
+.loader.is-out.is-far .loader__word { opacity: 0; }
+.loader__word > span { position: absolute; inset: 0; }
+.loader__word > .loader__ghost { position: relative; color: rgb(242 242 240 / .07); opacity: 0; }
+html.intro-play .loader__ghost { animation: loader-in .25s ease-out both; }
+@keyframes loader-in { from { opacity: 0; } to { opacity: 1; } }
+/* the rail they run on, at the baseline */
+.loader__word::after {
+  content: ""; position: absolute; left: -100vw; right: -100vw; bottom: .085em; height: 1px;
+  background: var(--ink-3); transform: scaleX(0);
+}
+html.intro-play .loader__word::after { animation: loader-rail .9s var(--ease) both; }
+@keyframes loader-rail { 0% { transform: scaleX(0); } 30%, 75% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
+
+/* trams and the light they leave are background-clipped to the letters (the BVG black is lifted
+   to graphite here, or it would vanish into the dark screen). Livery tiles are 75% of
+   the word wide (from -300%, just off the left, to 400%, just off the right); each light tile is
+   300% wide and positioned so its edge stays glued to the tail of its tram. */
+.loader__fill, .loader__tram {
+  color: transparent; -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text; background-clip: text; background-repeat: no-repeat;
+  animation-duration: .76s; animation-timing-function: cubic-bezier(.55, 0, .45, 1); animation-delay: .05s; animation-fill-mode: both;
+}
+.loader__tram { background-size: 75% 100%; }
+.loader__tram--lvb { background-image: linear-gradient(to top, #1f5fae 0 21%, #c9cdd2 21% 40%, #e8eaed 40% 50%, #b9bec4 50% 57%, #f2a91c 57% 100%); background-position: -300% 0; }
+.loader__tram--bvg { background-image: linear-gradient(to top, #34353b 0 17%, #f6c400 17% 37%, #34353b 37% 59%, #f4f4f2 59% 100%); background-position: 400% 0; }
+.loader__fill { background-image: linear-gradient(var(--paper), var(--paper)); background-size: 300% 100%; }
+.loader__fill--l { background-position: 187.5% 0; }
+.loader__fill--r { background-position: -87.5% 0; }
+html.intro-play .loader__tram--lvb { animation-name: loader-lvb; }
+html.intro-play .loader__tram--bvg { animation-name: loader-bvg; }
+html.intro-play .loader__fill--l { animation-name: loader-fill-l; }
+html.intro-play .loader__fill--r { animation-name: loader-fill-r; }
+@keyframes loader-lvb { from { background-position: -300% 0; } to { background-position: 400% 0; } }
+@keyframes loader-bvg { from { background-position: 400% 0; } to { background-position: -300% 0; } }
+@keyframes loader-fill-l { from { background-position: 187.5% 0; } to { background-position: 100% 0; } }
+@keyframes loader-fill-r { from { background-position: -87.5% 0; } to { background-position: 0 0; } }
+
+/* the full stop: go green as the trams clear, back to white as it lands */
+.loader__stop { color: transparent; }
+.loader__stop b { font-weight: inherit; color: var(--go); opacity: 0; }
+html.intro-play .loader__stop b { animation: loader-go .55s linear .76s both; }
+@keyframes loader-go {
+  0% { opacity: 0; text-shadow: 0 0 0 rgb(62 207 142 / 0); }
+  10% { opacity: 1; text-shadow: 0 0 .3em rgb(62 207 142 / .7); }
+  50% { color: var(--go); text-shadow: 0 0 .2em rgb(62 207 142 / .35); }
+  100% { opacity: 1; color: var(--paper); text-shadow: 0 0 0 rgb(62 207 142 / 0); }
+}
+
+.loader__meta {
+  position: absolute; left: 0; right: 0; top: calc(100% + 22px); margin: 0;
+  display: flex; justify-content: space-between; gap: 16px;
+  font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); opacity: 0;
+}
+html.intro-play .loader__meta { animation: loader-meta .84s linear both; }
+@keyframes loader-meta { 0% { opacity: 0; } 15%, 60% { opacity: 1; } 90%, 100% { opacity: 0; } }
+
+/* the hero's own word waits under the intro until the intro's word lands on it, and its trams
+   take their first run a few seconds later so they don't repeat the intro straight away */
+html.js-intro:not(.intro-done):not(.intro-skip) .hero__title .word--trams { visibility: hidden; animation: loader-reveal 0s 3.8s forwards; }
+html.js-intro.intro-live:not(.intro-done):not(.intro-skip) .hero__title .word--trams { animation: none; }
+@keyframes loader-reveal { to { visibility: visible; } }
+html.js-intro .hero .tram--lvb { animation-delay: 5s; }
+html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
 
 /* ---------- cursor, grain, progress ---------- */
 .cursor {
