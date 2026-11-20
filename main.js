@@ -41,7 +41,7 @@
     let askAt = delay + 0.45;
     if (!handoff && heroWord) { gsap.from(heroWord, { yPercent: 115, duration: 1.1, ease: 'expo.out', delay }); askAt = delay + 0.75; }
     gsap.from(ask, { yPercent: 120, duration: 1.1, ease: 'expo.out', stagger: 0.07, delay: askAt });
-    gsap.from(['.hero__kicker', '.subs', '.hero__bottom'], { opacity: 0, y: 24, duration: 1.1, ease: 'expo.out', delay: delay + 0.2, stagger: 0.1 });
+    gsap.from(['.subs', '.hero__bottom'], { opacity: 0, y: 24, duration: 1.1, ease: 'expo.out', delay: delay + 0.2, stagger: 0.1 });
   };
   let introEnded = false;
   const endIntro = () => {
