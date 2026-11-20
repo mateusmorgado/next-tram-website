@@ -165,6 +165,27 @@
       steps.forEach(s => stepIO.observe(s));
     }
 
+    // the cards scroll sideways: arrows, dots, a 01 / 05 counter and the arrow keys
+    const htrack = $('[data-how-track]', how);
+    if (htrack) {
+      const hdots = $$('.how__dots i', how), hprev = $('[data-how-prev]', how), hnext = $('[data-how-next]', how), hn = $('[data-how-n]', how);
+      const pad = () => parseFloat(getComputedStyle(htrack).scrollPaddingLeft || 0);
+      const current = () => { let k = 0, best = Infinity; steps.forEach((c, i) => { const d = Math.abs(c.offsetLeft - htrack.offsetLeft - htrack.scrollLeft - pad()); if (d < best) { best = d; k = i; } }); return k; };
+      const go = k => { const c = steps[Math.max(0, Math.min(steps.length - 1, k))]; htrack.scrollTo({ left: c.offsetLeft - htrack.offsetLeft - pad(), behavior: reduce ? 'auto' : 'smooth' }); };
+      const sync = () => {
+        const k = current();
+        hdots.forEach((d, i) => d.classList.toggle('is-on', i === k));
+        if (hn) hn.textContent = String(k + 1).padStart(2, '0');
+        if (hprev) hprev.disabled = k === 0;
+        if (hnext) hnext.disabled = k === steps.length - 1;
+      };
+      hprev && hprev.addEventListener('click', () => go(current() - 1));
+      hnext && hnext.addEventListener('click', () => go(current() + 1));
+      htrack.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+      htrack.addEventListener('keydown', e => { if (e.key === 'ArrowRight') { e.preventDefault(); go(current() + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(current() - 1); } });
+      sync();
+    }
+
     // the map: hover or tap a line to follow it, the rest fades
     const map = $('[data-how-map]', how);
     if (map) {
@@ -222,7 +243,7 @@
       };
       if ('IntersectionObserver' in window) {
         const boardIO = new IntersectionObserver(([e]) => { if (e.isIntersecting) { boardIO.disconnect(); load(); } }, { rootMargin: '600px 0px' });
-        boardIO.observe(board);
+        boardIO.observe(board.closest("[data-how-track]") || board);
       } else load();
     }
 
@@ -246,19 +267,6 @@
       }, { threshold: 0.6 });
       termIO.observe(term);
     }
-  }
-
-  /* ---------- direction board ---------- */
-  const board = $('[data-board-el]');
-  const boardBtns = $$('[data-board]');
-  const setBoard = v => { if (!board) return; board.dataset.view = v; $$('.is-other', board).forEach(row => row.setAttribute('aria-hidden', v === 'mine')); boardBtns.forEach(b => { const on = b.dataset.board === v; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on); }); };
-  boardBtns.forEach(b => b.addEventListener('click', () => setBoard(b.dataset.board)));
-  if (board && !reduce) {
-    let played = false;
-    new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting || played) return; played = true;
-      setBoard('all'); setTimeout(() => setBoard('mine'), 1500);
-    }, { threshold: 0.5 }).observe(board);
   }
 
   /* ---------- integrations: cards scrolled sideways, with arrows and dots ---------- */
