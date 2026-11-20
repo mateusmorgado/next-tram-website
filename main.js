@@ -36,8 +36,11 @@
   // the hero's own entrance; from-tweens take their start state at once, so nothing flashes in place first
   const heroIn = (handoff, delay = 0) => {
     if (!motion) return;
-    const words = $$('.hero__title .word').filter(w => !(handoff && w === heroWord));
-    gsap.from(words, { yPercent: 115, duration: 1.2, ease: 'expo.out', stagger: 0.08, delay });
+    // nextTram arrives first; then "Just ask." rises out from behind it, its line clipped at nextTram's top edge
+    const ask = $$('.hero__title .line:first-child .word');
+    let askAt = delay + 0.45;
+    if (!handoff && heroWord) { gsap.from(heroWord, { yPercent: 115, duration: 1.1, ease: 'expo.out', delay }); askAt = delay + 0.75; }
+    gsap.from(ask, { yPercent: 120, duration: 1.1, ease: 'expo.out', stagger: 0.07, delay: askAt });
     gsap.from(['.hero__kicker', '.subs', '.hero__bottom'], { opacity: 0, y: 24, duration: 1.1, ease: 'expo.out', delay: delay + 0.2, stagger: 0.1 });
   };
   let introEnded = false;
@@ -61,7 +64,7 @@
         word.addEventListener('transitionend', e => { if (e.propertyName === 'transform') endIntro(); });
       } else loader.classList.add('is-far'); // page restored mid-scroll: no hero to land in, just fade
       loader.classList.add('is-out');
-      heroIn(true, 0.36); // "Just ask." rises out of its line as the word lands under it
+      heroIn(true, 0.36); // "Just ask." rises out from behind the word once it has landed
       setTimeout(endIntro, 700);
     };
     const skip = () => {
@@ -107,6 +110,7 @@
     if (i === cur) return; cur = i;
     chapters.forEach((c, k) => { c.classList.toggle('is-active', k === i); c.setAttribute('aria-current', k === i ? 'true' : 'false'); });
     setVoice(i);
+    $('.subs') && $('.subs').classList.toggle('is-gone', i === VOICE.length - 1); // "you made it": the box steps aside
   };
   chapters.forEach(c => c.addEventListener('click', () => {
     const k = +c.dataset.chapter;
@@ -215,13 +219,13 @@
       steps.forEach(s => stepIO.observe(s));
     }
 
-    // the five parts stay folded until the visitor opens them
-    const htoggle = $('[data-how-toggle]', how), hparts = $('#how-parts');
+    // everything below the heading stays folded until the visitor opens it
+    const htoggle = $('[data-how-toggle]', how), hparts = $('#how-body');
     if (htoggle && hparts) htoggle.addEventListener('click', () => {
       const open = htoggle.getAttribute('aria-expanded') !== 'true';
       htoggle.setAttribute('aria-expanded', String(open));
       hparts.hidden = !open;
-      const lab = $('[data-how-label]', htoggle); if (lab) lab.textContent = open ? 'Hide the five parts' : 'See the five parts of the stack';
+      const lab = $('[data-how-label]', htoggle); if (lab) lab.textContent = open ? 'Less' : 'More';
       if (open) how.dispatchEvent(new Event('how:open'));
     });
 

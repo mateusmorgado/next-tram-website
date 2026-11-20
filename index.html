@@ -292,8 +292,12 @@
       <header class="grid12 how__intro">
         <p class="label">(04) How it works</p>
         <h2 class="h-lg" id="how-title">Small on purpose.</h2>
-        <p class="body-lg">nextTram keeps no copy of the timetable and no database of its users. Your phone reads the public timetables itself, and seven small serverless functions on Vercel step in only for the assistants that can&rsquo;t run an app. That&rsquo;s the whole stack, with live numbers from production.</p>
+        <button type="button" class="how__toggle" aria-expanded="false" aria-controls="how-body" data-how-toggle><span data-how-label>More</span> <i aria-hidden="true">&#8964;</i></button>
       </header>
+    </div>
+    <div class="how__body" id="how-body" hidden>
+    <div class="wrap">
+        <p class="body-lg how__lede">nextTram keeps no copy of the timetable and no database of its users. Your phone reads the public timetables itself, and seven small serverless functions on Vercel step in only for the assistants that can&rsquo;t run an app. That&rsquo;s the whole stack, with live numbers from production.</p>
 
       <!-- The system as a tram line map: one line per way of asking -->
       <figure class="how-map" data-how-map>
@@ -451,10 +455,6 @@
     </div>
 
     <!-- The five parts of the stack, one card each, scrolled sideways -->
-    <div class="wrap how__more">
-      <button type="button" class="how__toggle" aria-expanded="false" aria-controls="how-parts" data-how-toggle><i aria-hidden="true">+</i> <span data-how-label>See the five parts of the stack</span> <small>animated</small></button>
-    </div>
-    <div class="how__parts" id="how-parts" hidden>
     <div class="wrap how__head">
       <p class="how__count mono"><span data-how-n>01</span> / 05 &middot; Five parts of the stack</p>
       <div class="integr__nav">
@@ -629,7 +629,6 @@ Content-Type: text/plain; charset=utf-8
 
     </div>
     <div class="wrap how__dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i><i></i></div>
-    </div>
 
     <div class="wrap">
       <!-- How it is built -->
@@ -647,10 +646,11 @@ Content-Type: text/plain; charset=utf-8
         </ul>
       </div>
     </div>
+    </div>
   </section>
 
   <!-- ============ 05 FILM: run mode (the phone's green screen is a real screenshot of the app in Run) ============ -->
-  <section class="film" id="run" data-film>
+  <section class="film film--clear" id="run" data-film>
     <div class="film__frame" data-film-frame>
       <video muted playsinline loop preload="none" poster="assets/video/runmode-poster.jpg" data-src="assets/video/runmode" data-lazy aria-label="He checks nextTram, sees Run now, grabs his bag and runs, and makes the tram just as the doors close."></video>
       <div class="film-tone" aria-hidden="true"></div><div class="fine-grain" aria-hidden="true"></div>
@@ -689,17 +689,6 @@ Content-Type: text/plain; charset=utf-8
         <p class="body-lg">No more mental arithmetic on the LVB or BVG app. Delays are folded into the countdown, and punctuality comes as one plain word.</p>
         <ul class="punctual"><li class="p-early">early</li><li class="p-ok">on time</li><li class="p-late">late</li><li class="p-late2">+late</li><li class="p-late3">++late</li></ul>
       </div>
-    </div>
-  </section>
-
-  <!-- ============ 08 FILM: run ============ -->
-  <section class="film film--run" data-film>
-    <div class="film__frame" data-film-frame>
-      <video muted playsinline loop preload="none" poster="assets/video/run-poster.jpg" data-src="assets/video/run" data-lazy></video>
-      <div class="film-tone" aria-hidden="true"></div><div class="fine-grain" aria-hidden="true"></div>
-    </div>
-    <div class="film__caption wrap">
-      <h2 class="h-xl">Make it. Every time.</h2>
     </div>
   </section>
 

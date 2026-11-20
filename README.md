@@ -39,8 +39,8 @@ The hero cuts between the three films (`ask` → `leave` → `run`), and `leave`
 To replace a film, encode it with no audio and `faststart`, for example:
 
 ```bash
-ffmpeg -i input.mp4 -an -c:v libx264 -preset slow -crf 25 -pix_fmt yuv420p -movflags +faststart assets/video/leave-1080.mp4
-ffmpeg -i input.mp4 -an -vf scale=1280:-2 -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -movflags +faststart assets/video/leave-720.mp4
+ffmpeg -i input.mp4 -an -c:v libx264 -preset slow -crf 25 -pix_fmt yuv420p -movflags +faststart assets/video/runmode-1080.mp4
+ffmpeg -i input.mp4 -an -vf scale=1280:-2 -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -movflags +faststart assets/video/runmode-720.mp4
 ```
 
 Screens narrower than 1200 px get the 720p files.
