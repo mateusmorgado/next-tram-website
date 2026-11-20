@@ -361,6 +361,13 @@ html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
 .t-line { display: inline-block; vertical-align: .08em; min-width: 1.7em; text-align: center; padding: .1em .26em; margin-right: .3em; border-radius: .2em; background: var(--line-bg, var(--tram-red)); color: var(--line-fg, #fff); font-family: var(--f-display); font-weight: 750; font-size: .78em; line-height: 1.1; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; text-shadow: none; }
 .ticker__track .t-sep { font-size: .7em; opacity: .5; }
 @keyframes marquee { to { transform: translateX(-50%); } }
+/* a minute ticks over: the LEDs blink off, flicker and come back brighter for a moment */
+.ticker__track em { display: inline-block; min-width: 5ch; } /* "now" keeps the width of "9 min", so nothing behind it jumps */
+.ticker__track em.is-tick { animation: ledTick 1.1s steps(1, end); }
+@keyframes ledTick {
+  0% { opacity: 0; } 12% { opacity: .9; } 20% { opacity: 0; } 30% { opacity: 1; text-shadow: 0 0 .5em rgb(255 212 0 / .85); }
+  70% { opacity: 1; text-shadow: 0 0 .5em rgb(255 212 0 / .85); } 100% { opacity: .65; }
+}
 
 /* ---------- 01 problem ---------- */
 .problem { padding-block: var(--sec); }

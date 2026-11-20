@@ -219,6 +219,48 @@
     requestAnimationFrame(mLoop);
   }
 
+  /* ---------- ticker counts down like a real stop display ----------
+     Every few seconds (about one or two trams scrolling past) one departure loses a minute.
+     All copies of that departure in the looping track change together, so the loop stays seamless.
+     At 0 it shows "now", then the next tram on that line takes its place. */
+  if (mq) {
+    const routes = new Map();
+    $$('span', mq).forEach(s => {
+      const em = s.querySelector('em'); const b = s.querySelector('.t-line');
+      if (!em || !b) return;
+      const key = b.dataset.line + '|' + s.textContent.replace(em.textContent, '').trim();
+      const m = parseInt(em.textContent, 10);
+      if (!routes.has(key)) routes.set(key, { min: m, els: [] });
+      routes.get(key).els.push(em);
+    });
+    const list = [...routes.values()];
+    const show = (r, txt) => r.els.forEach(em => {
+      em.textContent = txt;
+      if (reduce) return;
+      em.classList.remove('is-tick'); void em.offsetWidth; em.classList.add('is-tick');
+    });
+    const mqVis = seen(mq);
+    let last = null;
+    const step = () => {
+      if (mqVis.on && !document.hidden && list.length) {
+        // prefer a different departure than last time, and one that isn't already at "now"
+        const pool = list.filter(r => r !== last && r.min > 0);
+        const nowR = list.find(r => r.min === 0);
+        let r;
+        if (nowR) { // the tram showing "now" has left: the next one on that line appears
+          r = nowR; r.min = 7 + Math.floor(Math.random() * 3); // 7 to 9, one digit keeps the width steady
+        } else {
+          r = pool[Math.floor(Math.random() * pool.length)] || list[0];
+          r.min -= 1;
+        }
+        show(r, r.min === 0 ? 'now' : r.min + ' min');
+        last = r;
+      }
+      setTimeout(step, 6000 + Math.random() * 5000);
+    };
+    setTimeout(step, 5000);
+  }
+
   /* ---------- 04 how it works: line map, live call counts, small reveals ---------- */
   const how = $('[data-how]');
   if (how) {
