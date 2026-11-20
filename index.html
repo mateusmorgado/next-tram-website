@@ -41,7 +41,7 @@
     <a href="#bridge">How it works</a>
     <a href="#walk">Your pace</a>
     <a href="#app">The app</a>
-    <a class="nav__alexa" href="#alexa"><i></i><span>Alexa integration</span></a>
+    <a class="nav__alexa" href="#assistants"><i></i><span>AI integrations</span></a>
     <a class="nav__cta" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener">Open the app</a>
   </nav>
 </header>
@@ -54,7 +54,7 @@
       <figure class="reel__clip">
         <video muted playsinline loop preload="metadata" poster="assets/video/hero-poster.jpg" data-src="assets/video/hero" data-hero-video></video>
       </figure>
-      <div class="fine-grain" aria-hidden="true"></div>
+      <div class="film-tone" aria-hidden="true"></div><div class="fine-grain" aria-hidden="true"></div>
       <div class="hero__shade" aria-hidden="true"></div>
     </div>
 
@@ -62,15 +62,15 @@
       <p class="hero__kicker mono">Leipzig LVB &middot; Berlin BVG &middot; Android &amp; Wear OS</p>
 
       <div class="subs">
-        <p class="subs__q"><span class="subs__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span data-voice-q>&ldquo;Hey Google, when&rsquo;s the next tram?&rdquo;</span></p>
-        <p class="subs__a" data-voice-a>Tram 3 to Hauptbahnhof leaves Torgauer Platz in 6&nbsp;minutes. Leave in&nbsp;2.</p>
-        <p class="subs__timer mono" aria-hidden="true"><span>Leave in</span> <b class="num" data-voice-t>2:00</b></p>
+        <p class="subs__q"><span data-voice-q>&ldquo;Hey Google, when&rsquo;s the next tram?&rdquo;</span></p>
+        <p class="subs__a" data-voice-a>Tram 3 in 6 min. Leave in&nbsp;2.</p>
+        <p class="subs__timer mono" aria-hidden="true"><span>Leave in</span> <b class="num" data-voice-t>0:15</b></p>
       </div>
 
       <p class="sr-only" aria-live="polite" data-voice-sr></p>
       <h1 class="hero__title" data-hero-title>
         <span class="line"><span class="word">Just</span> <span class="word serif">ask.</span></span>
-        <span class="line"><span class="word">nextTram.</span></span>
+        <span class="line"><span class="word word--trams">nextTram.<span class="tram tram--lvb" aria-hidden="true">nextTram.</span><span class="tram tram--bvg" aria-hidden="true">nextTram.</span></span></span>
       </h1>
 
       <div class="hero__bottom">
@@ -84,36 +84,62 @@
     </div>
   </section>
 
-  <!-- ============ ALEXA LAUNCH: the skill is live in the Amazon Alexa store ============ -->
-  <section class="alexa" id="alexa" aria-labelledby="alexa-title">
-    <div class="wrap alexa__grid">
+  <!-- ============ INTEGRATIONS: one card each, swipe sideways ============ -->
+  <section class="integr" id="assistants" aria-labelledby="integr-title">
+    <div class="wrap integr__head">
       <div>
-        <p class="alexa__kick"><b>Alexa integration</b><span>Amazon Alexa Skill Store</span></p>
-        <h2 class="alexa__title" id="alexa-title">Now live on <span>Amazon Alexa.</span></h2>
-        <p class="alexa__lede">nextTram passed <strong>Amazon&rsquo;s skill certification</strong> and is public in the Alexa Skill Store. Enable it for free and every Echo in your home knows <strong>when you need to leave for your tram</strong>, with live times and delays for Leipzig and Berlin.</p>
-        <ul class="alexa__facts">
-          <li>Certified by Amazon</li>
-          <li>Free</li>
-          <li>German &amp; English</li>
-          <li>No personal data</li>
-        </ul>
-        <div class="alexa__btns">
-          <a class="btn btn--alexa" href="https://www.amazon.de/dp/B0HQ7KN3S1/" target="_blank" rel="noopener" data-magnetic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span>Enable on Amazon</span><span aria-hidden="true">&rarr;</span></a>
-          <a class="btn btn--ghost" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener"><span>Set up your stops</span></a>
-        </div>
+        <p class="label">AI integrations</p>
+        <h2 class="h-lg" id="integr-title">Ask the assistant you already use.</h2>
       </div>
-      <div class="alexa__stage">
-        <div class="echo" aria-hidden="true">
-          <span class="echo__wave"></span><span class="echo__wave"></span><span class="echo__wave"></span>
-          <span class="echo__body"><img class="echo__mark" src="assets/img/icon.svg" alt="" width="120" height="120"></span>
-          <span class="echo__min"><b class="t-line" data-line="3">3</b> Hauptbahnhof <em>6 min</em></span>
+      <div class="integr__nav">
+        <span class="integr__hint mono">Swipe for more &rarr;</span>
+        <button type="button" class="integr__btn" data-integr-prev aria-label="Previous integration">&larr;</button>
+        <button type="button" class="integr__btn" data-integr-next aria-label="Next integration">&rarr;</button>
+      </div>
+    </div>
+    <div class="integr__track" data-integr tabindex="0" aria-label="Integrations, scroll sideways">
+
+      <article class="icard icard--alexa" aria-labelledby="ic-alexa">
+        <div class="icard__copy">
+          <p class="icard__kick"><b>Alexa</b><span>Live in the Alexa Skill Store</span></p>
+          <h3 class="icard__title" id="ic-alexa">Now live on <span>Amazon Alexa.</span></h3>
+          <p class="icard__lede">nextTram passed <strong>Amazon&rsquo;s skill certification</strong>. Enable it for free and every Echo in your home knows <strong>when you need to leave for your tram</strong>, with live times and delays for Leipzig and Berlin.</p>
+          <a class="btn btn--alexa" href="https://www.amazon.de/dp/B0HQ7KN3S1/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span>Enable on Amazon</span><span aria-hidden="true">&rarr;</span></a>
         </div>
-        <ul class="alexa__say">
+        <ul class="icard__say">
           <li><small>You</small>&bdquo;Alexa, frag next tram, wann kommt die nächste Bahn?&ldquo;</li>
           <li><small>Alexa</small>Die 3 Richtung Hauptbahnhof kommt in 6&nbsp;Minuten. Geh in 2&nbsp;Minuten los.</li>
         </ul>
-      </div>
+      </article>
+
+      <article class="icard icard--mcp" aria-labelledby="ic-mcp">
+        <div class="icard__copy">
+          <p class="icard__kick"><b>MCP</b><span>Claude &middot; ChatGPT</span></p>
+          <h3 class="icard__title" id="ic-mcp">Claude and ChatGPT <span>know your tram.</span></h3>
+          <p class="icard__lede">nextTram has its own <strong>MCP server</strong>. Add your personal link as a connector in <strong>Claude</strong> or <strong>ChatGPT</strong>, and they answer for your own stops and walk. No sign-in, nothing to install.</p>
+          <a class="btn btn--mcp" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener"><span>Get your link in the app</span><span aria-hidden="true">&rarr;</span></a>
+        </div>
+        <ul class="icard__say">
+          <li><small>You, to Claude</small>When&rsquo;s my next tram?</li>
+          <li><small>Claude &middot; via nextTram</small>Tram 3 to Hauptbahnhof leaves Torgauer Platz in 6&nbsp;minutes. Leave in&nbsp;2.</li>
+        </ul>
+      </article>
+
+      <article class="icard icard--siri" aria-labelledby="ic-siri">
+        <div class="icard__copy">
+          <p class="icard__kick"><b>Siri</b><span>Shortcuts &middot; iPhone, Apple Watch, CarPlay</span></p>
+          <h3 class="icard__title" id="ic-siri">Hey Siri, <span>when is the next tram?</span></h3>
+          <p class="icard__lede">A two-step <strong>Shortcut</strong> reads the answer out loud on your iPhone, Apple Watch and in CarPlay. The app walks you through it and fills in your link.</p>
+          <a class="btn btn--siri" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener"><span>Set up the Shortcut</span><span aria-hidden="true">&rarr;</span></a>
+        </div>
+        <ul class="icard__say">
+          <li><small>You</small>Hey Siri, when is the next tram?</li>
+          <li><small>Siri</small>Leave in 2 minutes for tram 3 to Hauptbahnhof.</li>
+        </ul>
+      </article>
+
     </div>
+    <div class="wrap integr__dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i></div>
   </section>
 
   <!-- ============ TICKER: a stop display ============ -->
@@ -142,8 +168,12 @@
         <h2 class="h-lg">Other apps make you wait.</h2>
         <p class="body-lg">A typical transit app takes its time to load: a splash screen, offers, a search form, a spinner, and then a list you still have to work out. nextTram loads only what you need and already counts delays and your walk. One answer, right away.</p>
       </div>
-      <div class="appdemo problem__demo" role="img" aria-label="Side by side: a typical transit app is still loading, searching and listing after about 18 seconds, while nextTram shows when to leave after 1 second.">
+      <div class="appdemo problem__demo" role="img" aria-label="Side by side: a typical transit app takes 7 taps and about 18 seconds to load, search and list, while nextTram shows when to leave after 1 second with 0 taps.">
         <div class="in-stage" data-step="fast" data-demo="fast"></div>
+        <div class="taps" data-taps aria-hidden="true">
+          <div class="taps__col taps__col--slow"><small>Typical transit app</small><b>7</b><em>taps</em><span>0:18 to an answer</span></div>
+          <div class="taps__col taps__col--us"><small>nextTram</small><b>0</b><em>taps</em><span>0:01 to an answer</span></div>
+        </div>
       </div>
     </div>
   </section>
@@ -156,9 +186,23 @@
     </picture>
     <div class="photo__copy wrap">
       <p class="label label--light">(02) Why it exists</p>
-      <h2 class="h-xl">LVB and BVG don&rsquo;t talk to your assistant. <span class="hl">Next&nbsp;Tram does.</span></h2>
+      <h2 class="h-xl">LVB and BVG don&rsquo;t talk to your assistant. <span class="hl">nextTram does.</span></h2>
     </div>
   </section>
+
+  <!-- ============ BANNER: not only trams ============ -->
+  <aside class="modes" aria-labelledby="modes-title">
+    <div class="wrap modes__inner">
+      <div class="modes__copy">
+        <p class="label">Not just trams</p>
+        <h2 class="modes__title" id="modes-title">Buses, S-Bahn, U-Bahn, regional trains and ferries too.</h2>
+        <p class="modes__lede">All public transport in Leipzig and Berlin. Pick trams, trams &amp; buses, or everything when you set up your stops.</p>
+      </div>
+      <ul class="modes__badges" aria-hidden="true">
+        <li style="--m:#D7262F">Tram</li><li style="--m:#7B3FA0">Bus</li><li style="--m:#188744">S</li><li style="--m:#1D5FB4">U</li><li style="--m:#5B6170">RE</li><li style="--m:#1D7FB4">F</li>
+      </ul>
+    </div>
+  </aside>
 
   <!-- ============ 03 THE APP: phone + watch, over photo ============ -->
   <section class="stops" id="app">
@@ -169,8 +213,20 @@
     <div class="wrap grid12 stops__inner">
       <div class="stops__text">
         <p class="label label--light">(03) The app</p>
-        <h2 class="h-xl">Between two stops? Set&nbsp;both.</h2>
-        <p class="body-lg">Program two stops, each with its own walk. nextTram checks both at the same time and tells you which one to head for. No more guessing whether the corner or the square is faster today.</p>
+        <div class="says" data-says>
+          <div class="says__item is-on">
+            <h2 class="h-xl">A clean screen. One&nbsp;answer.</h2>
+            <p class="body-lg">Open nextTram and the first thing you see is when to leave. No menus, no search form, no offers to scroll past.</p>
+          </div>
+          <div class="says__item">
+            <p class="h-xl" role="presentation">Between two stops? Set&nbsp;both.</p>
+            <p class="body-lg">Program two stops, each with its own walk. nextTram checks both at the same time and tells you which one to head for.</p>
+          </div>
+          <div class="says__item">
+            <p class="h-xl" role="presentation">Nothing you don&rsquo;t&nbsp;need.</p>
+            <p class="body-lg">No tickets, maps or news. Delays and your walk are already counted in, so the screen only shows the tram, the stop and when to go.</p>
+          </div>
+        </div>
       </div>
       <!-- App dark UI, rebuilt in HTML -->
       <div class="device" role="img" aria-label="The nextTram app in dark mode with sample departures, and the same answer on a Wear OS watch">
@@ -292,7 +348,7 @@
   <section class="film" data-film>
     <div class="film__frame" data-film-frame>
       <video muted playsinline loop preload="none" poster="assets/video/leave-poster.jpg" data-src="assets/video/leave" data-lazy></video>
-      <div class="fine-grain" aria-hidden="true"></div>
+      <div class="film-tone" aria-hidden="true"></div><div class="fine-grain" aria-hidden="true"></div>
     </div>
     <div class="film__caption wrap">
       <p class="label label--light">(05) When to leave</p>
@@ -333,7 +389,7 @@
   <section class="walk" id="walk" data-walk-section>
     <div class="wrap grid12 walk__inner">
       <div class="walk__text">
-        <p class="label label--ink">(07) Your pace</p>
+        <p class="label">(07) Your pace</p>
         <h2 class="h-lg">Nobody knows your walk like you do.</h2>
         <p class="body-lg">Google Maps sends you out the front door and around the block, at an average pace. It doesn&rsquo;t know your back exit. In nextTram you set your own walking time, or time a real walk, and &ldquo;Leave in&rdquo; follows it.</p>
       </div>
@@ -363,7 +419,7 @@
   <section class="film film--run" data-film>
     <div class="film__frame" data-film-frame>
       <video muted playsinline loop preload="none" poster="assets/video/run-poster.jpg" data-src="assets/video/run" data-lazy></video>
-      <div class="fine-grain" aria-hidden="true"></div>
+      <div class="film-tone" aria-hidden="true"></div><div class="fine-grain" aria-hidden="true"></div>
     </div>
     <div class="film__caption wrap">
       <h2 class="h-xl">Make it. Every time.</h2>
@@ -394,7 +450,7 @@
       <h2 class="cta__title">Stop checking. <span class="serif">Start asking.</span></h2>
       <div class="cta__btns">
         <a class="btn btn--primary" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener" data-magnetic><span>Open nextTram</span><span aria-hidden="true">&rarr;</span></a>
-        <a class="btn btn--alexa" href="https://www.amazon.de/dp/B0HQ7KN3S1/" target="_blank" rel="noopener"><span>Enable on Alexa</span></a>
+        <a class="btn btn--alexa" href="#assistants"><span>Ask your assistant</span></a>
         <a class="btn btn--ghost" href="https://github.com/mateusmorgado/next-tram" target="_blank" rel="noopener"><span>See the code</span></a>
       </div>
     </div>
@@ -406,7 +462,7 @@
     <p>nextTram. Live departures for Leipzig (LVB / MDV) and Berlin (BVG / VBB). Not affiliated with LVB or BVG.</p>
     <p class="mono">Built by <a href="https://morgado.tech/">Mateus Morgado</a> · <a href="#top">Back to top &uarr;</a></p>
   </div>
-  <p class="foot__word" aria-hidden="true">nextTram</p>
+  <p class="foot__word" aria-hidden="true"><span class="word--trams">nextTram<span class="tram tram--lvb">nextTram</span><span class="tram tram--bvg">nextTram</span></span></p>
 </footer>
 
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>

@@ -17,7 +17,8 @@
 
   /* ---------- clock (Leipzig/Berlin time) ---------- */
   const fmt = new Intl.DateTimeFormat('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' });
-  const tick = () => $$('[data-clock]').forEach(el => { el.textContent = fmt.format(new Date()); });
+  const tick = () => $$('[data-clock]').forEach(el => { if (el.closest('.appdemo')) return; // the app demos run their own clocks
+    el.textContent = fmt.format(new Date()); });
   tick(); setInterval(tick, 10000);
 
   /* ---------- video sources: 720p on small screens or data saver ---------- */
@@ -51,8 +52,8 @@
   const vq = $('[data-voice-q]'), va = $('[data-voice-a]'), vt = $('[data-voice-t]');
   const CUES = [0, 2.65, 6.52];
   const VOICE = [
-    { q: '“Hey Google, when’s the next tram?”', a: 'Tram 3 to Hauptbahnhof leaves Torgauer Platz in 6 minutes. Leave in 2.' },
-    { q: 'Timer running', a: 'Your 4 minute walk is already counted in.' },
+    { q: '“Hey Google, when’s the next tram?”', a: 'Tram 3 in 6 min. Leave in 2.' },
+    { q: 'Timer running', a: '' },
     { q: 'Tram 3 · Torgauer Platz', a: 'Doors open. You made it.' }
   ];
   const FALLBACK_DUR = 15.4;
@@ -93,7 +94,7 @@
         const s = CUES[k], e = CUES[k + 1] || d;
         bar.style.transform = `scaleX(${Math.min(1, Math.max(0, (t - s) / (e - s)))})`;
       });
-      if (vt) vt.textContent = mmss(120 * (1 - t / d));
+      if (vt) vt.textContent = mmss(Math.max(0, d - t)); // real seconds, 0:00 as the film ends
       requestAnimationFrame(loop);
     };
     requestAnimationFrame(loop);
@@ -192,6 +193,31 @@
       if (!e.isIntersecting || played) return; played = true;
       setBoard('all'); setTimeout(() => setBoard('mine'), 1500);
     }, { threshold: 0.5 }).observe(board);
+  }
+
+  /* ---------- integrations: cards scrolled sideways, with arrows and dots ---------- */
+  const itrack = $('[data-integr]');
+  if (itrack) {
+    const icards = $$('.icard', itrack), idots = $$('.integr__dots i'), prev = $('[data-integr-prev]'), next = $('[data-integr-next]');
+    const current = () => { let k = 0, best = Infinity; icards.forEach((c, i) => { const d = Math.abs(c.offsetLeft - itrack.offsetLeft - itrack.scrollLeft - parseFloat(getComputedStyle(itrack).scrollPaddingLeft || 0)); if (d < best) { best = d; k = i; } }); return k; };
+    const go = k => { const c = icards[Math.max(0, Math.min(icards.length - 1, k))]; itrack.scrollTo({ left: c.offsetLeft - itrack.offsetLeft - parseFloat(getComputedStyle(itrack).scrollPaddingLeft || 0), behavior: reduce ? 'auto' : 'smooth' }); };
+    const sync = () => { const k = current(); idots.forEach((d, i) => d.classList.toggle('is-on', i === k)); if (prev) prev.disabled = k === 0; if (next) next.disabled = k === icards.length - 1; };
+    prev && prev.addEventListener('click', () => go(current() - 1));
+    next && next.addEventListener('click', () => go(current() + 1));
+    itrack.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+    itrack.addEventListener('keydown', e => { if (e.key === 'ArrowRight') { e.preventDefault(); go(current() + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(current() - 1); } });
+    sync();
+  }
+
+  /* ---------- (03) the message changes while the section is on screen ---------- */
+  const says = $$('.says__item');
+  if (says.length > 1 && !reduce) {
+    const saysVis = seen($('[data-says]'));
+    let si = 0;
+    setInterval(() => {
+      if (!saysVis.on) return;
+      says[si].classList.remove('is-on'); si = (si + 1) % says.length; says[si].classList.add('is-on');
+    }, 4500);
   }
 
   /* ---------- app demo: two stops checked in parallel ---------- */
@@ -299,14 +325,6 @@
         .to({}, { duration: 0.5 });
       return () => { sec.classList.remove('has-stage'); };
     });
-
-    // yellow floods in for "your pace"
-    const walkSec = $('[data-walk-section]');
-    if (walkSec) {
-      doc.classList.add('flood');
-      gsap.fromTo(document.body, { backgroundColor: '#101114' }, { backgroundColor: '#ffd400', ease: 'none', immediateRender: false, scrollTrigger: { trigger: walkSec, start: 'top 85%', end: 'top 35%', scrub: true } });
-      gsap.fromTo(document.body, { backgroundColor: '#ffd400' }, { backgroundColor: '#101114', ease: 'none', immediateRender: false, scrollTrigger: { trigger: walkSec, start: 'bottom 35%', end: 'bottom top', scrub: true } });
-    }
 
     // the delay sum collapses into one instruction
     const eq = $('[data-eq]');
