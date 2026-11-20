@@ -624,7 +624,7 @@ html.no-loader .loader { display: none; }
 .integr__track:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
 .icard {
   --acc: var(--alexa); --acc-ink: var(--alexa-ink);
-  scroll-snap-align: start; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 4vw, 64px); align-items: center;
+  scroll-snap-align: start; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 4vw, 64px); align-items: stretch;
   padding: clamp(28px, 4vw, 56px); border-radius: 32px; background: var(--ink-2); border: 1px solid var(--ink-3);
 }
 .icard--mcp { --acc: var(--mcp); --acc-ink: #1d0d06; }
@@ -635,10 +635,13 @@ html.no-loader .loader { display: none; }
 .icard__title span { display: block; color: var(--acc); }
 .icard__lede { max-width: 44ch; margin: 20px 0 28px; font-size: clamp(1rem, 1.2vw, 1.15rem); line-height: 1.45; color: var(--mute); }
 .icard__lede strong { color: var(--paper); font-weight: 600; }
+/* the main button sits at the bottom left of every card, so they line up across cards */
+.icard__copy { display: flex; flex-direction: column; align-items: flex-start; }
+.icard__copy .btn { margin-top: auto; }
 .icard .btn { padding: 18px 28px; font-size: 17px; background: var(--acc); color: var(--acc-ink); }
 .icard .btn:hover { background: var(--paper); }
 .icard .btn svg { width: 22px; height: 22px; flex: none; }
-.icard__say { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.icard__say { align-self: center; display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .icard__say li { padding: 14px 18px; border-radius: 18px 18px 18px 6px; background: rgb(255 255 255 / .05); border: 1px solid rgb(255 255 255 / .1); font-size: clamp(15px, 1.2vw, 17px); line-height: 1.35; }
 .icard__say li:last-child { justify-self: end; border-radius: 18px 18px 6px 18px; background: var(--go-soft); border-color: rgb(62 207 142 / .35); color: #d9f7e8; }
 .icard__say small { display: block; margin-bottom: 4px; font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
@@ -647,7 +650,10 @@ html.no-loader .loader { display: none; }
 .integr__dots i { width: 8px; height: 8px; border-radius: 4px; background: var(--ink-3); transition: width .3s var(--ease-out), background .3s; }
 .integr__dots i.is-on { width: 28px; background: var(--paper); }
 @media (max-width: 900px) {
-  .icard { grid-template-columns: 1fr; align-content: start; border-radius: 24px; }
+  .icard { display: flex; flex-direction: column; border-radius: 24px; }
+  .icard__copy { display: contents; }
+  .icard__say { align-self: stretch; }
+  .icard__copy .btn { order: 2; align-self: flex-start; }
   .integr__track { grid-auto-columns: 86vw; gap: 12px; }
   .integr__btn { display: none; }
 }
