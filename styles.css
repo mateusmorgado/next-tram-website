@@ -204,18 +204,14 @@ html.no-loader .loader { display: none; }
 /* voice overlay: a dark translucent card in the upper right, readable over any frame of the film */
 .subs {
   grid-row: 1 / 3; justify-self: end; align-self: start;
-  max-width: min(25em, 46vw); text-align: left;
+  max-width: min(25em, 46vw); text-align: right;
   padding: 18px 22px 20px; border-radius: 18px;
   background: rgb(0 0 0 / .58); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   border: 1px solid rgb(255 255 255 / .08);
 }
 .subs p { margin: 0; }
-.subs__q { display: flex; align-items: center; gap: 12px; font-size: clamp(.95rem, 1.2vw, 1.15rem); font-weight: 500; letter-spacing: -0.015em; }
+.subs__q { display: flex; align-items: center; justify-content: flex-end; gap: 12px; font-size: clamp(.95rem, 1.2vw, 1.15rem); font-weight: 500; letter-spacing: -0.015em; }
 .subs__a { margin-top: .45em !important; font-size: clamp(1.15rem, 1.8vw, 1.9rem); line-height: 1.15; font-weight: 500; letter-spacing: -0.03em; color: var(--signal); min-height: 2.3em; text-wrap: balance; }
-.subs__wave { display: inline-flex; align-items: center; gap: 3px; height: 1em; flex: none; }
-.subs__wave i { width: 3px; height: 100%; background: var(--signal); border-radius: 2px; animation: wave 1s ease-in-out infinite; }
-.subs__wave i:nth-child(2) { animation-delay: -.2s } .subs__wave i:nth-child(3) { animation-delay: -.4s } .subs__wave i:nth-child(4) { animation-delay: -.6s } .subs__wave i:nth-child(5) { animation-delay: -.8s }
-@keyframes wave { 0%, 100% { transform: scaleY(.25) } 50% { transform: scaleY(1) } }
 .subs__timer { margin-top: 14px !important; display: inline-flex; align-items: baseline; gap: 10px; padding: 6px 14px; border-radius: 999px; background: rgb(255 255 255 / .08); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
 .subs__timer b { font-size: 20px; color: var(--go); }
 
@@ -399,6 +395,11 @@ html.no-loader .loader { display: none; }
 .stops__inner { position: relative; z-index: 2; align-items: center; row-gap: 56px; }
 .stops__text { grid-column: 1 / 7; }
 .stops__text .body-lg { color: rgb(242 242 240 / .8); }
+/* (03) the message changes: clean screen, then two stops, then nothing you don't need */
+.says { display: grid; }
+.says__item { grid-area: 1 / 1; opacity: 0; transform: translateY(18px); transition: opacity .6s, transform .8s var(--ease-out); pointer-events: none; }
+.says__item.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.says__item .h-xl { margin: 0; }
 .device { grid-column: 8 / 12; display: grid; justify-items: center; gap: 18px; }
 .device { position: relative; }
 .device__watch { position: absolute; left: -36%; bottom: 9%; width: 46%; max-width: 210px; filter: drop-shadow(0 30px 40px rgb(0 0 0 / .65)); }
@@ -449,12 +450,11 @@ html.no-loader .loader { display: none; }
 .app__stopcard.is-best small u { opacity: 1; }
 
 /* ---------- 07 walk (yellow) ---------- */
-.walk { background: var(--signal); color: var(--signal-ink); padding-block: clamp(120px, 14vw, 220px); }
-html.flood .walk { background: transparent; }
+.walk { background: var(--ink); color: var(--paper); padding-block: clamp(120px, 14vw, 220px); border-top: 1px solid var(--ink-3); }
 .walk__inner { align-items: center; row-gap: 56px; }
 .walk__text { grid-column: 1 / 6; }
-.walk .body-lg { color: rgb(16 17 20 / .72); }
-.walk__demo { grid-column: 7 / 13; height: clamp(420px, 42vw, 580px); padding: 14px; border-radius: 28px; background: var(--ink); box-shadow: 0 40px 90px -40px rgb(0 0 0 / .6); }
+.walk .body-lg { color: var(--mute); }
+.walk__demo { grid-column: 7 / 13; height: clamp(420px, 42vw, 580px); padding: 14px; border-radius: 28px; background: var(--ink-2); border: 1px solid var(--ink-3); }
 
 /* ---------- 08 delays ---------- */
 .late { padding-block: clamp(140px, 22vw, 340px) clamp(96px, 12vw, 200px); background: var(--ink); position: relative; }
@@ -569,17 +569,15 @@ html.flood .walk { background: transparent; }
    Alexa cyan (#00caff) is used only for Alexa: the "Alexa integration" nav pill, the launch section
    and its CTA button. */
 :root { --alexa: #00caff; --alexa-ink: #04121f; }
-.nav__links .nav__alexa { display: inline-flex; align-items: center; gap: 8px; background: var(--alexa); color: var(--alexa-ink); font-weight: 600; padding: 11px 16px; border-radius: 999px; box-shadow: 0 0 0 0 rgb(0 202 255 / .6); animation: alexaPing 2.4s ease-out infinite; transition: background .25s; }
+.nav__links .nav__alexa { display: inline-flex; align-items: center; gap: 8px; background: var(--alexa); color: var(--alexa-ink); font-weight: 600; padding: 11px 16px; border-radius: 999px; transition: background .25s; }
 .nav__links .nav__alexa:hover { background: var(--paper); }
 .nav__links .nav__alexa i { width: 7px; height: 7px; border-radius: 50%; background: var(--alexa-ink); }
-@keyframes alexaPing { 0% { box-shadow: 0 0 0 0 rgb(0 202 255 / .55); } 70%, 100% { box-shadow: 0 0 0 14px rgb(0 202 255 / 0); } }
 @media (max-width: 900px) { .nav__links a.nav__alexa { display: inline-flex; } }
 @media (max-width: 560px) { .nav__links { gap: 8px; } .nav__links a { white-space: nowrap; } .nav__links a.nav__alexa { padding: 9px 12px; } }
 @media (max-width: 420px) { .nav__brand span { display: none; } .nav__links a.nav__alexa i { display: none; } .nav__links a.nav__alexa, .nav__links .nav__cta { padding: 9px 11px; letter-spacing: .04em; } }
 
 
 .alexa { position: relative; overflow: hidden; isolation: isolate; background: #02060d; padding-block: clamp(56px, 7vw, 110px); border-block: 1px solid #0b2a3b; }
-.alexa::before { content: ""; position: absolute; z-index: -1; width: min(900px, 120vw); aspect-ratio: 1; left: 72%; top: 50%; transform: translate(-50%, -50%); background: radial-gradient(closest-side, rgb(0 202 255 / .18), rgb(31 107 255 / .07) 45%, transparent 72%); }
 .alexa__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
 .alexa__kick { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 0 0 20px; font-family: var(--f-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--alexa); }
 .alexa__kick b { background: var(--alexa); color: var(--alexa-ink); font-weight: 500; padding: 7px 12px; border-radius: 6px; }
@@ -587,23 +585,16 @@ html.flood .walk { background: transparent; }
 .alexa__title span { display: block; color: var(--alexa); }
 .alexa__lede { max-width: 44ch; margin: 22px 0 0; font-size: clamp(1rem, 1.25vw, 1.2rem); line-height: 1.4; color: var(--mute); }
 .alexa__lede strong { color: var(--paper); font-weight: 600; }
-.alexa__facts { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 0; padding: 0; list-style: none; }
-.alexa__facts li { display: inline-flex; align-items: center; gap: 8px; padding: 8px 13px; border-radius: 999px; border: 1px solid rgb(0 202 255 / .35); background: rgb(0 202 255 / .07); font-family: var(--f-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
-.alexa__facts li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--go); }
 .alexa__btns { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
-.btn--alexa { background: var(--alexa); color: var(--alexa-ink); box-shadow: 0 20px 60px -16px rgb(0 202 255 / .7); }
+.btn--alexa { background: var(--alexa); color: var(--alexa-ink); }
 .btn--alexa:hover { background: var(--paper); }
 .btn--alexa svg { width: 22px; height: 22px; flex: none; }
 
 .alexa__stage { position: relative; display: grid; justify-items: center; gap: 20px; }
 .echo { position: relative; width: min(100%, 300px); aspect-ratio: 1; display: grid; place-items: center; }
-.echo__wave { position: absolute; inset: 16%; border-radius: 50%; border: 2px solid rgb(0 202 255 / .55); animation: echoWave 3.3s var(--ease-out) infinite; }
-.echo__wave:nth-child(2) { animation-delay: 1.1s; } .echo__wave:nth-child(3) { animation-delay: 2.2s; }
-@keyframes echoWave { from { transform: scale(.82); opacity: .9; } to { transform: scale(1.45); opacity: 0; } }
 .echo__body { position: relative; width: 68%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 50% 35%, #3b4250, #15181f 70%); box-shadow: inset 0 -16px 40px rgb(0 0 0 / .6), 0 40px 70px -24px rgb(0 0 0 / .9); display: grid; place-items: center; }
-.echo__body::before { content: ""; position: absolute; inset: 0; border-radius: 50%; padding: 10px; background: conic-gradient(from var(--ea, 0deg), #00caff, #1f6bff 28%, #00caff 52%, #9af0ff 78%, #00caff); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; filter: drop-shadow(0 0 16px rgb(0 202 255 / .95)); animation: echoSpin 2.8s linear infinite; }
+.echo__body::before { content: ""; position: absolute; inset: 0; border-radius: 50%; padding: 10px; background: conic-gradient(from var(--ea, 0deg), #00caff, #1f6bff 28%, #00caff 52%, #9af0ff 78%, #00caff); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
 @property --ea { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
-@keyframes echoSpin { to { --ea: 360deg; } }
 .echo__mark { width: 46%; aspect-ratio: 1; border-radius: 22%; box-shadow: 0 0 0 1px var(--ink-3); }
 .echo__min { position: absolute; right: 0; top: 8%; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 14px; background: var(--ink-2); border: 1px solid var(--ink-3); font-weight: 700; font-size: 18px; box-shadow: 0 20px 40px -18px #000; }
 .echo__min .t-line { display: inline-grid; place-items: center; min-width: 34px; height: 30px; margin: 0; padding: 0 6px; border-radius: 7px; font-size: 16px; }
@@ -616,10 +607,8 @@ html.flood .walk { background: transparent; }
 
 @media (max-width: 960px) {
   .alexa__grid { grid-template-columns: 1fr; }
-  .alexa::before { left: 50%; top: 78%; }
   .echo { width: min(64vw, 260px); }
 }
-@media (prefers-reduced-motion: reduce) { .echo__wave { display: none; } .nav__links .nav__alexa { animation: none; } }
 
 /* ---------- the app's own animations (assets/app-demos, built from the app repo) ----------
    intro.css styles them with the app's colour tokens: here they are, in the app's dark theme. */
@@ -644,3 +633,18 @@ html.flood .walk { background: transparent; }
   .walk__demo { height: min(520px, 120vw); padding: 10px; border-radius: 22px; }
   .device__watch { position: relative; left: auto; bottom: auto; width: min(46%, 180px); margin-top: -28px; }
 }
+
+/* "The problem": once the race ends, the tap count for each app */
+.problem__demo { position: relative; }
+.taps { position: absolute; inset: 0; display: flex; justify-content: center; gap: clamp(14px, 6%, 30px); align-items: center; pointer-events: none; opacity: 0; transition: opacity .45s; }
+.taps.is-on { opacity: 1; }
+.taps__col { flex: 0 1 46%; max-width: 240px; display: grid; justify-items: center; gap: 6px; padding: 26px 12px; border-radius: 22px; background: rgb(16 17 20 / .9); border: 1px solid var(--ink-3); text-align: center; transform: translateY(10px); transition: transform .45s var(--ease-out); }
+.taps.is-on .taps__col { transform: none; }
+.taps__col small { font-family: var(--f-mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); }
+.taps__col b { font-size: clamp(4rem, 8vw, 7rem); font-weight: 750; line-height: 1; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+.taps__col span { font-size: 15px; color: var(--mute); }
+.taps__col em { font-style: normal; font-size: clamp(1.1rem, 1.6vw, 1.4rem); font-weight: 650; margin-top: -4px; }
+.taps__col--us em { color: var(--go); }
+.taps__col--slow b { color: var(--mute); text-decoration: line-through; text-decoration-thickness: .06em; text-decoration-color: var(--alarm); }
+.taps__col--us { border-color: var(--go); }
+.taps__col--us b { color: var(--go); }

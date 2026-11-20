@@ -45,8 +45,36 @@ function whileVisible(host: HTMLElement, mount: (ctx: DemoContext) => () => void
   }, { rootMargin: '200px 0px' }).observe(host);
 }
 
+// The race, then the tap count for each app, then the race again.
 const race = document.querySelector<HTMLElement>('[data-demo="fast"]');
-if (race) whileVisible(race, (ctx) => mountFast(race, ctx));
+const taps = document.querySelector<HTMLElement>('[data-taps]');
+if (race) {
+  whileVisible(race, (ctx) => {
+    if (ctx.reduced) {
+      const stop = mountFast(race, ctx);
+      taps?.classList.add('is-on');
+      return stop;
+    }
+    let stopRace: (() => void) | null = null;
+    let timer = 0;
+    let watch: MutationObserver | null = null;
+    const run = () => {
+      taps?.classList.remove('is-on');
+      stopRace = mountFast(race, ctx);
+      const root = race.querySelector('.in-race');
+      watch = new MutationObserver(() => {
+        if (!root?.classList.contains('fading')) return;
+        watch?.disconnect();
+        stopRace?.(); stopRace = null;
+        taps?.classList.add('is-on');
+        timer = window.setTimeout(run, 4200);
+      });
+      if (root) watch.observe(root, { attributes: true, attributeFilter: ['class'] });
+    };
+    run();
+    return () => { watch?.disconnect(); stopRace?.(); clearTimeout(timer); taps?.classList.remove('is-on'); };
+  });
+}
 
 const walk = document.querySelector<HTMLElement>('[data-demo="walk"]');
 if (walk) {

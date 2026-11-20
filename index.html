@@ -62,9 +62,9 @@
       <p class="hero__kicker mono">Leipzig LVB &middot; Berlin BVG &middot; Android &amp; Wear OS</p>
 
       <div class="subs">
-        <p class="subs__q"><span class="subs__wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span data-voice-q>&ldquo;Hey Google, when&rsquo;s the next tram?&rdquo;</span></p>
+        <p class="subs__q"><span data-voice-q>&ldquo;Hey Google, when&rsquo;s the next tram?&rdquo;</span></p>
         <p class="subs__a" data-voice-a>Tram 3 to Hauptbahnhof leaves Torgauer Platz in 6&nbsp;minutes. Leave in&nbsp;2.</p>
-        <p class="subs__timer mono" aria-hidden="true"><span>Leave in</span> <b class="num" data-voice-t>2:00</b></p>
+        <p class="subs__timer mono" aria-hidden="true"><span>Leave in</span> <b class="num" data-voice-t>0:15</b></p>
       </div>
 
       <p class="sr-only" aria-live="polite" data-voice-sr></p>
@@ -91,12 +91,6 @@
         <p class="alexa__kick"><b>Alexa integration</b><span>Amazon Alexa Skill Store</span></p>
         <h2 class="alexa__title" id="alexa-title">Now live on <span>Amazon Alexa.</span></h2>
         <p class="alexa__lede">nextTram passed <strong>Amazon&rsquo;s skill certification</strong> and is public in the Alexa Skill Store. Enable it for free and every Echo in your home knows <strong>when you need to leave for your tram</strong>, with live times and delays for Leipzig and Berlin.</p>
-        <ul class="alexa__facts">
-          <li>Certified by Amazon</li>
-          <li>Free</li>
-          <li>German &amp; English</li>
-          <li>No personal data</li>
-        </ul>
         <div class="alexa__btns">
           <a class="btn btn--alexa" href="https://www.amazon.de/dp/B0HQ7KN3S1/" target="_blank" rel="noopener" data-magnetic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span>Enable on Amazon</span><span aria-hidden="true">&rarr;</span></a>
           <a class="btn btn--ghost" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener"><span>Set up your stops</span></a>
@@ -104,7 +98,6 @@
       </div>
       <div class="alexa__stage">
         <div class="echo" aria-hidden="true">
-          <span class="echo__wave"></span><span class="echo__wave"></span><span class="echo__wave"></span>
           <span class="echo__body"><img class="echo__mark" src="assets/img/icon.svg" alt="" width="120" height="120"></span>
           <span class="echo__min"><b class="t-line" data-line="3">3</b> Hauptbahnhof <em>6 min</em></span>
         </div>
@@ -142,8 +135,12 @@
         <h2 class="h-lg">Other apps make you wait.</h2>
         <p class="body-lg">A typical transit app takes its time to load: a splash screen, offers, a search form, a spinner, and then a list you still have to work out. nextTram loads only what you need and already counts delays and your walk. One answer, right away.</p>
       </div>
-      <div class="appdemo problem__demo" role="img" aria-label="Side by side: a typical transit app is still loading, searching and listing after about 18 seconds, while nextTram shows when to leave after 1 second.">
+      <div class="appdemo problem__demo" role="img" aria-label="Side by side: a typical transit app takes 7 taps and about 18 seconds to load, search and list, while nextTram shows when to leave after 1 second with 0 taps.">
         <div class="in-stage" data-step="fast" data-demo="fast"></div>
+        <div class="taps" data-taps aria-hidden="true">
+          <div class="taps__col taps__col--slow"><small>Typical transit app</small><b>7</b><em>taps</em><span>0:18 to an answer</span></div>
+          <div class="taps__col taps__col--us"><small>nextTram</small><b>0</b><em>taps</em><span>0:01 to an answer</span></div>
+        </div>
       </div>
     </div>
   </section>
@@ -169,8 +166,20 @@
     <div class="wrap grid12 stops__inner">
       <div class="stops__text">
         <p class="label label--light">(03) The app</p>
-        <h2 class="h-xl">Between two stops? Set&nbsp;both.</h2>
-        <p class="body-lg">Program two stops, each with its own walk. nextTram checks both at the same time and tells you which one to head for. No more guessing whether the corner or the square is faster today.</p>
+        <div class="says" data-says>
+          <div class="says__item is-on">
+            <h2 class="h-xl">A clean screen. One&nbsp;answer.</h2>
+            <p class="body-lg">Open nextTram and the first thing you see is when to leave. No menus, no search form, no offers to scroll past.</p>
+          </div>
+          <div class="says__item">
+            <p class="h-xl" role="presentation">Between two stops? Set&nbsp;both.</p>
+            <p class="body-lg">Program two stops, each with its own walk. nextTram checks both at the same time and tells you which one to head for.</p>
+          </div>
+          <div class="says__item">
+            <p class="h-xl" role="presentation">Nothing you don&rsquo;t&nbsp;need.</p>
+            <p class="body-lg">No tickets, maps or news. Delays and your walk are already counted in, so the screen only shows the tram, the stop and when to go.</p>
+          </div>
+        </div>
       </div>
       <!-- App dark UI, rebuilt in HTML -->
       <div class="device" role="img" aria-label="The nextTram app in dark mode with sample departures, and the same answer on a Wear OS watch">
@@ -333,7 +342,7 @@
   <section class="walk" id="walk" data-walk-section>
     <div class="wrap grid12 walk__inner">
       <div class="walk__text">
-        <p class="label label--ink">(07) Your pace</p>
+        <p class="label">(07) Your pace</p>
         <h2 class="h-lg">Nobody knows your walk like you do.</h2>
         <p class="body-lg">Google Maps sends you out the front door and around the block, at an average pace. It doesn&rsquo;t know your back exit. In nextTram you set your own walking time, or time a real walk, and &ldquo;Leave in&rdquo; follows it.</p>
       </div>
