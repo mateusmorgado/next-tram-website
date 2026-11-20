@@ -99,7 +99,8 @@
     typer = setInterval(() => { i += 2; el.textContent = text.slice(0, i); if (i >= text.length) clearInterval(typer); }, 24);
   };
   const vsr = $('[data-voice-sr]');
-  const setVoice = i => { if (vq) vq.textContent = VOICE[i].q; typeText(va, VOICE[i].a); if (vsr) vsr.textContent = `${VOICE[i].q} ${VOICE[i].a}`; };
+  // a chapter with no answer keeps the previous one on screen until the next answer replaces it
+  const setVoice = i => { if (vq) vq.textContent = VOICE[i].q; if (VOICE[i].a) typeText(va, VOICE[i].a); if (vsr) vsr.textContent = `${VOICE[i].q} ${VOICE[i].a}`; };
   const dur = () => (heroV && heroV.duration) || FALLBACK_DUR;
   const chapterAt = t => { let i = 0; CUES.forEach((c, k) => { if (t >= c) i = k; }); return i; };
   const setChapter = i => {

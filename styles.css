@@ -828,7 +828,12 @@ button.how-chip:hover { border-color: var(--c); }
   .hero__inner { padding-top: calc(env(safe-area-inset-top, 0px) + 80px); row-gap: 14px; }
   .chapter__t { font-size: 13px; }
   .hero__lede { font-size: 15px; }
-  .subs { grid-row: 2; justify-self: stretch; max-width: none; padding: 14px 16px 16px; border-radius: 14px; }
+  /* phone: the box hugs its text on the right, with tighter padding and smaller type */
+  .subs { grid-row: 2; justify-self: end; max-width: 92%; padding: 10px 13px 12px; border-radius: 12px; }
+  .subs__q { font-size: .85rem; }
+  .subs__a { margin-top: .3em !important; font-size: 1.05rem; }
+  .subs__timer { margin-top: 8px !important; padding: 4px 10px; gap: 8px; font-size: 10px; }
+  .subs__timer b { font-size: 16px; }
   .nav { padding-block: 14px; }
   .nav__links .nav__cta { padding: 9px 14px; }
   .board__rows li { grid-template-columns: 50px minmax(0, 1fr) auto; }
