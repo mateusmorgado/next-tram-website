@@ -108,7 +108,7 @@
     <div class="wrap integr__head">
       <div>
         <p class="label">AI integrations</p>
-        <h2 class="h-lg" id="integr-title">Ask the assistant you already use.</h2>
+        <h2 class="h-lg integr__swap" id="integr-title" data-swap><span class="integr__a">LVB and BVG don&rsquo;t talk to your assistant. <span class="hl">nextTram does.</span></span><span class="integr__b" aria-hidden="true">Ask the one you already use.</span></h2>
       </div>
       <div class="integr__nav">
         <span class="integr__hint mono">Swipe for more &rarr;</span>
@@ -179,36 +179,6 @@
     </div>
   </div>
 
-  <!-- ============ 01 PROBLEM: the app's own race animation ============ -->
-  <section class="problem" id="problem">
-    <div class="wrap grid12 problem__inner">
-      <div class="problem__text">
-        <p class="label">(01) The problem</p>
-        <h2 class="h-lg">Other apps make you wait.</h2>
-        <p class="body-lg">A typical transit app takes its time to load: a splash screen, offers, a search form, a spinner, and then a list you still have to work out. nextTram loads only what you need and already counts delays and your walk. One answer, right away.</p>
-      </div>
-      <div class="appdemo problem__demo" role="img" aria-label="Side by side: a typical transit app takes 7 taps and about 18 seconds to load, search and list, while nextTram shows when to leave after 1 second with 0 taps.">
-        <div class="in-stage" data-step="fast" data-demo="fast"></div>
-        <div class="taps" data-taps aria-hidden="true">
-          <div class="taps__col taps__col--slow"><small>Typical transit app</small><b>7</b><em>taps</em><span>0:18 to an answer</span></div>
-          <div class="taps__col taps__col--us"><small>nextTram</small><b>0</b><em>taps</em><span>0:01 to an answer</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 02 PHOTO: why ============ -->
-  <section class="photo photo--why">
-    <picture>
-      <source type="image/webp" srcset="assets/img/photo/berlin-tower-1200.webp 1200w, assets/img/photo/berlin-tower-2400.webp 2400w" sizes="(orientation: portrait) 230vh, 100vw">
-      <img data-parallax src="assets/img/photo/berlin-tower-1200.jpg" srcset="assets/img/photo/berlin-tower-1200.jpg 1200w, assets/img/photo/berlin-tower-2400.jpg 2400w" sizes="(orientation: portrait) 230vh, 100vw" alt="A yellow BVG tram at sunset in Berlin, the TV tower behind it" loading="lazy">
-    </picture>
-    <div class="photo__copy wrap">
-      <p class="label label--light">(02) Why it exists</p>
-      <h2 class="h-xl">LVB and BVG don&rsquo;t talk to your assistant. <span class="hl">nextTram does.</span></h2>
-    </div>
-  </section>
-
   <!-- ============ BANNER: not only trams ============ -->
   <aside class="modes" aria-labelledby="modes-title">
     <div class="wrap modes__inner">
@@ -223,7 +193,7 @@
     </div>
   </aside>
 
-  <!-- ============ 03 THE APP: phone + watch, over photo ============ -->
+  <!-- ============ 01 THE APP: phone + watch, over photo ============ -->
   <section class="stops" id="app">
     <picture>
       <source type="image/webp" srcset="assets/img/photo/leipzig-crossing-1200.webp 1200w, assets/img/photo/leipzig-crossing-2400.webp 2400w" sizes="(orientation: portrait) 230vh, 100vw">
@@ -231,7 +201,7 @@
     </picture>
     <div class="wrap grid12 stops__inner">
       <div class="stops__text">
-        <p class="label label--light">(03) The app</p>
+        <p class="label label--light">(01) The app</p>
         <div class="says" data-says>
           <div class="says__item is-on">
             <h2 class="h-xl">A clean screen. One&nbsp;answer.</h2>
@@ -284,15 +254,15 @@
     </div>
   </section>
 
-  <!-- ============ 04 HOW IT WORKS: the architecture, drawn as a line map, with live numbers ============
+  <!-- ============ 02 HOW IT WORKS: the architecture, drawn as a line map, with live numbers ============
        Every fact here is checked against the app repo (github.com/mateusmorgado/next-tram).
        The call counts load live from the production API (/api/stats); the departures are samples. -->
   <section class="how" id="bridge" aria-labelledby="how-title" data-how>
     <div class="wrap">
       <header class="grid12 how__intro">
-        <p class="label">(04) How it works</p>
-        <h2 class="h-lg" id="how-title">Small on purpose.</h2>
-        <button type="button" class="how__toggle" aria-expanded="false" aria-controls="how-body" data-how-toggle><span data-how-label>More</span> <i aria-hidden="true">&#8964;</i></button>
+        <p class="label">(02) How it works</p>
+        <h2 class="h-lg" id="how-title">See how the app connects to your assistant, without a login.</h2>
+        <button type="button" class="how__toggle" aria-expanded="false" aria-controls="how-body" data-how-toggle><span data-how-label>Show me how</span> <i aria-hidden="true">&darr;</i></button>
       </header>
     </div>
     <div class="how__body" id="how-body" hidden>
@@ -649,24 +619,27 @@ Content-Type: text/plain; charset=utf-8
     </div>
   </section>
 
-  <!-- ============ 05 FILM: run mode (the phone's green screen is a real screenshot of the app in Run) ============ -->
+  <!-- ============ 03 FILM: run mode (the phone's green screen is a real screenshot of the app in Run) ============ -->
   <section class="film film--clear" id="run" data-film>
     <div class="film__frame" data-film-frame>
       <video muted playsinline loop preload="none" poster="assets/video/runmode-poster.jpg" data-src="assets/video/runmode" data-lazy aria-label="He checks nextTram, sees Run now, grabs his bag and runs, and makes the tram just as the doors close."></video>
       <div class="film-tone" aria-hidden="true"></div><div class="fine-grain" aria-hidden="true"></div>
     </div>
     <div class="film__caption wrap">
-      <p class="label label--light">(05) Run mode</p>
+      <p class="label label--light">(03) Run mode</p>
       <h2 class="h-xl">In a hurry?</h2>
       <p class="body-lg">nextTram shows the trams that are just leaving your stop. Run to make it.</p>
     </div>
   </section>
 
-  <!-- ============ 06 WALK ============ -->
+  <!-- ============ 04-06: pinned, scrolled sideways on wide screens (main.js); stacked on phones ============ -->
+  <div class="hs" data-hs>
+  <div class="hs__track" data-hs-track>
+  <!-- 04 WALK -->
   <section class="walk" id="walk" data-walk-section>
     <div class="wrap grid12 walk__inner">
       <div class="walk__text">
-        <p class="label">(06) Your pace</p>
+        <p class="label">(04) Your pace</p>
         <h2 class="h-lg">Nobody knows your walk like you do.</h2>
         <p class="body-lg">Google Maps sends you out the front door and around the block, at an average pace. It doesn&rsquo;t know your back exit. In nextTram you set your own walking time, or time a real walk, and &ldquo;Leave in&rdquo; follows it.</p>
       </div>
@@ -676,10 +649,28 @@ Content-Type: text/plain; charset=utf-8
     </div>
   </section>
 
-  <!-- ============ 07 DELAYS ============ -->
+  <!-- 05 PROBLEM: the app's own race animation -->
+  <section class="problem" id="problem">
+    <div class="wrap grid12 problem__inner">
+      <div class="problem__text">
+        <p class="label">(05) The problem</p>
+        <h2 class="h-lg">Other apps make you wait.</h2>
+        <p class="body-lg">A typical transit app takes its time to load: a splash screen, offers, a search form, a spinner, and then a list you still have to work out. nextTram loads only what you need and already counts delays and your walk. One answer, right away.</p>
+      </div>
+      <div class="appdemo problem__demo" role="img" aria-label="Side by side: a typical transit app takes 7 taps and about 18 seconds to load, search and list, while nextTram shows when to leave after 1 second with 0 taps.">
+        <div class="in-stage" data-step="fast" data-demo="fast"></div>
+        <div class="taps" data-taps aria-hidden="true">
+          <div class="taps__col taps__col--slow"><small>Typical transit app</small><b>7</b><em>taps</em><span>0:18 to an answer</span></div>
+          <div class="taps__col taps__col--us"><small>nextTram</small><b>0</b><em>taps</em><span>0:01 to an answer</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 DELAYS -->
   <section class="late" id="late">
     <div class="wrap">
-      <p class="label">(07) Delays</p>
+      <p class="label">(06) Delays</p>
       <h2 class="h-xl late__title">Late? Already counted.</h2>
       <div class="eq" data-eq role="img" aria-label="Instead of working out 18:13 plus 4 minutes delay minus a 4 minute walk, you hear: leave in 2 minutes">
         <div class="eq__old mono" aria-hidden="true"><span>18:13</span><span class="eq__delay">+4</span><span>&minus;&nbsp;4&nbsp;walk</span><span>=&nbsp;?</span></div>
@@ -691,11 +682,13 @@ Content-Type: text/plain; charset=utf-8
       </div>
     </div>
   </section>
+  </div>
+  </div>
 
-  <!-- ============ 08 PRIVACY ============ -->
+  <!-- ============ 07 PRIVACY ============ -->
   <section class="nos" id="private">
     <div class="wrap">
-      <p class="label">(08) Private by design</p>
+      <p class="label">(07) Private by design</p>
       <p class="nos__line"><span class="nos__no">No</span> <span class="nos__words" data-nos aria-hidden="true"><span class="is-on">login.</span><span>database.</span><span>account.</span></span><span class="sr-only">login, no database, no account.</span></p>
     </div>
   </section>

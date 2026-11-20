@@ -158,6 +158,19 @@
     }).observe(nos);
   }
 
+  /* ---------- integrations heading: the "why" line turns into the ask ---------- */
+  const swap = $('[data-swap]');
+  if (swap) {
+    const go = () => setTimeout(() => {
+      swap.classList.add('is-swapped');
+      $('.integr__a', swap).setAttribute('aria-hidden', 'true'); $('.integr__b', swap).removeAttribute('aria-hidden');
+    }, reduce ? 0 : 2200);
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); go(); } }, { threshold: 0.6 });
+      io.observe(swap);
+    } else go();
+  }
+
   /* ---------- lazy films ---------- */
   const lazyIO = new IntersectionObserver(entries => entries.forEach(e => {
     const v = e.target;
@@ -225,7 +238,7 @@
       const open = htoggle.getAttribute('aria-expanded') !== 'true';
       htoggle.setAttribute('aria-expanded', String(open));
       hparts.hidden = !open;
-      const lab = $('[data-how-label]', htoggle); if (lab) lab.textContent = open ? 'Less' : 'More';
+      const lab = $('[data-how-label]', htoggle); if (lab) lab.textContent = open ? 'Hide' : 'Show me how';
       if (open) how.dispatchEvent(new Event('how:open'));
     });
 
@@ -420,16 +433,29 @@
       $$('[data-film-frame]').forEach(f => {
         gsap.fromTo(f, { clipPath: inset }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none', scrollTrigger: { trigger: f, start: 'top 85%', end: 'top 15%', scrub: true } });
       });
+
+      // 04-06 on wide screens: the page pins and the three panels pass sideways, one after the other
+      const hs = $('[data-hs]'), track = $('[data-hs-track]');
+      let side = null;
+      if (ctx.conditions.wide && hs && track) {
+        doc.classList.add('hs-on');
+        const dist = () => track.scrollWidth - innerWidth;
+        side = gsap.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: hs, start: 'top top', end: () => `+=${dist()}`, pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true } });
+      }
+
+      // the delay sum collapses into one instruction (sideways inside the pinned run, else as it scrolls up)
+      const eq = $('[data-eq]');
+      if (eq) {
+        const st = side ? { trigger: eq, containerAnimation: side, start: 'left 80%', end: 'left 35%', scrub: true }
+                        : { trigger: eq, start: 'top 85%', end: 'top 45%', scrub: true };
+        gsap.timeline({ scrollTrigger: st })
+          .fromTo(eq.querySelector('.eq__old'), { '--strike': 0 }, { '--strike': 1, ease: 'none', duration: 0.4 })
+          .to(eq.querySelectorAll('.eq__old span'), { opacity: 0.25, y: -10, stagger: 0.05, duration: 0.3 })
+          .from(eq.querySelector('.eq__new b'), { opacity: 0, scale: 0.85, transformOrigin: 'left center', duration: 0.4 }, '-=0.2');
+      }
+      return () => doc.classList.remove('hs-on');
     });
 
-    // the delay sum collapses into one instruction
-    const eq = $('[data-eq]');
-    if (eq) {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: eq, start: 'top 85%', end: 'top 45%', scrub: true } });
-      tl.fromTo(eq.querySelector('.eq__old'), { '--strike': 0 }, { '--strike': 1, ease: 'none', duration: 0.4 })
-        .to(eq.querySelectorAll('.eq__old span'), { opacity: 0.25, y: -10, stagger: 0.05, duration: 0.3 })
-        .from(eq.querySelector('.eq__new b'), { opacity: 0, scale: 0.85, transformOrigin: 'left center', duration: 0.4 }, '-=0.2');
-    }
 
     // "No" lines slide up
     // footer word rises
