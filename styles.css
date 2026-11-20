@@ -245,6 +245,10 @@ html.no-loader .loader { display: none; }
   100% { background-position: 400% 0; }
 }
 @media (prefers-reduced-motion: reduce) { .tram { display: none; } }
+/* the footer word: a box as tall as the letters, so the stripes reach every glyph */
+.foot__word .word--trams { display: inline-block; line-height: 1; margin-block: -.13em; }
+.foot__word .tram { animation-delay: 2s; }
+.foot__word .tram--bvg { animation-delay: 3.4s; }
 .hero__title .serif { letter-spacing: -0.06em; padding-right: .04em; }
 .hero__bottom { grid-row: 4; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 32px; align-items: end; }
 .hero__lede { margin: 0; max-width: 30em; font-size: clamp(1rem, 1.2vw, 1.18rem); color: rgb(242 242 240 / .8); }
@@ -585,10 +589,9 @@ html.no-loader .loader { display: none; }
   .ticker__track { animation: none; }
 }
 
-/* ---------- Alexa launch: the skill is live in the Amazon Alexa store (Nov 2026) ----------
-   Alexa cyan (#00caff) is used only for Alexa: the "Alexa integration" nav pill, the launch section
-   and its CTA button. */
-:root { --alexa: #00caff; --alexa-ink: #04121f; }
+/* ---------- AI integrations: Claude and ChatGPT (MCP), Siri, Alexa ----------
+   (class names kept from the Alexa launch section; the accent is the app's green) */
+:root { --alexa: #3ecf8e; --alexa-ink: #06281a; }
 .nav__links .nav__alexa { display: inline-flex; align-items: center; gap: 8px; background: var(--alexa); color: var(--alexa-ink); font-weight: 600; padding: 11px 16px; border-radius: 999px; transition: background .25s; }
 .nav__links .nav__alexa:hover { background: var(--paper); }
 .nav__links .nav__alexa i { width: 7px; height: 7px; border-radius: 50%; background: var(--alexa-ink); }
@@ -597,7 +600,7 @@ html.no-loader .loader { display: none; }
 @media (max-width: 420px) { .nav__brand span { display: none; } .nav__links a.nav__alexa i { display: none; } .nav__links a.nav__alexa, .nav__links .nav__cta { padding: 9px 11px; letter-spacing: .04em; } }
 
 
-.alexa { position: relative; overflow: hidden; isolation: isolate; background: #02060d; padding-block: clamp(56px, 7vw, 110px); border-block: 1px solid #0b2a3b; }
+.alexa { position: relative; overflow: hidden; isolation: isolate; background: var(--ink); padding-block: clamp(56px, 7vw, 110px); border-block: 1px solid var(--ink-3); }
 .alexa__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
 .alexa__kick { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 0 0 20px; font-family: var(--f-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--alexa); }
 .alexa__kick b { background: var(--alexa); color: var(--alexa-ink); font-weight: 500; padding: 7px 12px; border-radius: 6px; }
@@ -611,14 +614,10 @@ html.no-loader .loader { display: none; }
 .btn--alexa svg { width: 22px; height: 22px; flex: none; }
 
 .alexa__stage { position: relative; display: grid; justify-items: center; gap: 20px; }
-.echo { position: relative; width: min(100%, 300px); aspect-ratio: 1; display: grid; place-items: center; }
-.echo__body { position: relative; width: 68%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 50% 35%, #3b4250, #15181f 70%); box-shadow: inset 0 -16px 40px rgb(0 0 0 / .6), 0 40px 70px -24px rgb(0 0 0 / .9); display: grid; place-items: center; }
-.echo__body::before { content: ""; position: absolute; inset: 0; border-radius: 50%; padding: 10px; background: conic-gradient(from var(--ea, 0deg), #00caff, #1f6bff 28%, #00caff 52%, #9af0ff 78%, #00caff); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
-@property --ea { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
-.echo__mark { width: 46%; aspect-ratio: 1; border-radius: 22%; box-shadow: 0 0 0 1px var(--ink-3); }
-.echo__min { position: absolute; right: 0; top: 8%; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 14px; background: var(--ink-2); border: 1px solid var(--ink-3); font-weight: 700; font-size: 18px; box-shadow: 0 20px 40px -18px #000; }
-.echo__min .t-line { display: inline-grid; place-items: center; min-width: 34px; height: 30px; margin: 0; padding: 0 6px; border-radius: 7px; font-size: 16px; }
-.echo__min em { font-style: normal; color: var(--go); }
+.assist { width: 100%; max-width: 460px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.assist li { display: grid; gap: 4px; padding: 18px; border-radius: 18px; background: var(--ink-2); border: 1px solid var(--ink-3); }
+.assist b { font-size: clamp(1.2rem, 1.6vw, 1.5rem); font-weight: 650; letter-spacing: -0.02em; }
+.assist span { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
 .alexa__say { width: 100%; max-width: 460px; display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .alexa__say li { padding: 14px 18px; border-radius: 18px 18px 18px 6px; background: rgb(255 255 255 / .06); border: 1px solid rgb(255 255 255 / .1); font-size: clamp(15px, 1.3vw, 18px); line-height: 1.35; }
 .alexa__say li:last-child { justify-self: end; border-radius: 18px 18px 6px 18px; background: var(--go-soft); border-color: rgb(62 207 142 / .35); color: #d9f7e8; }
@@ -627,7 +626,6 @@ html.no-loader .loader { display: none; }
 
 @media (max-width: 960px) {
   .alexa__grid { grid-template-columns: 1fr; }
-  .echo { width: min(64vw, 260px); }
 }
 
 /* ---------- the app's own animations (assets/app-demos, built from the app repo) ----------

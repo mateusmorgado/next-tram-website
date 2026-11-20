@@ -41,7 +41,7 @@
     <a href="#bridge">How it works</a>
     <a href="#walk">Your pace</a>
     <a href="#app">The app</a>
-    <a class="nav__alexa" href="#alexa"><i></i><span>Alexa integration</span></a>
+    <a class="nav__alexa" href="#assistants"><i></i><span>AI integrations</span></a>
     <a class="nav__cta" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener">Open the app</a>
   </nav>
 </header>
@@ -84,26 +84,28 @@
     </div>
   </section>
 
-  <!-- ============ ALEXA LAUNCH: the skill is live in the Amazon Alexa store ============ -->
-  <section class="alexa" id="alexa" aria-labelledby="alexa-title">
+  <!-- ============ INTEGRATIONS: Claude and ChatGPT over MCP, Siri, Alexa ============ -->
+  <section class="alexa" id="assistants" aria-labelledby="assist-title">
     <div class="wrap alexa__grid">
       <div>
-        <p class="alexa__kick"><b>Alexa integration</b><span>Amazon Alexa Skill Store</span></p>
-        <h2 class="alexa__title" id="alexa-title">Now live on <span>Amazon Alexa.</span></h2>
-        <p class="alexa__lede">nextTram passed <strong>Amazon&rsquo;s skill certification</strong> and is public in the Alexa Skill Store. Enable it for free and every Echo in your home knows <strong>when you need to leave for your tram</strong>, with live times and delays for Leipzig and Berlin.</p>
+        <p class="alexa__kick"><b>AI integrations</b><span>MCP &middot; Siri Shortcut &middot; Alexa skill</span></p>
+        <h2 class="alexa__title" id="assist-title">Ask the AI <span>you already use.</span></h2>
+        <p class="alexa__lede">nextTram has its own <strong>MCP server</strong>, so <strong>Claude</strong> and <strong>ChatGPT</strong> can tell you when to leave for your tram, for your own stops and walk. <strong>Siri</strong> answers out loud through a Shortcut on iPhone and Apple Watch, and the <strong>Alexa</strong> skill is live in the Skill Store. Each one only needs your personal link from the app.</p>
         <div class="alexa__btns">
-          <a class="btn btn--alexa" href="https://www.amazon.de/dp/B0HQ7KN3S1/" target="_blank" rel="noopener" data-magnetic><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span>Enable on Amazon</span><span aria-hidden="true">&rarr;</span></a>
-          <a class="btn btn--ghost" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener"><span>Set up your stops</span></a>
+          <a class="btn btn--alexa" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener" data-magnetic><span>Connect your assistant</span><span aria-hidden="true">&rarr;</span></a>
+          <a class="btn btn--ghost" href="https://www.amazon.de/dp/B0HQ7KN3S1/" target="_blank" rel="noopener"><span>Alexa skill</span></a>
         </div>
       </div>
       <div class="alexa__stage">
-        <div class="echo" aria-hidden="true">
-          <span class="echo__body"><img class="echo__mark" src="assets/img/icon.svg" alt="" width="120" height="120"></span>
-          <span class="echo__min"><b class="t-line" data-line="3">3</b> Hauptbahnhof <em>6 min</em></span>
-        </div>
+        <ul class="assist" aria-label="Assistants that work with nextTram">
+          <li><b>Claude</b><span>MCP connector</span></li>
+          <li><b>ChatGPT</b><span>MCP connector</span></li>
+          <li><b>Siri</b><span>Shortcut, iPhone &amp; Watch</span></li>
+          <li><b>Alexa</b><span>Skill, Echo devices</span></li>
+        </ul>
         <ul class="alexa__say">
-          <li><small>You</small>&bdquo;Alexa, frag next tram, wann kommt die nächste Bahn?&ldquo;</li>
-          <li><small>Alexa</small>Die 3 Richtung Hauptbahnhof kommt in 6&nbsp;Minuten. Geh in 2&nbsp;Minuten los.</li>
+          <li><small>You, to Claude</small>When&rsquo;s my next tram?</li>
+          <li><small>Claude &middot; via nextTram</small>Tram 3 to Hauptbahnhof leaves Torgauer Platz in 6&nbsp;minutes. Leave in&nbsp;2.</li>
         </ul>
       </div>
     </div>
@@ -403,7 +405,7 @@
       <h2 class="cta__title">Stop checking. <span class="serif">Start asking.</span></h2>
       <div class="cta__btns">
         <a class="btn btn--primary" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener" data-magnetic><span>Open nextTram</span><span aria-hidden="true">&rarr;</span></a>
-        <a class="btn btn--alexa" href="https://www.amazon.de/dp/B0HQ7KN3S1/" target="_blank" rel="noopener"><span>Enable on Alexa</span></a>
+        <a class="btn btn--alexa" href="#assistants"><span>Ask your assistant</span></a>
         <a class="btn btn--ghost" href="https://github.com/mateusmorgado/next-tram" target="_blank" rel="noopener"><span>See the code</span></a>
       </div>
     </div>
@@ -415,7 +417,7 @@
     <p>nextTram. Live departures for Leipzig (LVB / MDV) and Berlin (BVG / VBB). Not affiliated with LVB or BVG.</p>
     <p class="mono">Built by <a href="https://morgado.tech/">Mateus Morgado</a> · <a href="#top">Back to top &uarr;</a></p>
   </div>
-  <p class="foot__word" aria-hidden="true">nextTram</p>
+  <p class="foot__word" aria-hidden="true"><span class="word--trams">nextTram<span class="tram tram--lvb">nextTram</span><span class="tram tram--bvg">nextTram</span></span></p>
 </footer>
 
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
