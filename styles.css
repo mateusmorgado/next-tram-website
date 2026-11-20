@@ -253,30 +253,12 @@ html.no-loader .loader { display: none; }
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 /* ---------- 01 problem ---------- */
-.problem { padding-block: clamp(72px, 8vw, 120px) clamp(96px, 14vw, 220px); }
-.problem .label { grid-column: 1 / 4; }
-.race { grid-column: 1 / -1; grid-row: 2; display: grid; margin-bottom: clamp(72px, 10vw, 160px); border-top: 1px solid var(--ink-3); }
-.race__row { display: grid; grid-template-columns: minmax(110px, 2fr) minmax(0, 6fr) minmax(0, 3fr); align-items: baseline; gap: 16px; padding-block: .14em; border-bottom: 1px solid var(--ink-3); font-size: clamp(2.4rem, 8vw, 8.4rem); font-weight: 700; letter-spacing: -0.06em; line-height: 1.02; color: var(--mute); }
-.race__who { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; align-self: center; }
-.race__s { text-align: right; }
-.race__row--us { color: var(--paper); }
-.race__row--us .race__s { color: var(--go); }
-.race__row:first-child .race__n, .race__row:first-child .race__s { text-decoration: line-through; text-decoration-thickness: .045em; text-decoration-color: var(--alarm); }
-.manifesto {
-  grid-column: 1 / 11; grid-row: 3;
-  margin: 0;
-  font-size: clamp(2rem, 5vw, 5.4rem);
-  line-height: 1.04; letter-spacing: -0.048em; font-weight: 500;
-  text-wrap: pretty;
-}
-.manifesto .w { transition: opacity .2s; }
-html.js .manifesto .w { opacity: .14; }
-html.js .manifesto .w.is-lit { opacity: 1; }
-.punch { grid-column: 1 / -1; grid-row: 4; margin-top: clamp(64px, 9vw, 140px); display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; border-top: 1px solid var(--ink-3); padding-top: 28px; }
-.punch__lead { margin: 0; font-size: clamp(1.8rem, 3.4vw, 3.2rem); letter-spacing: -0.04em; line-height: 1; font-weight: 500; max-width: 11ch; }
-.punch__num { display: flex; align-items: baseline; gap: .12em; color: var(--paper); line-height: .8; }
-.punch__num .num { font-size: clamp(9rem, 30vw, 30rem); }
-.punch__unit { font-size: clamp(1.4rem, 3vw, 3rem); color: var(--paper); text-shadow: none; text-transform: uppercase; letter-spacing: .1em; }
+.problem { padding-block: clamp(72px, 8vw, 120px) clamp(96px, 12vw, 180px); }
+.problem__inner { align-items: center; row-gap: 48px; }
+.problem__text { grid-column: 1 / 6; }
+.problem__text .h-lg { margin-top: 18px; }
+.problem__text .body-lg { margin-top: 24px; color: var(--mute); }
+.problem__demo { grid-column: 7 / 13; height: clamp(380px, 38vw, 520px); }
 
 /* ---------- full-bleed photo ---------- */
 .photo { position: relative; height: clamp(560px, 108svh, 1200px); overflow: hidden; display: flex; align-items: flex-end; }
@@ -418,6 +400,9 @@ html.js .manifesto .w.is-lit { opacity: 1; }
 .stops__text { grid-column: 1 / 7; }
 .stops__text .body-lg { color: rgb(242 242 240 / .8); }
 .device { grid-column: 8 / 12; display: grid; justify-items: center; gap: 18px; }
+.device { position: relative; }
+.device__watch { position: absolute; left: -36%; bottom: 9%; width: 46%; max-width: 210px; filter: drop-shadow(0 30px 40px rgb(0 0 0 / .65)); }
+@media (max-width: 1100px) { .device__watch { left: -18%; } }
 .device__note { margin: 0; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgb(242 242 240 / .7); }
 .phone {
   width: min(360px, 100%);
@@ -469,44 +454,7 @@ html.flood .walk { background: transparent; }
 .walk__inner { align-items: center; row-gap: 56px; }
 .walk__text { grid-column: 1 / 6; }
 .walk .body-lg { color: rgb(16 17 20 / .72); }
-.walk__ctl { grid-column: 7 / 13; }
-.walk__label { display: block; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
-.walk__num { display: flex; align-items: baseline; gap: .2em; line-height: .8; margin: 14px 0 18px; }
-.walk__num .num { font-size: clamp(7rem, 17vw, 15rem); }
-.walk__num small { font-size: clamp(1.2rem, 2vw, 1.8rem); text-transform: uppercase; letter-spacing: .1em; }
-.walk input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; background: transparent; cursor: pointer; margin: 0; }
-.walk input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: var(--signal-ink); border-radius: 2px; }
-.walk input[type="range"]::-moz-range-track { height: 4px; background: var(--signal-ink); border-radius: 2px; }
-.walk input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 34px; height: 34px; margin-top: -15px; border-radius: 50%; background: var(--signal-ink); border: 6px solid var(--signal); box-shadow: 0 0 0 2px var(--signal-ink); transition: transform .2s; }
-.walk input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--signal-ink); border: 6px solid var(--signal); box-shadow: 0 0 0 2px var(--signal-ink); }
-.walk input[type="range"]:active::-webkit-slider-thumb { transform: scale(1.15); }
-.walk input[type="range"]:focus-visible { outline-color: var(--signal-ink); }
-.walk__scale { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; opacity: .65; }
-
-/* the walk line: home on the left, trams as ticks on a minute scale */
-.wline { position: relative; height: 104px; margin-top: 30px; --w: 4; --max: 18; }
-.wline__track { position: absolute; left: 0; right: 0; top: 66px; height: 2px; background: rgb(16 17 20 / .25); }
-.wline__track::before { content: ""; position: absolute; left: 0; top: -1px; height: 4px; width: calc(var(--w) / var(--max) * 100%); background: var(--signal-ink); transition: width .35s var(--ease-out); }
-.wline__home { position: absolute; left: 0; top: 80px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
-.wline__walker { position: absolute; top: 58px; left: calc(var(--w) / var(--max) * 100%); width: 18px; height: 18px; margin-left: -9px; border-radius: 50%; background: var(--signal-ink); box-shadow: 0 0 0 4px var(--signal), 0 0 0 6px var(--signal-ink); transition: left .35s var(--ease-out); }
-.wline__ticks { position: absolute; inset: 0; }
-.tick { position: absolute; top: 0; transform: translateX(-50%); display: grid; justify-items: center; gap: 4px; transition: opacity .35s; }
-.tick .badge { font-size: 12px; }
-.tick .mono { font-size: 10px; }
-.tick::after { content: ""; width: 2px; height: 16px; background: var(--signal-ink); }
-.tick.is-tight { opacity: .45; }
-.tick.is-pick .badge { background: var(--signal-ink); color: var(--signal); }
-/* the app's leave bar */
-.walk__leave { display: flex; align-items: center; gap: 12px; margin: 26px 0 10px; padding: 16px 20px; border-radius: 16px; background: var(--ink); color: var(--go); font-size: clamp(1.4rem, 2.4vw, 2rem); font-weight: 650; letter-spacing: -0.02em; line-height: 1; }
-.walk__leave::before { content: "\1F6B6"; font-size: .9em; }
-.walk__leave.is-now { background: var(--alarm); color: #fff; }
-.walk__leave.is-now::before { content: "\1F3C3"; }
-.walk__list { list-style: none; margin: 0; padding: 0; display: grid; }
-.walk__list li { display: grid; grid-template-columns: 52px 1fr auto; gap: 12px; align-items: center; padding: 9px 0; border-top: 1px solid rgb(16 17 20 / .18); font-size: 15px; font-weight: 500; }
-.walk__list .mono { font-size: 13px; opacity: .7; }
-.walk__list .tag { font-family: var(--f-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
-.walk__list li.is-tight { color: rgb(16 17 20 / .62); }
-.walk__list li.is-tight > span:nth-child(2) { text-decoration: line-through; }
+.walk__demo { grid-column: 7 / 13; height: clamp(420px, 42vw, 580px); padding: 14px; border-radius: 28px; background: var(--ink); box-shadow: 0 40px 90px -40px rgb(0 0 0 / .6); }
 
 /* ---------- 08 delays ---------- */
 .late { padding-block: clamp(140px, 22vw, 340px) clamp(96px, 12vw, 200px); background: var(--ink); position: relative; }
@@ -541,23 +489,10 @@ html.flood .walk { background: transparent; }
 .nos__no { color: var(--signal); }
 .nos__body { margin-top: 36px; }
 
-/* ---------- 10 watch ---------- */
-.watch { padding-block: clamp(96px, 12vw, 200px); background: radial-gradient(ellipse at 72% 50%, #1b1806 0%, var(--ink) 58%); overflow: hidden; }
-.watch__inner { align-items: center; row-gap: 56px; }
-.watch__text { grid-column: 1 / 6; }
-.watch__stage { grid-column: 6 / 13; position: relative; display: grid; place-items: center; min-height: 560px; }
-.roadmap { list-style: none; margin: 40px 0 0; padding: 0; border-top: 1px solid var(--ink-3); }
-.roadmap li { display: grid; grid-template-columns: 80px 1fr auto; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--ink-3); font-size: clamp(1.1rem, 1.6vw, 1.4rem); }
-.roadmap li b { font-weight: 500; letter-spacing: -0.02em; }
-.roadmap li .mono { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--mute); }
-.roadmap li::after { content: ""; width: 10px; height: 10px; border-radius: 50%; }
-.roadmap .is-done::after { background: var(--go); }
-.roadmap .is-soon::after { border: 2px solid var(--signal); }
-.roadmap .is-soon .mono { color: var(--signal); }
-.watch__glow { position: absolute; width: 80%; aspect-ratio: 1; max-width: 100%; border-radius: 50%; background: radial-gradient(circle, rgb(255 212 0 / .26), rgb(255 212 0 / 0) 65%); filter: blur(20px); }
+/* ---------- watch (beside the phone in "The app") ---------- */
 .watch__body {
-  position: relative; width: min(500px, 40vw); aspect-ratio: 1; max-width: 100%;
-  border-radius: 50%; padding: 18px;
+  position: relative; width: 100%; aspect-ratio: 1;
+  border-radius: 50%; padding: 7%;
   background: conic-gradient(from 210deg, #3a3a40, #1a1a1d 25%, #45454c 50%, #141416 75%, #3a3a40);
   box-shadow: 0 60px 120px -30px rgb(0 0 0 / .9), inset 0 0 0 1px #4a4a50;
   will-change: transform;
@@ -570,12 +505,11 @@ html.flood .walk { background: transparent; }
 }
 .watch__ghost { position: absolute; inset: 0; display: grid; place-items: center; font-size: 44cqw; font-weight: 800; color: var(--line-bg, var(--tram-red)); opacity: .2; letter-spacing: -0.05em; line-height: 1; transform: translateY(-8%); }
 .watch__face > *:not(.watch__ghost) { position: relative; }
-.watch__dir { font-size: 4.8cqw; font-weight: 600; }
-.watch__stop { font-size: 6.2cqw; }
-.watch__line { display: flex; align-items: center; gap: 6px; font-size: 4.8cqw; color: #c9c9cc; }
-.watch__line .badge { font-size: 4.6cqw; }
-.watch__time { font-size: 18cqw; font-weight: 700; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
-.watch__leave { margin-top: 1cqw; padding: 2.4cqw 4.8cqw; border-radius: 999px; background: var(--app-go-soft); color: var(--app-go); font-size: 4.8cqw; font-weight: 600; }
+.watch__stop { font-size: 6cqw; max-width: 72%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.watch__line { display: flex; align-items: center; gap: 2cqw; font-size: 5.4cqw; color: #c9c9cc; }
+.watch__line .badge { font-size: 5cqw; }
+.watch__time { font-size: 19cqw; font-weight: 700; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.watch__leave { margin-top: 1cqw; padding: 2.2cqw 4.4cqw; border-radius: 999px; background: var(--app-go-soft); color: var(--app-go); font-size: 5.2cqw; font-weight: 600; white-space: nowrap; }
 
 /* ---------- CTA ---------- */
 .cta { position: relative; min-height: max(680px, 100svh); overflow: hidden; display: flex; align-items: center; }
@@ -605,12 +539,7 @@ html.flood .walk { background: transparent; }
   .nav__links a:not(.nav__cta) { display: none; }
   .grid12 > * { grid-column: 1 / -1 !important; }
   .hero__bottom { grid-template-columns: 1fr; gap: 18px; }
-  .race, .manifesto, .punch { grid-row: auto; }
-  .race__row { grid-template-columns: minmax(0, 1fr) auto; }
-  .race__who { grid-column: 1 / -1; padding-top: 10px; }
   .bridge__intro .body-lg { margin-top: 20px; }
-  .watch__stage { min-height: 0; padding-block: 20px; }
-  .watch__body { width: min(420px, 84vw); }
   .film__frame { height: auto; aspect-ratio: 4 / 5; min-height: 0; }
   .film__caption { bottom: clamp(48px, 10vw, 90px); }
   .stops::after { background: linear-gradient(to bottom, var(--ink) 0%, rgb(16 17 20 / .6) 20%, rgb(16 17 20 / .7) 80%, var(--ink) 100%); }
@@ -634,7 +563,6 @@ html.flood .walk { background: transparent; }
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
   .loader, .grain { display: none; }
   .ticker__track { animation: none; }
-  html.js .manifesto .w { opacity: 1; }
 }
 
 /* ---------- Alexa launch: the skill is live in the Amazon Alexa store (Nov 2026) ----------
@@ -692,3 +620,27 @@ html.flood .walk { background: transparent; }
   .echo { width: min(64vw, 260px); }
 }
 @media (prefers-reduced-motion: reduce) { .echo__wave { display: none; } .nav__links .nav__alexa { animation: none; } }
+
+/* ---------- the app's own animations (assets/app-demos, built from the app repo) ----------
+   intro.css styles them with the app's colour tokens: here they are, in the app's dark theme. */
+.appdemo {
+  --bg: #101114; --surface: #1a1b20; --surface-2: #24262c; --line: #2e3037;
+  --text: #f2f2f0; --text-2: #a7a9b0; --text-3: #6f727b;
+  --go: #3ecf8e; --go-soft: #14382a; --warn: #f3b552; --warn-soft: #3a2c12;
+  --now: #ff6b5f; --now-soft: #43201d; --focus: #7aa7ff; --tram: #d7262f;
+  --in-ground: #14161b; --in-plate: #1b1e25; --in-roof: #2f3442; --in-edge: #4a5163; --in-park: #1a3029;
+  color: var(--text); font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-user-select: none; user-select: none;
+}
+.appdemo .in-stage { height: 100%; }
+.appdemo .badge { color: #fff; }
+.appdemo .in-hero .badge, .appdemo .in-later .badge { display: inline-grid; place-items: center; font-weight: 750; }
+.problem__demo .in-phone { max-width: 240px; }
+.problem__demo .in-phone figcaption span { font-size: 14px; }
+.problem__demo .in-clock { font-size: 24px; }
+@media (max-width: 900px) {
+  .problem__text, .problem__demo, .walk__demo { grid-column: 1 / -1; }
+  .problem__demo { height: min(440px, 112vw); }
+  .walk__demo { height: min(520px, 120vw); padding: 10px; border-radius: 22px; }
+  .device__watch { position: relative; left: auto; bottom: auto; width: min(46%, 180px); margin-top: -28px; }
+}

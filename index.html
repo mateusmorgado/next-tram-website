@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,slnt,wght@8..144,-10..0,300..800&family=Roboto+Mono:wght@400;500&family=Doto:wght@600..900&display=swap">
+<link rel="stylesheet" href="assets/app-demos/intro.css">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -39,7 +40,7 @@
   <nav class="nav__links" aria-label="Sections">
     <a href="#bridge">How it works</a>
     <a href="#walk">Your pace</a>
-    <a href="#watch">Watch</a>
+    <a href="#app">The app</a>
     <a class="nav__alexa" href="#alexa"><i></i><span>Alexa integration</span></a>
     <a class="nav__cta" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener">Open the app</a>
   </nav>
@@ -133,20 +134,16 @@
     </div>
   </div>
 
-  <!-- ============ 01 PROBLEM ============ -->
+  <!-- ============ 01 PROBLEM: the app's own race animation ============ -->
   <section class="problem" id="problem">
-    <div class="wrap grid12">
-      <p class="label">(01) The problem</p>
-      <div class="race" role="img" aria-label="With a transit app: 7 taps and about 24 seconds. With nextTram: 0 taps and 2 seconds.">
-        <div class="race__row"><span class="race__who mono">Transit app</span><span class="race__n">7 taps</span><span class="race__s">24&nbsp;s</span></div>
-        <div class="race__row race__row--us"><span class="race__who mono">nextTram</span><span class="race__n">0 taps</span><span class="race__s">2&nbsp;s</span></div>
+    <div class="wrap grid12 problem__inner">
+      <div class="problem__text">
+        <p class="label">(01) The problem</p>
+        <h2 class="h-lg">Other apps make you wait.</h2>
+        <p class="body-lg">A typical transit app takes its time to load: a splash screen, offers, a search form, a spinner, and then a list you still have to work out. nextTram loads only what you need and already counts delays and your walk. One answer, right away.</p>
       </div>
-      <p class="manifesto" data-manifesto>
-        Unlock. Open the app. Wait for it to load. Tap your stop. Pick a line. Scroll past tickets, maps and news. See the tram is four minutes late. Do the math. Miss it anyway.
-      </p>
-      <div class="punch">
-        <p class="punch__lead">You only wanted one number.</p>
-        <div class="punch__num" role="img" aria-label="6 minutes"><span class="num" data-punch>6</span><span class="punch__unit mono">min</span></div>
+      <div class="appdemo problem__demo" role="img" aria-label="Side by side: a typical transit app is still loading, searching and listing after about 18 seconds, while nextTram shows when to leave after 1 second.">
+        <div class="in-stage" data-step="fast" data-demo="fast"></div>
       </div>
     </div>
   </section>
@@ -163,10 +160,59 @@
     </div>
   </section>
 
-  <!-- ============ 03 BRIDGE ============ -->
+  <!-- ============ 03 THE APP: phone + watch, over photo ============ -->
+  <section class="stops" id="app">
+    <picture>
+      <source type="image/webp" srcset="assets/img/photo/leipzig-crossing-1200.webp 1200w, assets/img/photo/leipzig-crossing-2400.webp 2400w" sizes="(orientation: portrait) 230vh, 100vw">
+      <img data-parallax src="assets/img/photo/leipzig-crossing-1200.jpg" srcset="assets/img/photo/leipzig-crossing-1200.jpg 1200w, assets/img/photo/leipzig-crossing-2400.jpg 2400w" sizes="(orientation: portrait) 230vh, 100vw" alt="Two Leipzig trams crossing at a junction under a pink evening sky" loading="lazy">
+    </picture>
+    <div class="wrap grid12 stops__inner">
+      <div class="stops__text">
+        <p class="label label--light">(03) The app</p>
+        <h2 class="h-xl">Between two stops? Set&nbsp;both.</h2>
+        <p class="body-lg">Program two stops, each with its own walk. nextTram checks both at the same time and tells you which one to head for. No more guessing whether the corner or the square is faster today.</p>
+      </div>
+      <!-- App dark UI, rebuilt in HTML -->
+      <div class="device" role="img" aria-label="The nextTram app in dark mode with sample departures, and the same answer on a Wear OS watch">
+        <div class="phone">
+          <div class="app">
+            <div class="app__bar"><span class="app__logo"></span><div><b>nextTram</b><small>Leipzig &middot; LVB</small></div></div>
+            <div class="app__chips"><span class="on">Hbf</span><span>Augustusplatz</span><span>Berlin M10</span></div>
+            <div class="app__route">Edlichstraße / Torgauer Platz &rarr; Hauptbahnhof</div>
+            <div class="app__hero">
+              <small>GO TO STOP</small>
+              <b class="app__stop" data-app-stop>Torgauer Platz</b>
+              <div class="app__line"><span class="badge" data-app-line data-line="3">3</span><span data-app-dest>&rarr; Knautkleeberg</span></div>
+              <div class="app__count"><span data-app-min>6:29</span><em data-app-sec>6 min</em></div>
+              <span class="app__ghost" aria-hidden="true" data-app-ghost>TP</span>
+              <div class="app__leave"><span>&#x1F6B6; <b data-app-leave>Leave in 2 min</b></span><small data-app-walk>4 min walk</small></div>
+            </div>
+            <div class="app__stops">
+              <div class="app__stopcard" data-stopcard="0"><small>Stop 1 &middot; 2 min walk</small><b>Edlichstraße</b><span><i class="badge" data-line="7">7</i> <em data-sc-min="0">10 min</em></span></div>
+              <div class="app__stopcard is-best" data-stopcard="1"><small>Stop 2 &middot; 4 min walk <u>Best</u></small><b>Torgauer Platz</b><span><i class="badge" data-line="3">3</i> <em data-sc-min="1">6 min</em></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="device__watch" aria-hidden="true">
+          <div class="watch__body">
+            <div class="watch__face">
+              <span class="watch__ghost" data-w-ghost data-line="3">3</span>
+              <b class="watch__stop" data-w-stop>Torgauer Platz</b>
+              <span class="watch__line"><i class="badge" data-w-line data-line="3">3</i> <span data-w-dest>&rarr; Knautkleeberg</span></span>
+              <span class="watch__time" data-w-time>6:29</span>
+              <span class="watch__leave">&#x1F6B6; <span data-w-leave>Leave in 2 min</span></span>
+            </div>
+          </div>
+        </div>
+        <p class="device__note mono">Live demo &middot; phone and Wear OS watch &middot; sample departures</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 BRIDGE ============ -->
   <section class="bridge" id="bridge" data-bridge>
     <div class="wrap grid12 bridge__intro">
-      <p class="label">(03) How it works</p>
+      <p class="label">(04) How it works</p>
       <h2 class="h-lg">Fetch. Strip. Say.</h2>
       <p class="body-lg">The big transit apps keep their live data locked inside the app. nextTram fetches it in real time, throws away everything you don&rsquo;t need, and hands your assistant one sentence.</p>
     </div>
@@ -249,7 +295,7 @@
       <div class="fine-grain" aria-hidden="true"></div>
     </div>
     <div class="film__caption wrap">
-      <p class="label label--light">(04) When to leave</p>
+      <p class="label label--light">(05) When to leave</p>
       <h2 class="h-xl">Know when to leave the house.</h2>
       <p class="body-lg">How to get there, you already know. The only question left is when to walk out the door.</p>
     </div>
@@ -259,7 +305,7 @@
   <section class="direction" id="direction">
     <div class="wrap grid12">
       <div class="direction__text">
-        <p class="label">(05) Direction first</p>
+        <p class="label">(06) Direction first</p>
         <h2 class="h-lg">Only the trams going your way.</h2>
         <p class="body-lg">A stop board lists every tram heading everywhere. You only ever go one way. nextTram answers for the direction you set, and flips it for the trip home with one tap.</p>
         <div class="toggle" role="group" aria-label="Board view">
@@ -283,65 +329,16 @@
     </div>
   </section>
 
-  <!-- ============ 06 TWO STOPS over photo ============ -->
-  <section class="stops" id="stops">
-    <picture>
-      <source type="image/webp" srcset="assets/img/photo/leipzig-crossing-1200.webp 1200w, assets/img/photo/leipzig-crossing-2400.webp 2400w" sizes="(orientation: portrait) 230vh, 100vw">
-      <img data-parallax src="assets/img/photo/leipzig-crossing-1200.jpg" srcset="assets/img/photo/leipzig-crossing-1200.jpg 1200w, assets/img/photo/leipzig-crossing-2400.jpg 2400w" sizes="(orientation: portrait) 230vh, 100vw" alt="Two Leipzig trams crossing at a junction under a pink evening sky" loading="lazy">
-    </picture>
-    <div class="wrap grid12 stops__inner">
-      <div class="stops__text">
-        <p class="label label--light">(06) Two stops</p>
-        <h2 class="h-xl">Between two stops? Set&nbsp;both.</h2>
-        <p class="body-lg">Program two stops, each with its own walk. nextTram checks both at the same time and tells you which one to head for. No more guessing whether the corner or the square is faster today.</p>
-      </div>
-      <!-- App dark UI, rebuilt in HTML -->
-      <div class="device" role="img" aria-label="The nextTram app in dark mode with sample departures">
-        <div class="phone">
-          <div class="app">
-            <div class="app__bar"><span class="app__logo"></span><div><b>nextTram</b><small>Leipzig &middot; LVB</small></div></div>
-            <div class="app__chips"><span class="on">Hbf</span><span>Augustusplatz</span><span>Berlin M10</span></div>
-            <div class="app__route">Edlichstraße / Torgauer Platz &rarr; Hauptbahnhof</div>
-            <div class="app__hero">
-              <small>GO TO STOP</small>
-              <b class="app__stop" data-app-stop>Torgauer Platz</b>
-              <div class="app__line"><span class="badge" data-app-line data-line="3">3</span><span data-app-dest>&rarr; Knautkleeberg</span></div>
-              <div class="app__count"><span data-app-min>6:29</span><em data-app-sec>6 min</em></div>
-              <span class="app__ghost" aria-hidden="true" data-app-ghost>TP</span>
-              <div class="app__leave"><span>&#x1F6B6; <b data-app-leave>Leave in 2 min</b></span><small data-app-walk>4 min walk</small></div>
-            </div>
-            <div class="app__stops">
-              <div class="app__stopcard" data-stopcard="0"><small>Stop 1 &middot; 2 min walk</small><b>Edlichstraße</b><span><i class="badge" data-line="7">7</i> <em data-sc-min="0">10 min</em></span></div>
-              <div class="app__stopcard is-best" data-stopcard="1"><small>Stop 2 &middot; 4 min walk <u>Best</u></small><b>Torgauer Platz</b><span><i class="badge" data-line="3">3</i> <em data-sc-min="1">6 min</em></span></div>
-            </div>
-          </div>
-        </div>
-        <p class="device__note mono">Live demo &middot; sample departures</p>
-      </div>
-    </div>
-  </section>
-
   <!-- ============ 07 WALK ============ -->
   <section class="walk" id="walk" data-walk-section>
     <div class="wrap grid12 walk__inner">
       <div class="walk__text">
         <p class="label label--ink">(07) Your pace</p>
         <h2 class="h-lg">Nobody knows your walk like you do.</h2>
-        <p class="body-lg">The big apps guess how fast you walk. Set yours to the minute, and trams you can&rsquo;t make are marked too tight before you even put your shoes on.</p>
+        <p class="body-lg">Google Maps sends you out the front door and around the block, at an average pace. It doesn&rsquo;t know your back exit. In nextTram you set your own walking time, or time a real walk, and &ldquo;Leave in&rdquo; follows it.</p>
       </div>
-      <div class="walk__ctl">
-        <label for="walk-range" class="walk__label mono">My walk to Torgauer Platz</label>
-        <div class="walk__num"><span class="num" data-walk-out>4</span><small class="mono">min</small></div>
-        <input type="range" id="walk-range" min="1" max="12" step="1" value="4" data-walk aria-describedby="walk-leave">
-        <div class="walk__scale mono" aria-hidden="true"><span>1 min</span><span>12 min</span></div>
-        <div class="wline" aria-hidden="true">
-          <div class="wline__track"></div>
-          <span class="wline__home mono">Home</span>
-          <span class="wline__walker" data-walker></span>
-          <div class="wline__ticks" data-ticks></div>
-        </div>
-        <p class="walk__leave" id="walk-leave" aria-live="polite" data-walk-leave>Leave in 2 min</p>
-        <ul class="walk__list" data-walk-list></ul>
+      <div class="appdemo walk__demo" role="img" aria-label="A 3D map of the neighbourhood: the map app's route goes out the front door and around the block in 5 minutes, your own shortcut through the back exit takes 3, and Leave in follows your walk.">
+        <div class="in-stage" data-step="walk" data-demo="walk"></div>
       </div>
     </div>
   </section>
@@ -386,35 +383,6 @@
     </div>
   </section>
 
-  <!-- ============ 10 WATCH ============ -->
-  <section class="watch" id="watch">
-    <div class="wrap grid12 watch__inner">
-      <div class="watch__text">
-        <p class="label">(10) On your wrist</p>
-        <h2 class="h-lg">Turn your wrist. That&rsquo;s the whole app.</h2>
-        <p class="body-lg">nextTram runs on Android phones and Wear OS watches today. Read one number and keep walking.</p>
-        <ul class="roadmap">
-          <li class="is-done"><span class="mono">Now</span><b>Android phone</b></li>
-          <li class="is-done"><span class="mono">Now</span><b>Wear OS watch</b></li>
-          <li class="is-soon"><span class="mono">Soon</span><b>Android APK</b></li>
-        </ul>
-      </div>
-      <div class="watch__stage" role="img" aria-label="Wear OS watch face showing the next tram and when to leave">
-        <div class="watch__glow" aria-hidden="true"></div>
-        <div class="watch__body">
-          <div class="watch__face">
-            <span class="watch__ghost" data-w-ghost data-line="M10">M10</span>
-            <span class="watch__dir">&rarr; Hauptbahnhof</span>
-            <b class="watch__stop" data-w-stop>S+U Warschauer Str.</b>
-            <span class="watch__line"><i class="badge" data-w-line data-line="M10">M10</i> <span data-w-dest>&rarr; Friedrich</span></span>
-            <span class="watch__time" data-w-time>11:32</span>
-            <span class="watch__leave">&#x1F6B6; <span data-w-leave>Leave in 9 min</span></span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ============ CTA over photo ============ -->
   <section class="cta" id="get">
     <picture>
@@ -445,5 +413,6 @@
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script defer src="main.js"></script>
+<script type="module" src="assets/app-demos/app-demos.js"></script>
 </body>
 </html>
