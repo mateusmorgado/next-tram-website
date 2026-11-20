@@ -380,6 +380,13 @@ html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
 .modes__badges { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
 .modes__badges li { min-width: 2.2em; padding: .32em .5em; border-radius: .28em; background: var(--m); color: #fff; text-align: center; font-family: var(--f-display); font-weight: 750; font-size: clamp(1.1rem, 1.8vw, 1.6rem); line-height: 1; letter-spacing: -0.01em; }
 
+/* ---------- 04-06: one pinned run, scrolled sideways (html.hs-on is set by main.js on wide screens) ---------- */
+html.hs-on .hs { overflow: hidden; }
+html.hs-on .hs__track { display: flex; width: max-content; will-change: transform; }
+html.hs-on .hs__track > section { flex: none; width: 100vw; height: 100svh; display: flex; align-items: center; padding-block: 72px 40px; border-top: 0; }
+html.hs-on .hs__track > section + section { border-left: 1px solid var(--ink-3); }
+html.hs-on .hs__track > section > .wrap { width: 100%; }
+
 /* ---------- full-bleed photo ---------- */
 .photo { position: relative; height: clamp(480px, 80svh, 820px); overflow: hidden; display: flex; align-items: flex-end; }
 .photo picture, .cta picture, .stops picture { position: absolute; inset: 0; }
@@ -454,11 +461,18 @@ button.how-chip:hover { border-color: var(--c); }
 .how-chip--vercel { --c: var(--paper); }
 
 /* the steps: one card each, scrolled sideways like the integrations */
-.how__intro .how__toggle { grid-column: 7 / 13; justify-self: end; align-self: end; }
-.how__toggle { display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px; border: 1px solid var(--ink-3); background: var(--ink-2); color: var(--paper); font: 600 15px/1 var(--f-display); cursor: pointer; transition: background .25s, border-color .25s; }
-.how__toggle:hover { border-color: var(--mute); }
-.how__toggle i { font-style: normal; line-height: 0; transform: translateY(-.15em); transition: transform .3s var(--ease-out); }
-.how__toggle[aria-expanded="true"] i { transform: translateY(.15em) rotate(180deg); }
+.how__intro .how__toggle { grid-column: 1 / -1; justify-self: start; margin-top: 28px; }
+.how__intro .h-lg { grid-column: 1 / -1; max-width: 22ch; }
+/* the toggle has to be found: the yellow accent, a soft pulse ring and a nudging arrow until it is opened */
+.how__toggle { position: relative; display: inline-flex; align-items: center; gap: 12px; padding: 18px 28px; border: 0; border-radius: 999px; background: var(--signal); color: var(--signal-ink); font: 700 18px/1 var(--f-display); letter-spacing: -0.01em; cursor: pointer; transition: background .25s, transform .3s var(--ease-out); }
+.how__toggle:hover { background: var(--paper); transform: translateY(-2px); }
+.how__toggle::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: 0 0 0 0 rgb(255 212 0 / .5); animation: howPulse 2.2s ease-out infinite; pointer-events: none; }
+.how__toggle i { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--signal-ink); color: var(--signal); font-style: normal; font-size: 16px; line-height: 1; animation: howNudge 1.6s ease-in-out infinite; }
+.how__toggle[aria-expanded="true"] { background: var(--ink-2); color: var(--paper); box-shadow: inset 0 0 0 1px var(--ink-3); }
+.how__toggle[aria-expanded="true"]::after, .how__toggle[aria-expanded="true"] i { animation: none; }
+.how__toggle[aria-expanded="true"] i { transform: rotate(180deg); background: var(--paper); color: var(--ink); }
+@keyframes howPulse { 0% { box-shadow: 0 0 0 0 rgb(255 212 0 / .45); } 70%, 100% { box-shadow: 0 0 0 16px rgb(255 212 0 / 0); } }
+@keyframes howNudge { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(3px); } }
 .how__body[hidden] { display: none; }
 .how__lede { margin: 0 0 clamp(28px, 3vw, 44px); }
 .how__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px 24px; flex-wrap: wrap; margin-bottom: clamp(20px, 3vw, 32px); }
@@ -639,7 +653,7 @@ button.how-chip:hover { border-color: var(--c); }
   .how-map__svg--tall { display: block; }
 }
 @media (max-width: 900px) {
-  .how__intro .how__toggle { justify-self: start; margin-top: 16px; }
+  .how__intro .how__toggle { margin-top: 20px; }
   .how-proof__text, .how-proof__stats { grid-column: 1 / -1; }
 }
 @media (prefers-reduced-motion: reduce) { .hm-trams { display: none; } }
@@ -866,6 +880,12 @@ button.how-chip:hover { border-color: var(--c); }
 .integr { padding-block: var(--sec); border-block: 1px solid var(--ink-3); overflow: hidden; }
 .integr__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(28px, 4vw, 48px); }
 .integr__head .h-lg { margin-top: 14px; max-width: 14ch; }
+/* the heading starts as the old "why" line, then that line slides up and the ask rises in its place */
+.integr__head .integr__swap { display: grid; max-width: 19ch; overflow: hidden; padding-bottom: .08em; }
+.integr__swap > span { grid-area: 1 / 1; align-self: end; transition: transform .8s var(--ease-out), opacity .5s; }
+.integr__b { transform: translateY(110%); opacity: 0; }
+.integr__swap.is-swapped .integr__a { transform: translateY(-110%); opacity: 0; }
+.integr__swap.is-swapped .integr__b { transform: none; opacity: 1; }
 .integr__nav { display: flex; align-items: center; gap: 10px; }
 .integr__hint { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); margin-right: 6px; }
 .integr__btn { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--ink-3); color: var(--paper); font-size: 20px; transition: background .25s, color .25s, opacity .25s; }
