@@ -265,82 +265,347 @@
     </div>
   </section>
 
-  <!-- ============ 04 BRIDGE ============ -->
-  <section class="bridge" id="bridge" data-bridge>
-    <div class="wrap grid12 bridge__intro">
-      <p class="label">(04) How it works</p>
-      <h2 class="h-lg">Fetch. Strip. Say.</h2>
-      <p class="body-lg">The big transit apps keep their live data locked inside the app. nextTram fetches it in real time, throws away everything you don&rsquo;t need, and hands your assistant one sentence.</p>
-    </div>
+  <!-- ============ 04 HOW IT WORKS: the architecture, drawn as a line map, with live numbers ============
+       Every fact here is checked against the app repo (github.com/mateusmorgado/next-tram).
+       The call counts load live from the production API (/api/stats); the departures are samples. -->
+  <section class="how" id="bridge" aria-labelledby="how-title" data-how>
+    <div class="wrap">
+      <header class="grid12 how__intro">
+        <p class="label">(04) How it works</p>
+        <h2 class="h-lg" id="how-title">Small on purpose.</h2>
+        <p class="body-lg">nextTram keeps no copy of the timetable and no database of its users. Your phone reads the public timetables itself, and seven small serverless functions on Vercel step in only for the assistants that can&rsquo;t run an app. That&rsquo;s the whole stack, with live numbers from production.</p>
+      </header>
 
-    <!-- Desktop: one board that changes through three states (built on scroll) -->
-    <div class="stage-wrap" data-stage-wrap>
-    <div class="stage" data-stage aria-hidden="true">
-      <div class="stage__words"><span data-sw="0">Fetch</span><span data-sw="1">Strip</span><span data-sw="2">Say</span></div>
-      <div class="stage__copy">
-        <div class="stage__step" data-ss="0"><span class="mono">01 / Fetch</span><p>Live departures for Leipzig and Berlin, pulled the second they change.</p></div>
-        <div class="stage__step" data-ss="1"><span class="mono">02 / Strip</span><p>Only your stop, your line, your direction. Trams you can&rsquo;t reach on foot are dropped.</p></div>
-        <div class="stage__step" data-ss="2"><span class="mono">03 / Say</span><p>Your assistant answers in one sentence, and a countdown starts.</p></div>
-      </div>
-      <div class="stage__obj">
-        <div class="sboard" data-sboard>
-          <div class="sboard__head mono"><span>Torgauer Platz &middot; live</span><span data-clock>18:07</span></div>
-          <ul class="sboard__rows" data-sboard-rows>
-            <li><b class="badge" data-line="3">3</b><span>Taucha</span><em class="mono">2 min</em></li>
-            <li><b class="badge" data-line="8">8</b><span>Paunsdorf-Nord</span><em class="mono">3 min</em></li>
-            <li><b class="badge" data-line="N17">N17</b><span>Sommerfeld</span><em class="mono">4 min</em></li>
-            <li class="is-keep"><b class="badge" data-line="3">3</b><span>Knautkleeberg</span><em class="mono">6 min</em></li>
-            <li><b class="badge" data-line="7">7</b><span>Sommerfeld</span><em class="mono">7 min <i>+2</i></em></li>
-            <li><b class="badge" data-line="8">8</b><span>Grünau-Nord</span><em class="mono">9 min <i>+4</i></em></li>
-            <li><b class="badge" data-line="3">3</b><span>Taucha</span><em class="mono">12 min</em></li>
-            <li><b class="badge" data-line="8">8</b><span>Paunsdorf-Nord</span><em class="mono">13 min</em></li>
+      <!-- The system as a tram line map: one line per way of asking -->
+      <figure class="how-map" data-how-map>
+        <svg class="how-map__svg how-map__svg--wide" viewBox="0 0 1200 500" role="img" aria-labelledby="how-map-desc">
+          <rect class="hm-zone" x="318" y="122" width="444" height="358" rx="26"/>
+          <text class="hm-zone__t" x="342" y="456">VERCEL</text>
+          <text class="hm-zone__s" x="342" y="472">7 serverless functions</text>
+          <text class="hm-zone__t" x="949" y="40">PUBLIC TIMETABLES</text>
+          <text class="hm-zone__s" x="949" y="56">no API keys</text>
+
+          <g class="hm-ln" data-ln="app" style="--c:#ffd400">
+            <path id="hm-p-app" d="M236 84H960"/>
+            <text class="hm-note" x="598" y="70" text-anchor="middle">departures straight from your phone, no server in between</text>
+          </g>
+          <g class="hm-ln hm-ln--dash" data-ln="sync" style="--c:#a7a9b0">
+            <path id="hm-p-sync" d="M236 164H860"/>
+            <path d="M640 239V164"/>
+          </g>
+          <g class="hm-ln" data-ln="mcp" style="--c:#e8845f"><path id="hm-p-mcp" d="M236 250H640L708 318H960"/></g>
+          <g class="hm-ln" data-ln="siri" style="--c:#9d8cff"><path id="hm-p-siri" d="M236 330H960"/></g>
+          <g class="hm-ln" data-ln="alexa" style="--c:#00caff"><path id="hm-p-alexa" d="M236 410H640L708 342H960"/></g>
+
+          <!-- trams running on each line (hidden with reduced motion) -->
+          <g class="hm-trams" aria-hidden="true">
+            <circle r="5" data-ln="app"><animateMotion dur="6s" repeatCount="indefinite"><mpath href="#hm-p-app"/></animateMotion></circle>
+            <circle r="5" data-ln="mcp"><animateMotion dur="7s" begin="1.2s" repeatCount="indefinite"><mpath href="#hm-p-mcp"/></animateMotion></circle>
+            <circle r="5" data-ln="siri"><animateMotion dur="6.5s" begin="2.6s" repeatCount="indefinite"><mpath href="#hm-p-siri"/></animateMotion></circle>
+            <circle r="5" data-ln="alexa"><animateMotion dur="7.5s" begin=".6s" repeatCount="indefinite"><mpath href="#hm-p-alexa"/></animateMotion></circle>
+            <circle r="4" data-ln="sync"><animateMotion dur="9s" begin="3.4s" repeatCount="indefinite"><mpath href="#hm-p-sync"/></animateMotion></circle>
+          </g>
+
+          <!-- line badges -->
+          <g class="hm-badge" data-ln="app" style="--c:#ffd400"><rect x="266" y="72" width="52" height="24" rx="6"/><text x="292" y="89">App</text></g>
+          <g class="hm-badge" data-ln="sync" style="--c:#a7a9b0"><rect x="266" y="152" width="52" height="24" rx="6"/><text x="292" y="169">Sync</text></g>
+          <g class="hm-badge" data-ln="mcp" style="--c:#e8845f"><rect x="266" y="238" width="52" height="24" rx="6"/><text x="292" y="255">MCP</text></g>
+          <g class="hm-badge" data-ln="siri" style="--c:#9d8cff"><rect x="266" y="318" width="52" height="24" rx="6"/><text x="292" y="335">Siri</text></g>
+          <g class="hm-badge" data-ln="alexa" style="--c:#00caff"><rect x="266" y="398" width="52" height="24" rx="6"/><text x="292" y="415">Alexa</text></g>
+
+          <!-- who asks -->
+          <rect class="hm-ix" x="225" y="73" width="22" height="102" rx="11"/>
+          <circle class="hm-st" cx="236" cy="250" r="9"/>
+          <circle class="hm-st" cx="236" cy="330" r="9"/>
+          <circle class="hm-st" cx="236" cy="410" r="9"/>
+          <text class="hm-name" x="208" y="120" text-anchor="end">Your phone</text>
+          <text class="hm-sub" x="208" y="139" text-anchor="end">app &amp; watch</text>
+          <text class="hm-name" x="208" y="246" text-anchor="end">Claude · ChatGPT</text>
+          <text class="hm-sub" x="208" y="265" text-anchor="end">MCP connector</text>
+          <text class="hm-name" x="208" y="326" text-anchor="end">Siri</text>
+          <text class="hm-sub" x="208" y="345" text-anchor="end">Apple Shortcuts</text>
+          <text class="hm-name" x="208" y="406" text-anchor="end">Alexa</text>
+          <text class="hm-sub" x="208" y="425" text-anchor="end">Alexa skill</text>
+
+          <!-- the functions -->
+          <circle class="hm-st" cx="420" cy="164" r="8"/>
+          <circle class="hm-st" cx="420" cy="250" r="8"/>
+          <circle class="hm-st" cx="420" cy="330" r="8"/>
+          <circle class="hm-st" cx="420" cy="410" r="8"/>
+          <text class="hm-code" x="420" y="145" text-anchor="middle">/api/favorites</text>
+          <text class="hm-code" x="420" y="231" text-anchor="middle">/api/mcp</text>
+          <text class="hm-code" x="420" y="311" text-anchor="middle">/api/say</text>
+          <text class="hm-code" x="420" y="391" text-anchor="middle">/api/alexa</text>
+
+          <!-- the shared core -->
+          <rect class="hm-ix" x="629" y="239" width="22" height="182" rx="11"/>
+          <circle class="hm-jn" cx="640" cy="164" r="6"/>
+          <text class="hm-code hm-code--b" x="640" y="446" text-anchor="middle">src/transit</text>
+          <text class="hm-sub" x="640" y="464" text-anchor="middle">one TypeScript core</text>
+
+          <!-- storage -->
+          <circle class="hm-st" cx="860" cy="164" r="9"/>
+          <text class="hm-name hm-name--s" x="860" y="196" text-anchor="middle">Upstash Redis</text>
+          <text class="hm-sub" x="860" y="214" text-anchor="middle">stops by code, call counts</text>
+
+          <!-- the timetables -->
+          <rect class="hm-ix" x="949" y="73" width="22" height="280" rx="11"/>
+          <text class="hm-name" x="990" y="110">Transitous</text>
+          <text class="hm-sub" x="990" y="129">MOTIS · Leipzig first</text>
+          <text class="hm-name" x="990" y="206">DB HAFAS</text>
+          <text class="hm-sub" x="990" y="225">Leipzig fallback</text>
+          <text class="hm-name" x="990" y="302">BVG HAFAS</text>
+          <text class="hm-sub" x="990" y="321">Berlin first</text>
+        </svg>
+
+        <svg class="how-map__svg how-map__svg--tall" viewBox="0 0 360 660" role="img" aria-labelledby="how-map-desc">
+          <rect class="hm-zone" x="60" y="112" width="290" height="312" rx="20"/>
+          <text class="hm-zone__t" x="76" y="392">VERCEL</text>
+          <text class="hm-zone__s" x="76" y="408">7 functions</text>
+
+          <g class="hm-ln" data-ln="app" style="--c:#ffd400">
+            <path id="hm-q-app" d="M40 66V600"/>
+            <text class="hm-note" transform="rotate(-90 24 330)" x="24" y="334" text-anchor="middle">straight from your phone, no server in between</text>
+          </g>
+          <g class="hm-ln hm-ln--dash" data-ln="sync" style="--c:#a7a9b0"><path d="M330 271V338"/></g>
+          <g class="hm-ln" data-ln="mcp" style="--c:#e8845f"><path id="hm-q-mcp" d="M136 66V260L220 344V600"/></g>
+          <g class="hm-ln" data-ln="siri" style="--c:#9d8cff"><path id="hm-q-siri" d="M232 66V600"/></g>
+          <g class="hm-ln" data-ln="alexa" style="--c:#00caff"><path id="hm-q-alexa" d="M320 66V260H308L244 324V600"/></g>
+
+          <g class="hm-trams" aria-hidden="true">
+            <circle r="4.5" data-ln="app"><animateMotion dur="6s" repeatCount="indefinite"><mpath href="#hm-q-app"/></animateMotion></circle>
+            <circle r="4.5" data-ln="mcp"><animateMotion dur="7s" begin="1.2s" repeatCount="indefinite"><mpath href="#hm-q-mcp"/></animateMotion></circle>
+            <circle r="4.5" data-ln="siri"><animateMotion dur="6.5s" begin="2.6s" repeatCount="indefinite"><mpath href="#hm-q-siri"/></animateMotion></circle>
+            <circle r="4.5" data-ln="alexa"><animateMotion dur="7.5s" begin=".6s" repeatCount="indefinite"><mpath href="#hm-q-alexa"/></animateMotion></circle>
+          </g>
+
+          <g class="hm-badge" data-ln="app" style="--c:#ffd400"><rect x="20" y="82" width="40" height="20" rx="5"/><text x="40" y="96">App</text></g>
+          <g class="hm-badge" data-ln="mcp" style="--c:#e8845f"><rect x="116" y="82" width="40" height="20" rx="5"/><text x="136" y="96">MCP</text></g>
+          <g class="hm-badge" data-ln="siri" style="--c:#9d8cff"><rect x="212" y="82" width="40" height="20" rx="5"/><text x="232" y="96">Siri</text></g>
+          <g class="hm-badge" data-ln="alexa" style="--c:#00caff"><rect x="296" y="82" width="48" height="20" rx="5"/><text x="320" y="96">Alexa</text></g>
+
+          <circle class="hm-st" cx="40" cy="58" r="8"/>
+          <circle class="hm-st" cx="136" cy="58" r="8"/>
+          <circle class="hm-st" cx="232" cy="58" r="8"/>
+          <circle class="hm-st" cx="320" cy="58" r="8"/>
+          <text class="hm-name hm-name--s" x="40" y="20" text-anchor="middle">Phone</text>
+          <text class="hm-sub" x="40" y="36" text-anchor="middle">&amp; watch</text>
+          <text class="hm-name hm-name--s" x="136" y="20" text-anchor="middle">Claude</text>
+          <text class="hm-sub" x="136" y="36" text-anchor="middle">&amp; ChatGPT</text>
+          <text class="hm-name hm-name--s" x="232" y="20" text-anchor="middle">Siri</text>
+          <text class="hm-sub" x="232" y="36" text-anchor="middle">Shortcuts</text>
+          <text class="hm-name hm-name--s" x="320" y="20" text-anchor="middle">Alexa</text>
+          <text class="hm-sub" x="320" y="36" text-anchor="middle">skill</text>
+
+          <circle class="hm-st" cx="136" cy="168" r="7"/>
+          <circle class="hm-st" cx="232" cy="168" r="7"/>
+          <circle class="hm-st" cx="320" cy="168" r="7"/>
+          <text class="hm-code" x="126" y="193" text-anchor="end">/api/mcp</text>
+          <text class="hm-code" x="222" y="193" text-anchor="end">/api/say</text>
+          <text class="hm-code" x="310" y="193" text-anchor="end">/api/alexa</text>
+
+          <rect class="hm-ix" x="125" y="249" width="216" height="22" rx="11"/>
+          <text class="hm-in" x="233" y="264" text-anchor="middle">src/transit · shared core</text>
+
+          <circle class="hm-st" cx="330" cy="346" r="8"/>
+          <text class="hm-name hm-name--s" x="352" y="374" text-anchor="end">Redis</text>
+          <text class="hm-sub" x="352" y="390" text-anchor="end">stops by code</text>
+
+          <rect class="hm-ix" x="29" y="589" width="226" height="22" rx="11"/>
+          <text class="hm-in" x="142" y="604" text-anchor="middle">public timetables · no API keys</text>
+          <text class="hm-sub" x="142" y="634" text-anchor="middle">Transitous · DB HAFAS · BVG HAFAS</text>
+        </svg>
+
+        <p class="sr-only" id="how-map-desc">Architecture map. Your phone asks the public timetables (Transitous, DB HAFAS, BVG HAFAS) directly, with no server in between. Claude and ChatGPT reach a serverless function at /api/mcp, Siri reaches /api/say and Alexa reaches /api/alexa. All three run on Vercel, share one TypeScript core with the app, and fetch from the same public timetables. Saved stops sync through /api/favorites into Upstash Redis under a random code.</p>
+
+        <figcaption class="how-map__key">
+          <span class="how-map__hint mono">Follow a line</span>
+          <span class="how-map__btns" role="group" aria-label="Highlight one line on the map">
+            <button type="button" class="how-chip" style="--c:#ffd400" data-ln-btn="app" aria-pressed="false">App</button>
+            <button type="button" class="how-chip" style="--c:#e8845f" data-ln-btn="mcp" aria-pressed="false">MCP</button>
+            <button type="button" class="how-chip" style="--c:#9d8cff" data-ln-btn="siri" aria-pressed="false">Siri</button>
+            <button type="button" class="how-chip" style="--c:#00caff" data-ln-btn="alexa" aria-pressed="false">Alexa</button>
+            <button type="button" class="how-chip" style="--c:#a7a9b0" data-ln-btn="sync" aria-pressed="false">Sync</button>
+          </span>
+        </figcaption>
+      </figure>
+
+      <!-- 01 Fetch -->
+      <article class="grid12 how-step" data-how-step>
+        <div class="how-step__copy">
+          <p class="how-step__n mono"><b class="how-chip how-chip--tag" style="--c:#ffd400">App</b>01 &middot; Fetch</p>
+          <h3 class="h-md">Your phone asks the timetable directly.</h3>
+          <p>Open nextTram and the phone itself requests live departures from public timetable APIs. No server of ours sits in between, and no API key is needed. Both of your stops are asked at the same time, and if a source fails or comes back empty, the next one answers.</p>
+          <ul class="how-facts mono">
+            <li>0 API keys</li><li>2 stops in parallel</li><li>2 sources per city</li><li>Refresh every 60&nbsp;s</li>
           </ul>
         </div>
-        <div class="ssay" data-ssay>
-          <div class="ring ring--lg">
-            <svg viewBox="0 0 200 200"><circle class="ring__bg" cx="100" cy="100" r="88"></circle><circle class="ring__fg" cx="100" cy="100" r="88" data-ring></circle></svg>
-            <div class="ring__label"><span class="num" data-ring-t>2:00</span><small>until you leave</small></div>
+        <div class="how-step__vis">
+          <div class="how-panel how-net" aria-hidden="true">
+            <div class="how-panel__bar mono"><span class="how-panel__dots"><i></i><i></i><i></i></span><span>your phone &middot; network</span><span class="how-panel__meta" data-clock>18:07</span></div>
+            <ol class="how-net__rows">
+              <li class="how-net__row"><span class="how-net__verb mono">GET</span><span class="how-net__url mono">api.transitous.org<b>/api/v1/plan</b></span><span class="how-net__what">Edlichstraße &rarr; Hbf</span><span class="how-net__bar"><i></i></span><span class="how-net__st mono">200</span></li>
+              <li class="how-net__row"><span class="how-net__verb mono">GET</span><span class="how-net__url mono">api.transitous.org<b>/api/v1/plan</b></span><span class="how-net__what">Torgauer Platz &rarr; Hbf</span><span class="how-net__bar"><i></i></span><span class="how-net__st mono">200</span></li>
+              <li class="how-net__row is-standby"><span class="how-net__verb mono">GET</span><span class="how-net__url mono">v6.db.transport.rest<b>/journeys</b></span><span class="how-net__what">Fallback, if Transitous fails</span><span class="how-net__bar"><i></i></span><span class="how-net__st mono">standby</span></li>
+            </ol>
+            <div class="how-net__out"><span class="mono">Merged, delays in, walk out</span><span class="how-net__ans"><b class="badge" data-line="3">3</b> Torgauer Platz <em>Leave in 2 min</em></span></div>
           </div>
-          <p class="ssay__line">&ldquo;Tram 3 leaves in 6 minutes. Leave in 2.&rdquo;</p>
-          <ul class="assistants"><li>Gemini</li><li>Alexa</li><li>Siri</li><li>ChatGPT</li><li>Claude</li></ul>
+          <figure class="how-code">
+            <figcaption class="mono"><a href="https://github.com/mateusmorgado/next-tram/blob/main/src/transit/route.ts" target="_blank" rel="noopener">src/transit/route.ts</a></figcaption>
+<pre><code><span class="tk-c">// Fetch every option in parallel.</span>
+<span class="tk-k">const</span> settled = <span class="tk-k">await</span> Promise.<span class="tk-f">allSettled</span>(
+  options.<span class="tk-f">map</span>((o) =&gt;
+    client.<span class="tk-f">connections</span>(route.city, o.from, o.to, filter, &hellip;)),
+);</code></pre>
+          </figure>
+          <p class="sr-only">Sample: two requests to Transitous run at the same time, one per stop, with DB HAFAS on standby as the fallback. The merged answer: tram 3 from Torgauer Platz, leave in 2 minutes.</p>
         </div>
-      </div>
-      <div class="stage__ticks"><i data-st="0"></i><i data-st="1"></i><i data-st="2"></i></div>
-    </div>
-    </div>
+      </article>
 
-    <!-- Phones, tablets and no-JS: three stacked panels -->
-    <div class="wrap bridge__track">
-      <article class="panel">
-        <span class="panel__n mono">01 / Fetch</span>
-        <h3 class="h-md">Live departures, the second they change.</h3>
-        <p>Real-time data for Leipzig (LVB / MDV) and Berlin (BVG / VBB), with a backup source if one goes quiet.</p>
-        <div class="panel__vis feed" aria-hidden="true"><div class="feed__scroll" data-feed></div></div>
-      </article>
-      <article class="panel">
-        <span class="panel__n mono">02 / Strip</span>
-        <h3 class="h-md">Your stop. Your line. Your direction.</h3>
-        <p>Everything else goes. Delays are already added in, and trams you can&rsquo;t reach on foot are dropped.</p>
-        <div class="panel__vis strip" aria-hidden="true">
-          <div class="strip__row is-out"><b class="badge" data-line="3">3</b><span>Taucha</span><span class="mono">2 min</span></div>
-          <div class="strip__row is-out"><b class="badge" data-line="8">8</b><span>Paunsdorf-Nord</span><span class="mono">3 min</span></div>
-          <div class="strip__row is-keep"><b class="badge" data-line="3">3</b><span>Knautkleeberg</span><span class="mono">6 min</span></div>
-          <div class="strip__row is-out"><b class="badge" data-line="N17">N17</b><span>Sommerfeld</span><span class="mono">7 min</span></div>
-          <div class="strip__row is-out"><b class="badge" data-line="3">3</b><span>Taucha</span><span class="mono">12 min</span></div>
+      <!-- 02 No user database -->
+      <article class="grid12 how-step" data-how-step>
+        <div class="how-step__copy">
+          <p class="how-step__n mono"><b class="how-chip how-chip--tag" style="--c:#a7a9b0">Sync</b>02 &middot; No user database</p>
+          <h3 class="h-md">No accounts. Your stops stay on your phone.</h3>
+          <p>Routes, walk times and settings are saved in the browser&rsquo;s storage on your device, so there is nothing to sign up for. Only when you connect an assistant does the app copy your stops online, under a random 12-character code instead of a name or an email address.</p>
+          <ul class="how-facts mono">
+            <li>0 accounts</li><li>Random 12-character code</li><li>Deleted after a year unused</li><li>Alexa: a hash, never the ID</li>
+          </ul>
         </div>
-      </article>
-      <article class="panel">
-        <span class="panel__n mono">03 / Say</span>
-        <h3 class="h-md">Ask. A timer starts. That&rsquo;s&nbsp;it.</h3>
-        <p>One sentence back, and a countdown to the moment you should walk out the door.</p>
-        <div class="panel__vis say" aria-hidden="true">
-          <div class="ring">
-            <svg viewBox="0 0 200 200"><circle class="ring__bg" cx="100" cy="100" r="88"></circle><circle class="ring__fg" cx="100" cy="100" r="88" data-ring></circle></svg>
-            <div class="ring__label"><span class="num" data-ring-t>2:00</span><small>until you leave</small></div>
+        <div class="how-step__vis">
+          <div class="how-panel how-store">
+            <div class="how-store__col">
+              <p class="how-store__k mono">On your phone</p>
+              <p class="how-store__where mono">localStorage &ldquo;nexttram:v1&rdquo;</p>
+              <ul class="how-store__list">
+                <li>Routes and favourites</li><li>Walk time per stop</li><li>Stop IDs already looked up</li><li>Theme and settings</li>
+              </ul>
+            </div>
+            <div class="how-store__col how-store__col--cloud">
+              <p class="how-store__k mono">Online, only with an assistant</p>
+              <p class="how-store__where mono">Upstash Redis</p>
+<pre class="how-store__kv"><code><span class="tk-k">SET</span> favorites:<span class="tk-f">k7qm2xrdp9vt</span>
+{ <span class="tk-s">"routes"</span>: [{ <span class="tk-s">"id"</span>: <span class="tk-s">"lej-hbf"</span>, <span class="tk-s">"label"</span>: <span class="tk-s">"Hbf"</span>, <span class="tk-s">"city"</span>: <span class="tk-s">"leipzig"</span>,
+    <span class="tk-s">"stops"</span>: [{ <span class="tk-s">"stop"</span>: { <span class="tk-s">"name"</span>: <span class="tk-s">"Edlichstraße"</span>, &hellip; }, <span class="tk-s">"walk"</span>: 2 },
+              { <span class="tk-s">"stop"</span>: { <span class="tk-s">"name"</span>: <span class="tk-s">"Torgauer Platz"</span>, &hellip; }, <span class="tk-s">"walk"</span>: 4 }],
+    <span class="tk-s">"dest"</span>: { <span class="tk-s">"name"</span>: <span class="tk-s">"Hauptbahnhof"</span>, &hellip; } }],
+  <span class="tk-s">"updatedAt"</span>: <span class="tk-s">"2026-11-20T17:07:00.000Z"</span> }
+<span class="tk-k">EX</span> 31536000</code></pre>
+            </div>
+            <div class="how-store__never">
+              <span class="mono">Never stored</span>
+              <ul><li>Name</li><li>Email</li><li>Password</li><li>Account</li></ul>
+            </div>
           </div>
-          <ul class="assistants"><li>Gemini</li><li>Alexa</li><li>Siri</li><li>ChatGPT</li><li>Claude</li></ul>
         </div>
       </article>
+
+      <!-- 03 Serverless, with the live numbers -->
+      <article class="grid12 how-step" data-how-step>
+        <div class="how-step__copy">
+          <p class="how-step__n mono"><b class="how-chip how-chip--tag how-chip--vercel">Vercel</b>03 &middot; Serverless</p>
+          <h3 class="h-md">Seven small functions. One shared core.</h3>
+          <p>Claude, Siri and Alexa can&rsquo;t run an app, so each one gets a small serverless function on Vercel. Each of them runs the same TypeScript core as the app, so a spoken answer follows exactly the same rules as the screen. There are no servers to keep running and no sessions: each request is answered on its own.</p>
+          <ul class="how-facts mono">
+            <li>7 functions</li><li>1 TypeScript core</li><li>Stateless</li><li>Push to main = live</li>
+          </ul>
+        </div>
+        <div class="how-step__vis">
+          <div class="how-board" data-how-stats data-state="loading">
+            <div class="how-board__head mono"><span><i class="how-live" aria-hidden="true"></i>app.nexttram.morgado.tech</span><span>Calls &middot; last 30 days</span></div>
+            <ul class="how-board__rows">
+              <li><code class="mono">/api/mcp</code><span>Claude &middot; ChatGPT</span><b class="dot" data-stat="nexttram-mcp">&ndash;</b></li>
+              <li><code class="mono">/api/say</code><span>Siri</span><b class="dot" data-stat="nexttram-say">&ndash;</b></li>
+              <li><code class="mono">/api/alexa</code><span>Alexa</span><b class="dot" data-stat="nexttram-alexa">&ndash;</b></li>
+            </ul>
+            <div class="how-board__total">
+              <span class="mono">All assistants</span>
+              <span class="how-spark" data-spark aria-hidden="true"></span>
+              <b class="dot" data-stat="total">&ndash;</b>
+            </div>
+            <p class="how-board__more mono">Also running: /api/favorites &middot; /api/alexa-link &middot; /api/stats &middot; /.well-known</p>
+          </div>
+          <p class="how-note" data-stats-note>Live from <a class="mono" href="https://app.nexttram.morgado.tech/api/stats" target="_blank" rel="noopener">/api/stats</a>: one Redis counter per function and day, with no codes and no user data. Without JavaScript the numbers stay blank.</p>
+        </div>
+      </article>
+
+      <!-- 04 Claude Code over MCP -->
+      <article class="grid12 how-step" data-how-step>
+        <div class="how-step__copy">
+          <p class="how-step__n mono"><b class="how-chip how-chip--tag" style="--c:#e8845f">MCP</b>04 &middot; Claude Code</p>
+          <h3 class="h-md">Claude Code calls it as a tool.</h3>
+          <p>nextTram is also an MCP server, the open protocol AI assistants use to call tools. One link adds it to Claude Code, Claude or ChatGPT, and &ldquo;when&rsquo;s my tram?&rdquo; becomes a tool call to <code class="mono">/api/mcp</code>. There is no sign-in: the personal code in the link is the only key.</p>
+          <ul class="how-facts mono">
+            <li>MCP over HTTP</li><li>Stateless JSON-RPC</li><li>3 tools</li><li>No OAuth</li>
+          </ul>
+        </div>
+        <div class="how-step__vis">
+          <div class="how-panel how-term" data-how-term>
+            <div class="how-panel__bar mono"><span class="how-panel__dots"><i></i><i></i><i></i></span><span>&#10043; Claude Code</span><span class="how-panel__meta">sample departures</span></div>
+            <div class="how-term__body mono">
+              <p class="how-term__cmd"><span class="tk-c">$</span> claude mcp add --transport http nexttram https://app.nexttram.morgado.tech/api/mcp/&lt;code&gt;</p>
+              <p class="how-term__ask"><span class="how-term__gt">&gt;</span> <span class="sr-only">when do I have to leave for the tram?</span><span aria-hidden="true" data-term-type>when do I have to leave for the tram?</span></p>
+              <div class="how-term__rest" data-term-rest>
+                <p class="how-term__tool"><span class="how-term__dot">&#9210;</span> <b>nexttram</b> &middot; get_next_tram <span class="tk-c">(MCP)</span></p>
+                <p class="how-term__res"><span class="tk-c">&#9151;</span> Leave in 2 minutes for Tram 3 at Torgauer Platz. Or leave in 8 minutes for Tram 7 at Edlichstraße.</p>
+                <p class="how-term__say"><span class="how-term__dot how-term__dot--w">&#9210;</span> Leave in 2 minutes: tram 3 from Torgauer Platz.</p>
+              </div>
+            </div>
+          </div>
+          <figure class="how-code">
+            <figcaption class="mono">On the wire</figcaption>
+<pre><code><span class="tk-k">POST</span> /api/mcp/<span class="tk-f">k7qm2xrdp9vt</span>
+{ <span class="tk-s">"jsonrpc"</span>: <span class="tk-s">"2.0"</span>, <span class="tk-s">"id"</span>: 3, <span class="tk-s">"method"</span>: <span class="tk-s">"tools/call"</span>,
+  <span class="tk-s">"params"</span>: { <span class="tk-s">"name"</span>: <span class="tk-s">"get_next_tram"</span>, <span class="tk-s">"arguments"</span>: {} } }</code></pre>
+          </figure>
+        </div>
+      </article>
+
+      <!-- 05 Siri -->
+      <article class="grid12 how-step" data-how-step>
+        <div class="how-step__copy">
+          <p class="how-step__n mono"><b class="how-chip how-chip--tag" style="--c:#9d8cff">Siri</b>05 &middot; Siri</p>
+          <h3 class="h-md">Siri needs nothing but a URL.</h3>
+          <p>There is no iPhone app to install. Apple&rsquo;s own Shortcuts app fetches one URL and reads the reply aloud. The endpoint answers in plain text, in the iPhone&rsquo;s language, with the same sentence Alexa speaks, so it works on the iPhone, the Apple Watch and in CarPlay.</p>
+          <ul class="how-facts mono">
+            <li>1 GET request</li><li>text/plain</li><li>English &middot; Deutsch &middot; Português</li>
+          </ul>
+        </div>
+        <div class="how-step__vis">
+          <div class="how-panel how-sc">
+            <p class="how-sc__name">When is the next tram</p>
+            <ol class="how-sc__steps">
+              <li><span class="how-sc__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><span>Get contents of</span><code class="how-sc__pill mono">app.nexttram.morgado.tech/api/say?code=&hellip;</code></li>
+              <li><span class="how-sc__ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg></span><span>Speak</span><code class="how-sc__pill how-sc__pill--var mono">Contents of URL</code></li>
+            </ol>
+          </div>
+          <figure class="how-code">
+            <figcaption class="mono">On the wire</figcaption>
+<pre><code><span class="tk-k">GET</span> /api/say?code=<span class="tk-f">k7qm2xrdp9vt</span>
+Accept-Language: en-GB
+
+<span class="tk-k">200 OK</span>
+Content-Type: text/plain; charset=utf-8
+
+<span class="tk-s">Leave in 2 minutes for Tram 3 at Torgauer Platz. Or leave in 8 minutes for Tram 7 at Edlichstraße.</span></code></pre>
+          </figure>
+        </div>
+      </article>
+
+      <!-- How it is built -->
+      <div class="how-proof">
+        <div class="how-proof__text">
+          <h3 class="h-md">Built with Claude Code, shipped like a team&nbsp;would.</h3>
+          <p>nextTram was built in Claude Code sessions, one small pull request at a time. Every push runs the type check, the unit tests and a build in GitHub Actions, and every pull request gets its own Vercel preview before it goes live.</p>
+          <a class="how-proof__link mono" href="https://github.com/mateusmorgado/next-tram" target="_blank" rel="noopener">Read the code on GitHub &nearr;</a>
+        </div>
+        <ul class="how-proof__stats">
+          <li><b class="num">75</b><span>unit tests on every push, no network needed</span></li>
+          <li><b class="num">43</b><span>pull requests in the first 9&nbsp;days</span></li>
+          <li><b class="num">7</b><span>serverless functions, one shared TypeScript core</span></li>
+          <li><b class="num">0</b><span>API keys for timetable data</span></li>
+        </ul>
+      </div>
     </div>
   </section>
 
