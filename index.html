@@ -84,31 +84,62 @@
     </div>
   </section>
 
-  <!-- ============ INTEGRATIONS: Claude and ChatGPT over MCP, Siri, Alexa ============ -->
-  <section class="alexa" id="assistants" aria-labelledby="assist-title">
-    <div class="wrap alexa__grid">
+  <!-- ============ INTEGRATIONS: one card each, swipe sideways ============ -->
+  <section class="integr" id="assistants" aria-labelledby="integr-title">
+    <div class="wrap integr__head">
       <div>
-        <p class="alexa__kick"><b>AI integrations</b><span>MCP &middot; Siri Shortcut &middot; Alexa skill</span></p>
-        <h2 class="alexa__title" id="assist-title">Ask the AI <span>you already use.</span></h2>
-        <p class="alexa__lede">nextTram has its own <strong>MCP server</strong>, so <strong>Claude</strong> and <strong>ChatGPT</strong> can tell you when to leave for your tram, for your own stops and walk. <strong>Siri</strong> answers out loud through a Shortcut on iPhone and Apple Watch, and the <strong>Alexa</strong> skill is live in the Skill Store. Each one only needs your personal link from the app.</p>
-        <div class="alexa__btns">
-          <a class="btn btn--alexa" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener" data-magnetic><span>Connect your assistant</span><span aria-hidden="true">&rarr;</span></a>
-          <a class="btn btn--ghost" href="https://www.amazon.de/dp/B0HQ7KN3S1/" target="_blank" rel="noopener"><span>Alexa skill</span></a>
-        </div>
+        <p class="label">AI integrations</p>
+        <h2 class="h-lg" id="integr-title">Ask the assistant you already use.</h2>
       </div>
-      <div class="alexa__stage">
-        <ul class="assist" aria-label="Assistants that work with nextTram">
-          <li><b>Claude</b><span>MCP connector</span></li>
-          <li><b>ChatGPT</b><span>MCP connector</span></li>
-          <li><b>Siri</b><span>Shortcut, iPhone &amp; Watch</span></li>
-          <li><b>Alexa</b><span>Skill, Echo devices</span></li>
+      <div class="integr__nav">
+        <span class="integr__hint mono">Swipe for more &rarr;</span>
+        <button type="button" class="integr__btn" data-integr-prev aria-label="Previous integration">&larr;</button>
+        <button type="button" class="integr__btn" data-integr-next aria-label="Next integration">&rarr;</button>
+      </div>
+    </div>
+    <div class="integr__track" data-integr tabindex="0" aria-label="Integrations, scroll sideways">
+
+      <article class="icard icard--alexa" aria-labelledby="ic-alexa">
+        <div class="icard__copy">
+          <p class="icard__kick"><b>Alexa</b><span>Live in the Alexa Skill Store</span></p>
+          <h3 class="icard__title" id="ic-alexa">Now live on <span>Amazon Alexa.</span></h3>
+          <p class="icard__lede">nextTram passed <strong>Amazon&rsquo;s skill certification</strong>. Enable it for free and every Echo in your home knows <strong>when you need to leave for your tram</strong>, with live times and delays for Leipzig and Berlin.</p>
+          <a class="btn btn--alexa" href="https://www.amazon.de/dp/B0HQ7KN3S1/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span>Enable on Amazon</span><span aria-hidden="true">&rarr;</span></a>
+        </div>
+        <ul class="icard__say">
+          <li><small>You</small>&bdquo;Alexa, frag next tram, wann kommt die nächste Bahn?&ldquo;</li>
+          <li><small>Alexa</small>Die 3 Richtung Hauptbahnhof kommt in 6&nbsp;Minuten. Geh in 2&nbsp;Minuten los.</li>
         </ul>
-        <ul class="alexa__say">
+      </article>
+
+      <article class="icard icard--mcp" aria-labelledby="ic-mcp">
+        <div class="icard__copy">
+          <p class="icard__kick"><b>MCP</b><span>Claude &middot; ChatGPT</span></p>
+          <h3 class="icard__title" id="ic-mcp">Claude and ChatGPT <span>know your tram.</span></h3>
+          <p class="icard__lede">nextTram has its own <strong>MCP server</strong>. Add your personal link as a connector in <strong>Claude</strong> or <strong>ChatGPT</strong>, and they answer for your own stops and walk. No sign-in, nothing to install.</p>
+          <a class="btn btn--mcp" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener"><span>Get your link in the app</span><span aria-hidden="true">&rarr;</span></a>
+        </div>
+        <ul class="icard__say">
           <li><small>You, to Claude</small>When&rsquo;s my next tram?</li>
           <li><small>Claude &middot; via nextTram</small>Tram 3 to Hauptbahnhof leaves Torgauer Platz in 6&nbsp;minutes. Leave in&nbsp;2.</li>
         </ul>
-      </div>
+      </article>
+
+      <article class="icard icard--siri" aria-labelledby="ic-siri">
+        <div class="icard__copy">
+          <p class="icard__kick"><b>Siri</b><span>Shortcuts &middot; iPhone, Apple Watch, CarPlay</span></p>
+          <h3 class="icard__title" id="ic-siri">Hey Siri, <span>when is the next tram?</span></h3>
+          <p class="icard__lede">A two-step <strong>Shortcut</strong> reads the answer out loud on your iPhone, Apple Watch and in CarPlay. The app walks you through it and fills in your link.</p>
+          <a class="btn btn--siri" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener"><span>Set up the Shortcut</span><span aria-hidden="true">&rarr;</span></a>
+        </div>
+        <ul class="icard__say">
+          <li><small>You</small>Hey Siri, when is the next tram?</li>
+          <li><small>Siri</small>Leave in 2 minutes for tram 3 to Hauptbahnhof.</li>
+        </ul>
+      </article>
+
     </div>
+    <div class="wrap integr__dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i></div>
   </section>
 
   <!-- ============ TICKER: a stop display ============ -->

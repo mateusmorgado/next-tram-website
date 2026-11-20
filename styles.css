@@ -589,44 +589,62 @@ html.no-loader .loader { display: none; }
   .ticker__track { animation: none; }
 }
 
-/* ---------- AI integrations: Claude and ChatGPT (MCP), Siri, Alexa ----------
-   (class names kept from the Alexa launch section; the accent is the app's green) */
-:root { --alexa: #3ecf8e; --alexa-ink: #06281a; }
-.nav__links .nav__alexa { display: inline-flex; align-items: center; gap: 8px; background: var(--alexa); color: var(--alexa-ink); font-weight: 600; padding: 11px 16px; border-radius: 999px; transition: background .25s; }
+/* ---------- AI integrations: one card per assistant, scrolled sideways ---------- */
+:root { --alexa: #00caff; --alexa-ink: #04121f; --mcp: #d97757; --siri: #b18cff; }
+.nav__links .nav__alexa { display: inline-flex; align-items: center; gap: 8px; background: var(--go); color: #06281a; font-weight: 600; padding: 11px 16px; border-radius: 999px; transition: background .25s; }
 .nav__links .nav__alexa:hover { background: var(--paper); }
-.nav__links .nav__alexa i { width: 7px; height: 7px; border-radius: 50%; background: var(--alexa-ink); }
+.nav__links .nav__alexa i { width: 7px; height: 7px; border-radius: 50%; background: #06281a; }
 @media (max-width: 900px) { .nav__links a.nav__alexa { display: inline-flex; } }
 @media (max-width: 560px) { .nav__links { gap: 8px; } .nav__links a { white-space: nowrap; } .nav__links a.nav__alexa { padding: 9px 12px; } }
 @media (max-width: 420px) { .nav__brand span { display: none; } .nav__links a.nav__alexa i { display: none; } .nav__links a.nav__alexa, .nav__links .nav__cta { padding: 9px 11px; letter-spacing: .04em; } }
 
-
-.alexa { position: relative; overflow: hidden; isolation: isolate; background: var(--ink); padding-block: clamp(56px, 7vw, 110px); border-block: 1px solid var(--ink-3); }
-.alexa__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(32px, 5vw, 80px); align-items: center; }
-.alexa__kick { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin: 0 0 20px; font-family: var(--f-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--alexa); }
-.alexa__kick b { background: var(--alexa); color: var(--alexa-ink); font-weight: 500; padding: 7px 12px; border-radius: 6px; }
-.alexa__title { margin: 0; font-size: clamp(2.4rem, 5.2vw, 5.4rem); line-height: .9; letter-spacing: -0.05em; font-weight: 750; text-wrap: balance; }
-.alexa__title span { display: block; color: var(--alexa); }
-.alexa__lede { max-width: 44ch; margin: 22px 0 0; font-size: clamp(1rem, 1.25vw, 1.2rem); line-height: 1.4; color: var(--mute); }
-.alexa__lede strong { color: var(--paper); font-weight: 600; }
-.alexa__btns { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
-.btn--alexa { background: var(--alexa); color: var(--alexa-ink); }
-.btn--alexa:hover { background: var(--paper); }
-.btn--alexa svg { width: 22px; height: 22px; flex: none; }
-
-.alexa__stage { position: relative; display: grid; justify-items: center; gap: 20px; }
-.assist { width: 100%; max-width: 460px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.assist li { display: grid; gap: 4px; padding: 18px; border-radius: 18px; background: var(--ink-2); border: 1px solid var(--ink-3); }
-.assist b { font-size: clamp(1.2rem, 1.6vw, 1.5rem); font-weight: 650; letter-spacing: -0.02em; }
-.assist span { font-family: var(--f-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); }
-.alexa__say { width: 100%; max-width: 460px; display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.alexa__say li { padding: 14px 18px; border-radius: 18px 18px 18px 6px; background: rgb(255 255 255 / .06); border: 1px solid rgb(255 255 255 / .1); font-size: clamp(15px, 1.3vw, 18px); line-height: 1.35; }
-.alexa__say li:last-child { justify-self: end; border-radius: 18px 18px 6px 18px; background: var(--go-soft); border-color: rgb(62 207 142 / .35); color: #d9f7e8; }
-.alexa__say small { display: block; margin-bottom: 4px; font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
-.alexa__say li:last-child small { color: var(--go); }
-
-@media (max-width: 960px) {
-  .alexa__grid { grid-template-columns: 1fr; }
+.integr { padding-block: clamp(64px, 8vw, 120px); border-block: 1px solid var(--ink-3); overflow: hidden; }
+.integr__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; margin-bottom: clamp(28px, 4vw, 48px); }
+.integr__head .h-lg { margin-top: 14px; max-width: 14ch; }
+.integr__nav { display: flex; align-items: center; gap: 10px; }
+.integr__hint { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); margin-right: 6px; }
+.integr__btn { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--ink-3); color: var(--paper); font-size: 20px; transition: background .25s, color .25s, opacity .25s; }
+.integr__btn:hover { background: var(--paper); color: var(--ink); }
+.integr__btn:disabled { opacity: .3; pointer-events: none; }
+.integr__track {
+  display: grid; grid-auto-flow: column; grid-auto-columns: min(1080px, 84vw); gap: 20px;
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+  padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px)); scroll-padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px));
 }
+.integr__track::-webkit-scrollbar { display: none; }
+.integr__track:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; }
+.icard {
+  --acc: var(--alexa); --acc-ink: var(--alexa-ink);
+  scroll-snap-align: start; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 4vw, 64px); align-items: center;
+  padding: clamp(28px, 4vw, 56px); border-radius: 32px; background: var(--ink-2); border: 1px solid var(--ink-3);
+}
+.icard--mcp { --acc: var(--mcp); --acc-ink: #1d0d06; }
+.icard--siri { --acc: var(--siri); --acc-ink: #160a2e; }
+.icard__kick { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0 0 18px; font-family: var(--f-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--acc); }
+.icard__kick b { background: var(--acc); color: var(--acc-ink); font-weight: 500; padding: 7px 12px; border-radius: 6px; }
+.icard__title { margin: 0; font-size: clamp(2.1rem, 4.2vw, 4.4rem); line-height: .92; letter-spacing: -0.05em; font-weight: 750; text-wrap: balance; }
+.icard__title span { display: block; color: var(--acc); }
+.icard__lede { max-width: 44ch; margin: 20px 0 28px; font-size: clamp(1rem, 1.2vw, 1.15rem); line-height: 1.45; color: var(--mute); }
+.icard__lede strong { color: var(--paper); font-weight: 600; }
+.icard .btn { padding: 18px 28px; font-size: 17px; background: var(--acc); color: var(--acc-ink); }
+.icard .btn:hover { background: var(--paper); }
+.icard .btn svg { width: 22px; height: 22px; flex: none; }
+.icard__say { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.icard__say li { padding: 14px 18px; border-radius: 18px 18px 18px 6px; background: rgb(255 255 255 / .05); border: 1px solid rgb(255 255 255 / .1); font-size: clamp(15px, 1.2vw, 17px); line-height: 1.35; }
+.icard__say li:last-child { justify-self: end; border-radius: 18px 18px 6px 18px; background: var(--go-soft); border-color: rgb(62 207 142 / .35); color: #d9f7e8; }
+.icard__say small { display: block; margin-bottom: 4px; font-family: var(--f-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+.icard__say li:last-child small { color: var(--go); }
+.integr__dots { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
+.integr__dots i { width: 8px; height: 8px; border-radius: 4px; background: var(--ink-3); transition: width .3s var(--ease-out), background .3s; }
+.integr__dots i.is-on { width: 28px; background: var(--paper); }
+@media (max-width: 900px) {
+  .icard { grid-template-columns: 1fr; align-content: start; border-radius: 24px; }
+  .integr__track { grid-auto-columns: 86vw; gap: 12px; }
+  .integr__btn { display: none; }
+}
+
+.btn--alexa { background: var(--go); color: #06281a; }
+.btn--alexa:hover { background: var(--paper); }
 
 /* ---------- the app's own animations (assets/app-demos, built from the app repo) ----------
    intro.css styles them with the app's colour tokens: here they are, in the app's dark theme. */

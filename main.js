@@ -195,6 +195,20 @@
     }, { threshold: 0.5 }).observe(board);
   }
 
+  /* ---------- integrations: cards scrolled sideways, with arrows and dots ---------- */
+  const itrack = $('[data-integr]');
+  if (itrack) {
+    const icards = $$('.icard', itrack), idots = $$('.integr__dots i'), prev = $('[data-integr-prev]'), next = $('[data-integr-next]');
+    const current = () => { let k = 0, best = Infinity; icards.forEach((c, i) => { const d = Math.abs(c.offsetLeft - itrack.offsetLeft - itrack.scrollLeft - parseFloat(getComputedStyle(itrack).scrollPaddingLeft || 0)); if (d < best) { best = d; k = i; } }); return k; };
+    const go = k => { const c = icards[Math.max(0, Math.min(icards.length - 1, k))]; itrack.scrollTo({ left: c.offsetLeft - itrack.offsetLeft - parseFloat(getComputedStyle(itrack).scrollPaddingLeft || 0), behavior: reduce ? 'auto' : 'smooth' }); };
+    const sync = () => { const k = current(); idots.forEach((d, i) => d.classList.toggle('is-on', i === k)); if (prev) prev.disabled = k === 0; if (next) next.disabled = k === icards.length - 1; };
+    prev && prev.addEventListener('click', () => go(current() - 1));
+    next && next.addEventListener('click', () => go(current() + 1));
+    itrack.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+    itrack.addEventListener('keydown', e => { if (e.key === 'ArrowRight') { e.preventDefault(); go(current() + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(current() - 1); } });
+    sync();
+  }
+
   /* ---------- (03) the message changes while the section is on screen ---------- */
   const says = $$('.says__item');
   if (says.length > 1 && !reduce) {
