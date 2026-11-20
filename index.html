@@ -451,6 +451,10 @@
     </div>
 
     <!-- The five parts of the stack, one card each, scrolled sideways -->
+    <div class="wrap how__more">
+      <button type="button" class="how__toggle" aria-expanded="false" aria-controls="how-parts" data-how-toggle><i aria-hidden="true">+</i> <span data-how-label>See the five parts of the stack</span> <small>animated</small></button>
+    </div>
+    <div class="how__parts" id="how-parts" hidden>
     <div class="wrap how__head">
       <p class="how__count mono"><span data-how-n>01</span> / 05 &middot; Five parts of the stack</p>
       <div class="integr__nav">
@@ -625,6 +629,7 @@ Content-Type: text/plain; charset=utf-8
 
     </div>
     <div class="wrap how__dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i><i></i></div>
+    </div>
 
     <div class="wrap">
       <!-- How it is built -->
@@ -702,12 +707,7 @@ Content-Type: text/plain; charset=utf-8
   <section class="nos" id="private">
     <div class="wrap">
       <p class="label">(08) Private by design</p>
-      <ul class="nos__list">
-        <li><span class="nos__no">No</span> login.</li>
-        <li><span class="nos__no">No</span> database.</li>
-        <li><span class="nos__no">No</span> account.</li>
-      </ul>
-      <p class="body-lg nos__body">Your stops and walk times stay on your phone. There is nothing to sign up for and nothing to leak.</p>
+      <p class="nos__line"><span class="nos__no">No</span> <span class="nos__words" data-nos aria-hidden="true"><span class="is-on">login.</span><span>database.</span><span>account.</span></span><span class="sr-only">login, no database, no account.</span></p>
     </div>
   </section>
 
