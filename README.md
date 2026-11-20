@@ -12,9 +12,21 @@ npx serve .        # or: python3 -m http.server
 |---|---|
 | `index.html` | All sections |
 | `styles.css` | Design tokens at the top (one dark look, tram-yellow accent) |
-| `main.js` | Hero film reel, scroll choreography, live demos (app, walk slider, watch) |
+| `main.js` | Hero film reel, scroll choreography, live app + watch demo |
+| `assets/app-demos/` | The app's own "How it works" animations (the load race in (01), the 3D walk map in (07)), prebuilt from the app repo |
 | `assets/video/` | `ask`, `leave`, `run` films at 720p and 1080p, plus posters |
 | `assets/img/photo/` | Tram photos at 1200 and 2400 px, WebP and JPG |
+
+## App animations
+
+`assets/app-demos/` is built from the app's source (`src/app/screens/intro` in [next-tram](https://github.com/mateusmorgado/next-tram)) so the site shows exactly what the app shows. The built files are committed; to refresh them after the app changes:
+
+```bash
+git clone https://github.com/mateusmorgado/next-tram ../next-tram && (cd ../next-tram && npm ci)
+node tools/app-demos/build.mjs ../next-tram
+```
+
+The 3D map (three.js, about 500 KB) loads only when "Your pace" scrolls into view.
 
 ## Films
 

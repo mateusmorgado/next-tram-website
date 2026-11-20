@@ -52,7 +52,7 @@
   const CUES = [0, 2.65, 6.52];
   const VOICE = [
     { q: '“Hey Google, when’s the next tram?”', a: 'Tram 3 to Hauptbahnhof leaves Torgauer Platz in 6 minutes. Leave in 2.' },
-    { q: 'Timer running', a: 'Tram 3 is on time. Your 4 minute walk is already counted in.' },
+    { q: 'Timer running', a: 'Your 4 minute walk is already counted in.' },
     { q: 'Tram 3 · Torgauer Platz', a: 'Doors open. You made it.' }
   ];
   const FALLBACK_DUR = 15.4;
@@ -151,27 +151,6 @@
     requestAnimationFrame(mLoop);
   }
 
-  /* ---------- manifesto: words light up as you read ---------- */
-  const man = $('[data-manifesto]');
-  if (man) {
-    const words = man.textContent.trim().split(/\s+/);
-    man.innerHTML = words.map(w => `<span class="w">${w}</span>`).join(' ');
-    const spans = $$('.w', man);
-    const light = p => { const n = Math.round(p * spans.length); spans.forEach((s, i) => s.classList.toggle('is-lit', i < n)); };
-    if (motion) ScrollTrigger.create({ trigger: man, start: 'top 80%', end: 'bottom 45%', scrub: true, onUpdate: s => light(s.progress) });
-    else new IntersectionObserver(([e], o) => { if (e.isIntersecting) { light(1); o.disconnect(); } }).observe(man);
-  }
-
-  /* ---------- the one number counts down ---------- */
-  const punch = $('[data-punch]');
-  if (punch && !reduce) {
-    new IntersectionObserver(([e], o) => {
-      if (!e.isIntersecting) return; o.disconnect();
-      let n = 24; punch.textContent = n;
-      const t = setInterval(() => { n -= 1; punch.textContent = n; if (n <= 6) clearInterval(t); }, 60);
-    }, { threshold: 0.5 }).observe(punch);
-  }
-
   /* ---------- feed panel content (phones) ---------- */
   const feed = $('[data-feed]');
   if (feed) {
@@ -225,6 +204,7 @@
       { name: 'Edlichstraße', short: 'ES', walk: 2, line: '7', dest: 'Böhlitz-E.', next: 600, every: 600 },
       { name: 'Torgauer Platz', short: 'TP', walk: 4, line: '3', dest: 'Knautkleeberg', next: 389, every: 600 }
     ];
+    const W = { ghost: $('[data-w-ghost]'), stop: $('[data-w-stop]'), line: $('[data-w-line]'), dest: $('[data-w-dest]'), time: $('[data-w-time]'), leave: $('[data-w-leave]') };
     const cards = $$('[data-stopcard]');
     let last = performance.now();
     const SPEED = reduce ? 0 : 1; // a live timer: one second per second
@@ -241,67 +221,15 @@
       app.sec.textContent = `${Math.floor(best.next / 60)} min`; app.walk.textContent = `${best.walk} min walk`;
       const leave = Math.floor((best.next - best.walk * 60) / 60);
       app.leave.textContent = leave <= 0 ? 'Leave now' : `Leave in ${leave} min`;
+      // the watch shows the same answer as the phone
+      if (W.time) {
+        W.stop.textContent = best.name; W.dest.textContent = `→ ${best.dest}`;
+        W.line.textContent = W.ghost.textContent = best.line; W.line.dataset.line = W.ghost.dataset.line = best.line;
+        W.time.textContent = mmss(best.next); W.leave.textContent = app.leave.textContent;
+      }
     };
     const appVis = seen($('.device'));
     step(); setInterval(() => { if (appVis.on) step(); else last = performance.now(); }, 250);
-  }
-
-  /* ---------- walk slider + line ---------- */
-  const range = $('[data-walk]');
-  if (range) {
-    const MAX = 18;
-    const DEPS = [
-      { m: 1, line: '3', dest: 'Knautkleeberg' }, { m: 3, line: '8', dest: 'Grünau-Nord' }, { m: 6, line: '3', dest: 'Knautkleeberg' },
-      { m: 9, line: '8', dest: 'Grünau-Nord' }, { m: 13, line: '3', dest: 'Knautkleeberg' }, { m: 17, line: '8', dest: 'Grünau-Nord' }
-    ];
-    const out = $('[data-walk-out]'), leaveEl = $('[data-walk-leave]'), list = $('[data-walk-list]');
-    const lineEl = $('.wline'), ticks = $('[data-ticks]');
-    ticks.innerHTML = DEPS.map(d => `<span class="tick" style="left:${d.m / MAX * 100}%"><b class="badge" data-line="${d.line}">${d.line}</b><span class="mono">${d.m}&prime;</span></span>`).join('');
-    const tickEls = $$('.tick', ticks);
-    const render = () => {
-      const w = +range.value;
-      out.textContent = w;
-      range.setAttribute('aria-valuetext', `${w} minute walk`);
-      lineEl.style.setProperty('--w', w);
-      const pick = DEPS.find(d => d.m >= w);
-      const leave = pick ? pick.m - w : null;
-      leaveEl.textContent = leave === null ? 'Nothing you can make' : leave === 0 ? 'Leave now' : `Leave in ${leave} min`;
-      leaveEl.classList.toggle('is-now', leave === 0);
-      DEPS.forEach((d, i) => { tickEls[i].classList.toggle('is-tight', d.m < w); tickEls[i].classList.toggle('is-pick', d === pick); });
-      list.innerHTML = DEPS.slice(0, 4).map(d => {
-        const tight = d.m < w, isPick = d === pick;
-        return `<li class="${tight ? 'is-tight' : ''}"><b class="badge" data-line="${d.line}">${d.line}</b><span>${d.dest} <span class="mono">in ${d.m} min</span></span><span class="tag">${tight ? 'too tight' : isPick ? 'your tram' : ''}</span></li>`;
-      }).join('');
-    };
-    range.addEventListener('input', render); render();
-  }
-
-  /* ---------- watch face: live countdown, cycles routes ---------- */
-  const W = { ghost: $('[data-w-ghost]'), stop: $('[data-w-stop]'), line: $('[data-w-line]'), dest: $('[data-w-dest]'), time: $('[data-w-time]'), leave: $('[data-w-leave]') };
-  if (W.time && !reduce) {
-    const STATES = [
-      { ghost: 'M10', stop: 'S+U Warschauer Str.', line: 'M10', dest: '→ Friedrich', secs: 692, walk: 2, every: 300 },
-      { ghost: '3', stop: 'Torgauer Platz', line: '3', dest: '→ Knautkleeberg', secs: 389, walk: 4, every: 600 },
-      { ghost: '7', stop: 'Edlichstraße', line: '7', dest: '→ Böhlitz-E.', secs: 600, walk: 2, every: 600 }
-    ];
-    const face = $('.watch__face'); let k = 0, n = 0; const wVis = seen(face);
-    const tick = () => {
-      const s = STATES[k];
-      W.time.textContent = mmss(s.secs);
-      const leave = Math.floor(s.secs / 60) - s.walk;
-      W.leave.textContent = leave <= 0 ? 'Leave now' : `Leave in ${leave} min`;
-    };
-    setInterval(() => {
-      if (!wVis.on) return;
-      STATES.forEach(s => { s.secs -= 1; if (s.secs < s.walk * 60) s.secs += s.every; });
-      if (++n % 5) { tick(); return; }
-      k = (k + 1) % STATES.length; const s = STATES[k];
-      face.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, fill: 'forwards' }).onfinish = () => {
-        ['ghost', 'stop', 'line', 'dest'].forEach(key => { if (W[key]) W[key].textContent = s[key]; }); [W.line, W.ghost].forEach(el => { if (el) el.dataset.line = s.line; });
-        tick(); face.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, fill: 'forwards' });
-      };
-    }, 1000);
-    tick();
   }
 
   /* ---------- scroll choreography (GSAP) ---------- */
@@ -391,10 +319,6 @@
 
     // "No" lines slide up
     gsap.from('.nos__list li', { yPercent: 40, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.12, scrollTrigger: { trigger: '.nos__list', start: 'top 80%' } });
-    // the race rows
-    gsap.from('.race__row', { yPercent: 30, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.15, scrollTrigger: { trigger: '.race', start: 'top 85%' } });
-    // watch turns as you pass
-    gsap.fromTo('.watch__body', { rotate: -10, y: 40 }, { rotate: 6, y: -40, ease: 'none', scrollTrigger: { trigger: '.watch', start: 'top bottom', end: 'bottom top', scrub: true } });
     // footer word rises
     gsap.from('.foot__word', { yPercent: 40, ease: 'none', scrollTrigger: { trigger: '.foot', start: 'top bottom', end: 'bottom bottom', scrub: true } });
     addEventListener('load', () => ScrollTrigger.refresh());
