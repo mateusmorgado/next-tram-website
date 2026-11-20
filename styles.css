@@ -288,6 +288,16 @@ html.no-loader .loader { display: none; }
 .problem__text .body-lg { margin-top: 24px; color: var(--mute); }
 .problem__demo { grid-column: 7 / 13; height: clamp(380px, 38vw, 520px); }
 
+/* ---------- banner between 02 and 03: every mode, not only trams ---------- */
+.modes { background: var(--ink); border-block: 1px solid var(--ink-3); padding-block: clamp(40px, 5vw, 72px); }
+.modes__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px 48px; }
+.modes__copy { flex: 1 1 420px; max-width: 760px; }
+.modes__title { margin: 12px 0 0; font-size: clamp(1.6rem, 3vw, 2.8rem); line-height: 1; letter-spacing: -0.04em; font-weight: 750; text-wrap: balance; }
+.modes__lede { margin: 14px 0 0; max-width: 52ch; font-size: clamp(.98rem, 1.1vw, 1.1rem); line-height: 1.45; color: var(--mute); }
+/* the app's line badges, in its default colour per mode */
+.modes__badges { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.modes__badges li { min-width: 2.2em; padding: .32em .5em; border-radius: .28em; background: var(--m); color: #fff; text-align: center; font-family: var(--f-display); font-weight: 750; font-size: clamp(1.1rem, 1.8vw, 1.6rem); line-height: 1; letter-spacing: -0.01em; }
+
 /* ---------- full-bleed photo ---------- */
 .photo { position: relative; height: clamp(560px, 108svh, 1200px); overflow: hidden; display: flex; align-items: flex-end; }
 .photo picture, .cta picture, .stops picture { position: absolute; inset: 0; }
