@@ -52,8 +52,8 @@
   const vq = $('[data-voice-q]'), va = $('[data-voice-a]'), vt = $('[data-voice-t]');
   const CUES = [0, 2.65, 6.52];
   const VOICE = [
-    { q: '“Hey Google, when’s the next tram?”', a: 'Tram 3 to Hauptbahnhof leaves Torgauer Platz in 6 minutes. Leave in 2.' },
-    { q: 'Timer running', a: 'Your 4 minute walk is already counted in.' },
+    { q: '“Hey Google, when’s the next tram?”', a: 'Tram 3 in 6 min. Leave in 2.' },
+    { q: 'Timer running', a: '' },
     { q: 'Tram 3 · Torgauer Platz', a: 'Doors open. You made it.' }
   ];
   const FALLBACK_DUR = 15.4;
