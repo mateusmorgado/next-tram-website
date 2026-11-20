@@ -40,7 +40,7 @@
     <a href="#bridge">How it works</a>
     <a href="#walk">Your pace</a>
     <a href="#watch">Watch</a>
-    <a class="nav__alexa" href="#alexa"><i></i><span>Alexa<span class="nav__alexa-long">: now live</span></span></a>
+    <a class="nav__alexa" href="#alexa"><i></i><span>Alexa integration</span></a>
     <a class="nav__cta" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener">Open the app</a>
   </nav>
 </header>
@@ -58,7 +58,6 @@
     </div>
 
     <div class="hero__inner">
-      <a class="hero__flag" href="#alexa"><b>New</b><span>Now live on Amazon Alexa</span><span aria-hidden="true">&darr;</span></a>
       <p class="hero__kicker mono">Leipzig LVB &middot; Berlin BVG &middot; Android &amp; Wear OS</p>
 
       <div class="subs">
@@ -70,11 +69,11 @@
       <p class="sr-only" aria-live="polite" data-voice-sr></p>
       <h1 class="hero__title" data-hero-title>
         <span class="line"><span class="word">Just</span> <span class="word serif">ask.</span></span>
-        <span class="line"><span class="word">Next</span> <span class="word">tram.</span></span>
+        <span class="line"><span class="word">nextTram.</span></span>
       </h1>
 
       <div class="hero__bottom">
-        <p class="hero__lede">The tram app that lives inside your voice assistant. Your stop, your direction, your walking pace. One answer, and no app to open.</p>
+        <p class="hero__lede"><strong>nextTram</strong> is the tram app that gives you the information you want: when the next tram leaves.</p>
         <ol class="chapters" aria-label="Film chapters">
           <li><button type="button" class="chapter is-active" data-chapter="0"><span class="chapter__n">01</span><span class="chapter__t">Ask</span><span class="chapter__p"><i></i></span></button></li>
           <li><button type="button" class="chapter" data-chapter="1"><span class="chapter__n">02</span><span class="chapter__t">Leave</span><span class="chapter__p"><i></i></span></button></li>
@@ -88,7 +87,7 @@
   <section class="alexa" id="alexa" aria-labelledby="alexa-title">
     <div class="wrap alexa__grid">
       <div>
-        <p class="alexa__kick"><b>Launch</b><span>Nov 2026</span><span>Amazon Alexa Skill Store</span></p>
+        <p class="alexa__kick"><b>Alexa integration</b><span>Amazon Alexa Skill Store</span></p>
         <h2 class="alexa__title" id="alexa-title">Now live on <span>Amazon Alexa.</span></h2>
         <p class="alexa__lede">nextTram passed <strong>Amazon&rsquo;s skill certification</strong> and is public in the Alexa Skill Store. Enable it for free and every Echo in your home knows <strong>when you need to leave for your tram</strong>, with live times and delays for Leipzig and Berlin.</p>
         <ul class="alexa__facts">
@@ -106,7 +105,7 @@
         <div class="echo" aria-hidden="true">
           <span class="echo__wave"></span><span class="echo__wave"></span><span class="echo__wave"></span>
           <span class="echo__body"><img class="echo__mark" src="assets/img/icon.svg" alt="" width="120" height="120"></span>
-          <span class="echo__min"><b class="t-line">3</b> Hauptbahnhof <em>6 min</em></span>
+          <span class="echo__min"><b class="t-line" data-line="3">3</b> Hauptbahnhof <em>6 min</em></span>
         </div>
         <ul class="alexa__say">
           <li><small>You</small>&bdquo;Alexa, frag next tram, wann kommt die nächste Bahn?&ldquo;</li>
@@ -119,17 +118,17 @@
   <!-- ============ TICKER: a stop display ============ -->
   <div class="ticker" role="img" aria-label="Live-style ticker: No login. No database. No delay math. Leipzig and Berlin.">
     <div class="ticker__track dot" data-marquee aria-hidden="true">
-      <span><b class="t-line">3</b> Knautkleeberg <em>6 min</em></span><span class="t-sep">&#9679;</span>
+      <span><b class="t-line" data-line="3">3</b> Knautkleeberg <em>6 min</em></span><span class="t-sep">&#9679;</span>
       <span>No login</span><span class="t-sep">&#9679;</span>
-      <span><b class="t-line">8</b> Grünau-Nord <em>9 min</em></span><span class="t-sep">&#9679;</span>
+      <span><b class="t-line" data-line="8">8</b> Grünau-Nord <em>9 min</em></span><span class="t-sep">&#9679;</span>
       <span>No database</span><span class="t-sep">&#9679;</span>
-      <span><b class="t-line">M10</b> Hauptbahnhof <em>4 min</em></span><span class="t-sep">&#9679;</span>
+      <span><b class="t-line" data-line="M10">M10</b> Hauptbahnhof <em>4 min</em></span><span class="t-sep">&#9679;</span>
       <span>No delay math</span><span class="t-sep">&#9679;</span>
-      <span><b class="t-line">3</b> Knautkleeberg <em>6 min</em></span><span class="t-sep">&#9679;</span>
+      <span><b class="t-line" data-line="3">3</b> Knautkleeberg <em>6 min</em></span><span class="t-sep">&#9679;</span>
       <span>No login</span><span class="t-sep">&#9679;</span>
-      <span><b class="t-line">8</b> Grünau-Nord <em>9 min</em></span><span class="t-sep">&#9679;</span>
+      <span><b class="t-line" data-line="8">8</b> Grünau-Nord <em>9 min</em></span><span class="t-sep">&#9679;</span>
       <span>No database</span><span class="t-sep">&#9679;</span>
-      <span><b class="t-line">M10</b> Hauptbahnhof <em>4 min</em></span><span class="t-sep">&#9679;</span>
+      <span><b class="t-line" data-line="M10">M10</b> Hauptbahnhof <em>4 min</em></span><span class="t-sep">&#9679;</span>
       <span>No delay math</span><span class="t-sep">&#9679;</span>
     </div>
   </div>

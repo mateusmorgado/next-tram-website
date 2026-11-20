@@ -52,7 +52,7 @@
   const CUES = [0, 2.65, 6.52];
   const VOICE = [
     { q: '“Hey Google, when’s the next tram?”', a: 'Tram 3 to Hauptbahnhof leaves Torgauer Platz in 6 minutes. Leave in 2.' },
-    { q: 'Timer running', a: 'Tram 3 is on time. Your 4 minute walk is already counted in.' },
+    { q: 'Timer running', a: 'Your 4 minute walk is already counted in.' },
     { q: 'Tram 3 · Torgauer Platz', a: 'Doors open. You made it.' }
   ];
   const FALLBACK_DUR = 15.4;
