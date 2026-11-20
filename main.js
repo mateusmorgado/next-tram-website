@@ -138,6 +138,22 @@
     }, { threshold: 0.05 }).observe($('[data-hero]'));
   }
 
+  /* ---------- 08: No login. / No database. / No account. ---------- */
+  const nos = $('[data-nos]');
+  if (nos && !reduce) {
+    const words = $$('span', nos); let k = 0, timer = null;
+    const step = () => {
+      const prev = words[k]; k = (k + 1) % words.length;
+      prev.classList.remove('is-on'); prev.classList.add('is-out');
+      words[k].classList.remove('is-out'); words[k].classList.add('is-on');
+      setTimeout(() => prev.classList.remove('is-out'), 650);
+    };
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !timer) timer = setInterval(step, 2200);
+      else if (!e.isIntersecting) { clearInterval(timer); timer = null; }
+    }).observe(nos);
+  }
+
   /* ---------- lazy films ---------- */
   const lazyIO = new IntersectionObserver(entries => entries.forEach(e => {
     const v = e.target;
@@ -199,6 +215,16 @@
       steps.forEach(s => stepIO.observe(s));
     }
 
+    // the five parts stay folded until the visitor opens them
+    const htoggle = $('[data-how-toggle]', how), hparts = $('#how-parts');
+    if (htoggle && hparts) htoggle.addEventListener('click', () => {
+      const open = htoggle.getAttribute('aria-expanded') !== 'true';
+      htoggle.setAttribute('aria-expanded', String(open));
+      hparts.hidden = !open;
+      const lab = $('[data-how-label]', htoggle); if (lab) lab.textContent = open ? 'Hide the five parts' : 'See the five parts of the stack';
+      if (open) how.dispatchEvent(new Event('how:open'));
+    });
+
     // the cards scroll sideways: arrows, dots, a 01 / 05 counter and the arrow keys
     const htrack = $('[data-how-track]', how);
     if (htrack) {
@@ -218,6 +244,7 @@
       htrack.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
       htrack.addEventListener('keydown', e => { if (e.key === 'ArrowRight') { e.preventDefault(); go(current() + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(current() - 1); } });
       sync();
+      how.addEventListener('how:open', () => requestAnimationFrame(sync));
     }
 
     // the map: hover or tap a line to follow it, the rest fades
@@ -401,7 +428,6 @@
     }
 
     // "No" lines slide up
-    gsap.from('.nos__list li', { yPercent: 40, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.12, scrollTrigger: { trigger: '.nos__list', start: 'top 80%' } });
     // footer word rises
     gsap.from('.foot__word', { yPercent: 40, ease: 'none', scrollTrigger: { trigger: '.foot', start: 'top bottom', end: 'bottom bottom', scrub: true } });
     addEventListener('load', () => ScrollTrigger.refresh());
