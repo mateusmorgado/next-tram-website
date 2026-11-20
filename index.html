@@ -448,9 +448,21 @@
           </span>
         </figcaption>
       </figure>
+    </div>
+
+    <!-- The five parts of the stack, one card each, scrolled sideways -->
+    <div class="wrap how__head">
+      <p class="how__count mono"><span data-how-n>01</span> / 05 &middot; Five parts of the stack</p>
+      <div class="integr__nav">
+        <span class="integr__hint mono">Swipe for more &rarr;</span>
+        <button type="button" class="integr__btn" data-how-prev aria-label="Previous part">&larr;</button>
+        <button type="button" class="integr__btn" data-how-next aria-label="Next part">&rarr;</button>
+      </div>
+    </div>
+    <div class="how__track" data-how-track tabindex="0" aria-label="How it works, five cards, scroll sideways">
 
       <!-- 01 Fetch -->
-      <article class="grid12 how-step" data-how-step>
+      <article class="how-step" data-how-step>
         <div class="how-step__copy">
           <p class="how-step__n mono"><b class="how-chip how-chip--tag" style="--c:#ffd400">App</b>01 &middot; Fetch</p>
           <h3 class="h-md">Your phone asks the timetable directly.</h3>
@@ -482,7 +494,7 @@
       </article>
 
       <!-- 02 No user database -->
-      <article class="grid12 how-step" data-how-step>
+      <article class="how-step" data-how-step>
         <div class="how-step__copy">
           <p class="how-step__n mono"><b class="how-chip how-chip--tag" style="--c:#a7a9b0">Sync</b>02 &middot; No user database</p>
           <h3 class="h-md">No accounts. Your stops stay on your phone.</h3>
@@ -520,7 +532,7 @@
       </article>
 
       <!-- 03 Serverless, with the live numbers -->
-      <article class="grid12 how-step" data-how-step>
+      <article class="how-step" data-how-step>
         <div class="how-step__copy">
           <p class="how-step__n mono"><b class="how-chip how-chip--tag how-chip--vercel">Vercel</b>03 &middot; Serverless</p>
           <h3 class="h-md">Seven small functions. One shared core.</h3>
@@ -549,7 +561,7 @@
       </article>
 
       <!-- 04 Claude Code over MCP -->
-      <article class="grid12 how-step" data-how-step>
+      <article class="how-step" data-how-step>
         <div class="how-step__copy">
           <p class="how-step__n mono"><b class="how-chip how-chip--tag" style="--c:#e8845f">MCP</b>04 &middot; Claude Code</p>
           <h3 class="h-md">Claude Code calls it as a tool.</h3>
@@ -581,7 +593,7 @@
       </article>
 
       <!-- 05 Siri -->
-      <article class="grid12 how-step" data-how-step>
+      <article class="how-step" data-how-step>
         <div class="how-step__copy">
           <p class="how-step__n mono"><b class="how-chip how-chip--tag" style="--c:#9d8cff">Siri</b>05 &middot; Siri</p>
           <h3 class="h-md">Siri needs nothing but a URL.</h3>
@@ -611,6 +623,10 @@ Content-Type: text/plain; charset=utf-8
         </div>
       </article>
 
+    </div>
+    <div class="wrap how__dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i><i></i></div>
+
+    <div class="wrap">
       <!-- How it is built -->
       <div class="how-proof">
         <div class="how-proof__text">
@@ -641,39 +657,11 @@ Content-Type: text/plain; charset=utf-8
     </div>
   </section>
 
-  <!-- ============ 05 DIRECTION ============ -->
-  <section class="direction" id="direction">
-    <div class="wrap grid12">
-      <div class="direction__text">
-        <p class="label">(06) Direction first</p>
-        <h2 class="h-lg">Only the trams going your way.</h2>
-        <p class="body-lg">A stop board lists every tram heading everywhere. You only ever go one way. nextTram answers for the direction you set, and flips it for the trip home with one tap.</p>
-        <div class="toggle" role="group" aria-label="Board view">
-          <button type="button" class="toggle__btn" data-board="all" aria-pressed="false">Every tram</button>
-          <button type="button" class="toggle__btn is-on" data-board="mine" aria-pressed="true">Towards Hauptbahnhof</button>
-        </div>
-      </div>
-      <div class="board" data-board-el data-view="mine">
-        <div class="board__head mono"><span>Torgauer Platz</span><span data-clock>18:07</span></div>
-        <ul class="board__rows">
-          <li class="is-other"><b class="badge" data-line="3">3</b><span>Taucha</span><span class="board__min">2</span></li>
-          <li class="is-other"><b class="badge" data-line="8">8</b><span>Paunsdorf-Nord</span><span class="board__min">3</span></li>
-          <li class="is-mine"><b class="badge" data-line="3">3</b><span>Knautkleeberg <small>via Hbf</small></span><span class="board__min">6</span></li>
-          <li class="is-other"><b class="badge" data-line="3">3</b><span>Sommerfeld</span><span class="board__min">8</span></li>
-          <li class="is-mine"><b class="badge" data-line="8">8</b><span>Grünau-Nord <small>via Hbf</small></span><span class="board__min">9</span></li>
-          <li class="is-other"><b class="badge" data-line="8">8</b><span>Paunsdorf-Nord</span><span class="board__min">13</span></li>
-          <li class="is-mine"><b class="badge" data-line="3">3</b><span>Knautkleeberg <small>via Hbf</small></span><span class="board__min">16</span></li>
-        </ul>
-        <p class="board__note mono">Sample departures</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 07 WALK ============ -->
+  <!-- ============ 06 WALK ============ -->
   <section class="walk" id="walk" data-walk-section>
     <div class="wrap grid12 walk__inner">
       <div class="walk__text">
-        <p class="label">(07) Your pace</p>
+        <p class="label">(06) Your pace</p>
         <h2 class="h-lg">Nobody knows your walk like you do.</h2>
         <p class="body-lg">Google Maps sends you out the front door and around the block, at an average pace. It doesn&rsquo;t know your back exit. In nextTram you set your own walking time, or time a real walk, and &ldquo;Leave in&rdquo; follows it.</p>
       </div>
@@ -683,10 +671,10 @@ Content-Type: text/plain; charset=utf-8
     </div>
   </section>
 
-  <!-- ============ 08 DELAYS ============ -->
+  <!-- ============ 07 DELAYS ============ -->
   <section class="late" id="late">
     <div class="wrap">
-      <p class="label">(08) Delays</p>
+      <p class="label">(07) Delays</p>
       <h2 class="h-xl late__title">Late? Already counted.</h2>
       <div class="eq" data-eq role="img" aria-label="Instead of working out 18:13 plus 4 minutes delay minus a 4 minute walk, you hear: leave in 2 minutes">
         <div class="eq__old mono" aria-hidden="true"><span>18:13</span><span class="eq__delay">+4</span><span>&minus;&nbsp;4&nbsp;walk</span><span>=&nbsp;?</span></div>
@@ -699,7 +687,7 @@ Content-Type: text/plain; charset=utf-8
     </div>
   </section>
 
-  <!-- ============ 09 FILM: run ============ -->
+  <!-- ============ 08 FILM: run ============ -->
   <section class="film film--run" data-film>
     <div class="film__frame" data-film-frame>
       <video muted playsinline loop preload="none" poster="assets/video/run-poster.jpg" data-src="assets/video/run" data-lazy></video>
@@ -710,10 +698,10 @@ Content-Type: text/plain; charset=utf-8
     </div>
   </section>
 
-  <!-- ============ 09 PRIVACY ============ -->
+  <!-- ============ 08 PRIVACY ============ -->
   <section class="nos" id="private">
     <div class="wrap">
-      <p class="label">(09) Private by design</p>
+      <p class="label">(08) Private by design</p>
       <ul class="nos__list">
         <li><span class="nos__no">No</span> login.</li>
         <li><span class="nos__no">No</span> database.</li>
