@@ -185,34 +185,100 @@
     requestAnimationFrame(mLoop);
   }
 
-  /* ---------- feed panel content (phones) ---------- */
-  const feed = $('[data-feed]');
-  if (feed) {
-    const rows = [
-      ['18:07:04', 'LVB', '3', 'Taucha', '+0'], ['18:07:04', 'LVB', '8', 'Paunsdorf-Nord', '+1'], ['18:07:05', 'LVB', '3', 'Knautkleeberg', '+0', 1],
-      ['18:07:05', 'LVB', '7', 'Sommerfeld', '+2'], ['18:07:06', 'BVG', 'M10', 'Hauptbahnhof', '+0'], ['18:07:06', 'LVB', '8', 'Grünau-Nord', '+4'],
-      ['18:07:07', 'BVG', 'M13', 'Virchow-Klinikum', '+1'], ['18:07:07', 'LVB', '7', 'Böhlitz-E.', '+0'], ['18:07:08', 'LVB', '3', 'Knautkleeberg', '+0', 1],
-      ['18:07:08', 'LVB', 'N17', 'Sommerfeld', '+0'], ['18:07:09', 'BVG', '12', 'Am Kupfergraben', '+3'], ['18:07:09', 'LVB', '15', 'Meusdorf', '+0']
-    ];
-    const html = rows.map(r => `<div${r[5] ? ' class="hl"' : ''}>${r[0]}  ${r[1]}  ${r[2].padEnd(4, ' ')} ${r[3].padEnd(17, ' ')} ${r[4]}</div>`).join('');
-    feed.innerHTML = html + html;
-  }
+  /* ---------- 04 how it works: line map, live call counts, small reveals ---------- */
+  const how = $('[data-how]');
+  if (how) {
+    // each step plays its small animation once, when it comes into view
+    const steps = $$('[data-how-step]', how);
+    if (reduce || !('IntersectionObserver' in window)) steps.forEach(s => s.classList.add('is-on'));
+    else {
+      const stepIO = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('is-on'); stepIO.unobserve(e.target); }
+      }), { threshold: 0.3 });
+      steps.forEach(s => stepIO.observe(s));
+    }
 
-  /* ---------- ring timers (2 minutes shown in 24 seconds) ---------- */
-  const rings = $$('[data-ring]');
-  if (rings.length) {
-    const C = 2 * Math.PI * 88; rings.forEach(r => { r.style.strokeDasharray = C; });
-    const labels = $$('[data-ring-t]');
-    const t0 = performance.now();
-    const ringVis = rings.map(el => seen(el.closest('svg')));
-    const rLoop = now => {
-      if (!reduce && !ringVis.some(v => v.on)) { requestAnimationFrame(rLoop); return; }
-      const s = reduce ? 0 : ((now - t0) / 200) % 120;
-      rings.forEach(r => { r.style.strokeDashoffset = (C * s / 120).toFixed(1); });
-      labels.forEach(l => { l.textContent = mmss(120 - s); });
-      if (!reduce) requestAnimationFrame(rLoop);
-    };
-    requestAnimationFrame(rLoop);
+    // the map: hover or tap a line to follow it, the rest fades
+    const map = $('[data-how-map]', how);
+    if (map) {
+      const btns = $$('[data-ln-btn]', map), parts = $$('svg [data-ln]', map);
+      let fixed = null;
+      const focus = ln => parts.forEach(p => p.classList.toggle('is-dim', Boolean(ln) && p.dataset.ln !== ln));
+      btns.forEach(b => {
+        const ln = b.dataset.lnBtn;
+        b.addEventListener('click', () => {
+          fixed = fixed === ln ? null : ln;
+          btns.forEach(x => x.setAttribute('aria-pressed', String(x.dataset.lnBtn === fixed)));
+          focus(fixed);
+        });
+        b.addEventListener('mouseenter', () => focus(ln));
+        b.addEventListener('mouseleave', () => focus(fixed));
+      });
+    }
+
+    // the live board: real call counts from the production API (public, counts only)
+    const board = $('[data-how-stats]', how);
+    if (board) {
+      const note = $('[data-stats-note]', how);
+      const countTo = (el, n) => {
+        if (reduce) { el.textContent = n.toLocaleString('en-GB'); return; }
+        const t0 = performance.now(), dur = 900;
+        const stepN = now => {
+          const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+          el.textContent = Math.round(n * e).toLocaleString('en-GB');
+          if (k < 1) requestAnimationFrame(stepN);
+        };
+        requestAnimationFrame(stepN);
+      };
+      const show = d => {
+        const counts = {};
+        d.services.forEach(s => { counts[s.name] = Math.max(0, Number(s.count) || 0); });
+        counts.total = Math.max(0, Number(d.total) || 0);
+        $$('[data-stat]', board).forEach(el => countTo(el, counts[el.dataset.stat] || 0));
+        const days = Array.isArray(d.daily) ? d.daily.map(n => Math.max(0, Number(n) || 0)) : [];
+        const max = Math.max(1, ...days), spark = $('[data-spark]', board);
+        if (spark) spark.innerHTML = days.map(n => `<i class="${n ? '' : 'is-zero'}" style="height:${Math.max(6, Math.round(n / max * 100))}%"></i>`).join('');
+        board.dataset.state = 'live';
+      };
+      const fail = () => {
+        board.dataset.state = 'error';
+        if (note) note.innerHTML = 'The live counts can&rsquo;t be reached right now. They come from <a class="mono" href="https://app.nexttram.morgado.tech/api/stats" target="_blank" rel="noopener">/api/stats</a>, one Redis counter per function and day.';
+      };
+      const load = () => {
+        const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+        const timer = ctrl && setTimeout(() => ctrl.abort(), 8000);
+        fetch('https://app.nexttram.morgado.tech/api/stats', ctrl ? { signal: ctrl.signal } : undefined)
+          .then(r => (r.ok ? r.json() : Promise.reject(new Error(`HTTP ${r.status}`))))
+          .then(d => { if (!d || !Array.isArray(d.services)) throw new Error('Unexpected reply'); show(d); })
+          .catch(fail)
+          .finally(() => clearTimeout(timer));
+      };
+      if ('IntersectionObserver' in window) {
+        const boardIO = new IntersectionObserver(([e]) => { if (e.isIntersecting) { boardIO.disconnect(); load(); } }, { rootMargin: '600px 0px' });
+        boardIO.observe(board);
+      } else load();
+    }
+
+    // the terminal types its question, then Claude answers
+    const term = $('[data-how-term]', how);
+    const typed = term && $('[data-term-type]', term);
+    if (typed && !reduce && 'IntersectionObserver' in window) {
+      const full = typed.textContent;
+      typed.textContent = '';
+      term.classList.add('is-waiting');
+      const termIO = new IntersectionObserver(([e]) => {
+        if (!e.isIntersecting) return;
+        termIO.disconnect();
+        let i = 0;
+        const type = () => {
+          typed.textContent = full.slice(0, ++i);
+          if (i < full.length) setTimeout(type, 30 + Math.random() * 45);
+          else setTimeout(() => term.classList.remove('is-waiting'), 500);
+        };
+        setTimeout(type, 400);
+      }, { threshold: 0.6 });
+      termIO.observe(term);
+    }
   }
 
   /* ---------- direction board ---------- */
@@ -292,7 +358,6 @@
   }
 
   /* ---------- scroll choreography (GSAP) ---------- */
-  const panels = $$('.panel');
   if (motion) {
     const mm = gsap.matchMedia();
 
@@ -315,48 +380,6 @@
       $$('[data-film-frame]').forEach(f => {
         gsap.fromTo(f, { clipPath: inset }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none', scrollTrigger: { trigger: f, start: 'top 85%', end: 'top 15%', scrub: true } });
       });
-
-      if (!ctx.conditions.wide) {
-        panels.forEach(p => ScrollTrigger.create({ trigger: p, start: 'top 65%', onEnter: () => p.classList.add('is-on') }));
-        return;
-      }
-
-      // How it works: one board through three states, pinned
-      const sec = $('[data-bridge]'), stage = $('[data-stage]'), wrapEl = $('[data-stage-wrap]');
-      sec.classList.add('has-stage');
-      const words = $$('[data-sw]', stage), steps = $$('[data-ss]', stage), ticksEl = $$('[data-st]', stage);
-      const rows = $$('[data-sboard-rows] li', stage), keep = $('.is-keep', stage), others = rows.filter(r => r !== keep);
-      const setTick = i => ticksEl.forEach((t, k) => t.classList.toggle('is-on', k <= i));
-      setTick(0);
-      const swap = (a, b) => {
-        tl.to(words[a], { opacity: 0, scale: 0.92, duration: 0.35 })
-          .to(steps[a], { opacity: 0, y: -20, duration: 0.25 }, '<')
-          .to(words[b], { opacity: 1, scale: 1, duration: 0.35 }, '>-0.1')
-          .to(steps[b], { opacity: 1, y: 0, duration: 0.25 }, '<');
-      };
-      gsap.set(words.slice(1), { opacity: 0, scale: 1.08 });
-      gsap.set(steps.slice(1), { opacity: 0, y: 20 });
-      const tl = gsap.timeline({
-        defaults: { ease: 'power2.inOut' },
-        scrollTrigger: {
-          trigger: wrapEl, start: 'top top', end: 'bottom bottom', scrub: 0.6,
-          onUpdate: s => setTick(s.progress < 0.36 ? 0 : s.progress < 0.7 ? 1 : 2)
-        }
-      });
-      // 1 fetch: rows pour in as the board arrives (outside the scrubbed timeline)
-      gsap.from(rows, { opacity: 0, x: 40, stagger: 0.06, duration: 0.8, ease: 'expo.out', scrollTrigger: { trigger: wrapEl, start: 'top 75%' } });
-      tl.to({}, { duration: 0.6 });
-      // 2 strip
-      swap(0, 1);
-      tl.to(others, { height: 0, paddingTop: 0, paddingBottom: 0, opacity: 0, borderWidth: 0, stagger: 0.04, duration: 0.6 }, '<')
-        .to(keep, { backgroundColor: '#14382a', boxShadow: 'inset 0 0 0 2px #3ecf8e', scale: 1.12, duration: 0.4 }, '-=0.2')
-        .to({}, { duration: 0.5 });
-      // 3 say
-      swap(1, 2);
-      tl.to('[data-sboard]', { opacity: 0, scale: 0.9, filter: 'blur(6px)', duration: 0.5 }, '<')
-        .fromTo('[data-ssay]', { opacity: 0, scale: 1.1 }, { opacity: 1, scale: 1, duration: 0.5 }, '-=0.2')
-        .to({}, { duration: 0.5 });
-      return () => { sec.classList.remove('has-stage'); };
     });
 
     // the delay sum collapses into one instruction
@@ -374,9 +397,6 @@
     gsap.from('.foot__word', { yPercent: 40, ease: 'none', scrollTrigger: { trigger: '.foot', start: 'top bottom', end: 'bottom bottom', scrub: true } });
     addEventListener('load', () => ScrollTrigger.refresh());
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
-  } else {
-    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('is-on'); }), { threshold: 0.4 });
-    panels.forEach(p => io.observe(p));
   }
 
   /* ---------- cursor + magnetic buttons (fine pointers only) ---------- */
