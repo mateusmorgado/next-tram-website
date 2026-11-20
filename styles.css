@@ -225,6 +225,26 @@ html.no-loader .loader { display: none; }
 }
 .hero__title .line { display: block; overflow: hidden; padding-bottom: .07em; margin-bottom: -.07em; }
 .hero__title .word { display: inline-block; will-change: transform; }
+/* Two trams drive through "nextTram." left to right, the letters as the window
+   (the stripes are placed on the lowercase letters' height, baseline at ~10% of the box):
+   first an LVB Leipzig car (blue skirt, silver body, yellow roof), then a BVG Berlin one
+   (black skirt, yellow body, black window band, white roof). Each pass takes about a second. */
+.word--trams { position: relative; }
+.tram {
+  position: absolute; inset: 0; pointer-events: none;
+  color: transparent; -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text; background-clip: text;
+  background-repeat: no-repeat; background-size: 75% 100%; background-position: -400% 0;
+  animation: tramPass 8s cubic-bezier(.45, 0, .55, 1) 1.6s infinite;
+}
+.tram--lvb { background-image: linear-gradient(to top, #1f5fae 0 21%, #c9cdd2 21% 40%, #e8eaed 40% 50%, #b9bec4 50% 57%, #f2a91c 57% 100%); }
+.tram--bvg { background-image: linear-gradient(to top, #141414 0 17%, #f6c400 17% 37%, #141414 37% 59%, #f4f4f2 59% 100%); animation-delay: 3s; }
+@keyframes tramPass {
+  0% { background-position: -400% 0; }
+  13% { background-position: 400% 0; }
+  100% { background-position: 400% 0; }
+}
+@media (prefers-reduced-motion: reduce) { .tram { display: none; } }
 .hero__title .serif { letter-spacing: -0.06em; padding-right: .04em; }
 .hero__bottom { grid-row: 4; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 32px; align-items: end; }
 .hero__lede { margin: 0; max-width: 30em; font-size: clamp(1rem, 1.2vw, 1.18rem); color: rgb(242 242 240 / .8); }
