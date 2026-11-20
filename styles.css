@@ -251,6 +251,10 @@ html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
 .hero__reel { position: absolute; inset: 0; overflow: hidden; will-change: clip-path; }
 .reel__clip { position: absolute; inset: 0; margin: 0; overflow: hidden; }
 .reel__clip video, .film__frame video { filter: var(--film-filter); }
+/* (05) plays clear: no colour grade, only a light grain */
+.film--clear .film__frame video { filter: none; }
+.film--clear .film-tone { display: none; }
+.film--clear .fine-grain { opacity: .14; }
 .reel__clip video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.01); animation: drift 16s ease-in-out infinite alternate; }
 @keyframes drift { from { transform: scale(1.01); } to { transform: scale(1.06); } }
 /* fine, light grain over the hero and the films (the modern web kind, not a vintage look) */
@@ -291,6 +295,8 @@ html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
   background: rgb(0 0 0 / .58); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   border: 1px solid rgb(255 255 255 / .08);
 }
+.subs { transition: opacity .5s, transform .5s var(--ease-out); }
+.subs.is-gone { opacity: 0; transform: translateY(-8px); pointer-events: none; }
 .subs p { margin: 0; }
 .subs__q { display: flex; align-items: center; justify-content: flex-end; gap: 12px; font-size: clamp(.95rem, 1.2vw, 1.15rem); font-weight: 500; letter-spacing: -0.015em; }
 .subs__a { margin-top: .45em !important; font-size: clamp(1.15rem, 1.8vw, 1.9rem); line-height: 1.15; font-weight: 500; letter-spacing: -0.03em; color: var(--signal); text-wrap: balance; }
@@ -313,7 +319,8 @@ html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
    first an LVB Leipzig car (blue skirt, silver body, yellow roof), then a BVG Berlin one
    (black skirt, yellow body, black window band, white roof). Each pass takes about a second. */
 .word--trams { position: relative; }
-.tram {
+/* scoped to the word: the app demos use .tram on their line badges */
+.word--trams > .tram {
   position: absolute; inset: 0; pointer-events: none;
   color: transparent; -webkit-text-fill-color: transparent;
   -webkit-background-clip: text; background-clip: text;
@@ -327,7 +334,7 @@ html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
   13% { background-position: 400% 0; }
   100% { background-position: 400% 0; }
 }
-@media (prefers-reduced-motion: reduce) { .tram { display: none; } }
+@media (prefers-reduced-motion: reduce) { .word--trams > .tram { display: none; } }
 /* the footer word: a box as tall as the letters, so the stripes reach every glyph */
 .foot__word .word--trams { display: inline-block; line-height: 1; margin-block: -.13em; }
 .foot__word .tram { animation-delay: 2s; }
@@ -385,10 +392,10 @@ html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
    One line per way of asking (App, MCP, Siri, Alexa, Sync), drawn like a tram network map,
    then one step per part of the stack. The call counts come live from the production API. */
 .how { padding-block: var(--sec); overflow: hidden; }
-.how__intro { align-items: end; margin-bottom: clamp(40px, 5vw, 72px); }
+.how__intro { align-items: end; }
+.how__body { margin-top: clamp(28px, 3vw, 44px); }
 .how__intro .label { grid-column: 1 / -1; }
 .how__intro .h-lg { grid-column: 1 / 7; }
-.how__intro .body-lg { grid-column: 7 / 13; margin: 0; }
 
 /* the map */
 .how-map {
@@ -447,14 +454,13 @@ button.how-chip:hover { border-color: var(--c); }
 .how-chip--vercel { --c: var(--paper); }
 
 /* the steps: one card each, scrolled sideways like the integrations */
-.how__more { margin-top: clamp(28px, 3vw, 40px); }
-.how__toggle { display: inline-flex; align-items: center; gap: 12px; padding: 13px 20px; border-radius: 999px; border: 1px solid var(--ink-3); background: var(--ink-2); color: var(--paper); font: 600 15px/1 var(--f-display); cursor: pointer; transition: background .25s, border-color .25s; }
+.how__intro .how__toggle { grid-column: 7 / 13; justify-self: end; align-self: end; }
+.how__toggle { display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px; border: 1px solid var(--ink-3); background: var(--ink-2); color: var(--paper); font: 600 15px/1 var(--f-display); cursor: pointer; transition: background .25s, border-color .25s; }
 .how__toggle:hover { border-color: var(--mute); }
-.how__toggle i { font-style: normal; transition: transform .3s var(--ease-out); }
-.how__toggle[aria-expanded="true"] i { transform: rotate(45deg); }
-.how__toggle small { font: 400 11px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--mute); }
-.how__parts { margin-top: clamp(24px, 3vw, 40px); }
-.how__parts[hidden] { display: none; }
+.how__toggle i { font-style: normal; line-height: 0; transform: translateY(-.15em); transition: transform .3s var(--ease-out); }
+.how__toggle[aria-expanded="true"] i { transform: translateY(.15em) rotate(180deg); }
+.how__body[hidden] { display: none; }
+.how__lede { margin: 0 0 clamp(28px, 3vw, 44px); }
 .how__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px 24px; flex-wrap: wrap; margin-bottom: clamp(20px, 3vw, 32px); }
 .how__count { margin: 0; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
 .how__count span { color: var(--paper); }
@@ -633,7 +639,7 @@ button.how-chip:hover { border-color: var(--c); }
   .how-map__svg--tall { display: block; }
 }
 @media (max-width: 900px) {
-  .how__intro .body-lg { margin-top: 20px; }
+  .how__intro .how__toggle { justify-self: start; margin-top: 16px; }
   .how-proof__text, .how-proof__stats { grid-column: 1 / -1; }
 }
 @media (prefers-reduced-motion: reduce) { .hm-trams { display: none; } }
@@ -926,6 +932,8 @@ button.how-chip:hover { border-color: var(--c); }
 .appdemo .badge { color: #fff; }
 .appdemo .in-hero .badge, .appdemo .in-later .badge { display: inline-grid; place-items: center; font-weight: 750; }
 .problem__demo .in-phone { max-width: 240px; }
+/* our phone is taller than the app's own box: keep the cards at their natural height instead of stretching them */
+.problem__demo .in-scr.app { align-content: start; }
 .problem__demo .in-phone figcaption span { font-size: 14px; }
 .problem__demo .in-clock { font-size: 24px; }
 @media (max-width: 900px) {
