@@ -853,6 +853,13 @@ button.how-chip:hover { border-color: var(--c); }
 .making__close { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border: 1px solid var(--ink-3); border-radius: 50%; background: var(--ink); color: var(--paper); cursor: pointer; transition: background .25s, color .25s; }
 .making__close:hover, .making__close:focus-visible { background: var(--paper); color: var(--ink); }
 .making__close svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.making__switch { display: inline-flex; gap: 4px; margin: 0 0 24px; padding: 4px; border: 1px solid var(--ink-3); border-radius: 999px; background: var(--ink); }
+.making__switch button { padding: 10px 18px; border: 0; border-radius: 999px; background: transparent; color: var(--mute); font: 600 15px/1 var(--f-display); letter-spacing: -0.01em; cursor: pointer; transition: background .25s, color .25s; }
+.making__switch button:hover { color: var(--paper); }
+.making__switch button[aria-selected="true"] { background: var(--paper); color: var(--ink); }
+.making__switch button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.making__panel[hidden] { display: none; }
+.making__panel:not([hidden]) { animation: makingFade .35s ease-out; }
 .making__title { margin: 0 0 12px; font-size: clamp(30px, 4.4vw, 48px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
 .making__lede { margin: 0 0 28px; max-width: 36em; color: var(--mute); font-size: clamp(15px, 1.3vw, 17px); line-height: 1.5; }
 .making__lede strong { color: var(--paper); font-weight: 600; }

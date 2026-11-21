@@ -194,7 +194,8 @@
   /* ---------- the making of (popup) ---------- */
   const making = $('#making');
   if (making && typeof making.showModal === 'function') {
-    const nums = $$('dd[data-to]', making);
+    const tabs = $$('[data-making-tab]', making);
+    let nums = [];
     const show = (d, v) => { d.textContent = (d.dataset.pre || '') + Math.round(v).toLocaleString('en-US'); };
     let raf = 0;
     const countUp = () => {
@@ -208,10 +209,30 @@
       };
       raf = requestAnimationFrame(step);
     };
+    // Toggle between "This website" and "The app"; each switch counts its numbers up again.
+    const pick = (name, focus) => {
+      tabs.forEach(t => {
+        const on = t.dataset.makingTab === name;
+        t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+        $('#' + t.getAttribute('aria-controls')).hidden = !on;
+        if (on && focus) t.focus();
+      });
+      nums = $$('#making-' + name + ' dd[data-to]');
+      countUp();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => pick(t.dataset.makingTab));
+      t.addEventListener('keydown', e => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        pick(tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length].dataset.makingTab, true);
+      });
+    });
     $$('[data-making-open]').forEach(b => b.addEventListener('click', () => {
       if (lenis) lenis.stop();
       doc.classList.add('is-making-open');
-      making.showModal(); making.scrollTop = 0; countUp();
+      making.showModal(); making.scrollTop = 0;
+      pick((tabs.find(t => t.getAttribute('aria-selected') === 'true') || tabs[0]).dataset.makingTab);
     }));
     $$('[data-making-close]', making).forEach(b => b.addEventListener('click', () => making.close()));
     making.addEventListener('click', e => { if (e.target === making) making.close(); });   // a click on the backdrop
