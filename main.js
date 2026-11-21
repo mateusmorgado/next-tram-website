@@ -191,6 +191,35 @@
     if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.4 }); else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
   }));
 
+  /* ---------- the making of (popup) ---------- */
+  const making = $('#making');
+  if (making && typeof making.showModal === 'function') {
+    const nums = $$('dd[data-to]', making);
+    const show = (d, v) => { d.textContent = (d.dataset.pre || '') + Math.round(v).toLocaleString('en-US'); };
+    let raf = 0;
+    const countUp = () => {
+      cancelAnimationFrame(raf);
+      if (reduce) { nums.forEach(d => show(d, +d.dataset.to)); return; }
+      const t0 = performance.now(), dur = 1400, ease = p => 1 - Math.pow(1 - p, 4);
+      const step = t => {
+        const p = Math.min(1, Math.max(0, (t - t0) / dur));
+        nums.forEach(d => show(d, +d.dataset.to * ease(p)));
+        if (p < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    };
+    $$('[data-making-open]').forEach(b => b.addEventListener('click', () => {
+      if (lenis) lenis.stop();
+      doc.classList.add('is-making-open');
+      making.showModal(); making.scrollTop = 0; countUp();
+    }));
+    $$('[data-making-close]', making).forEach(b => b.addEventListener('click', () => making.close()));
+    making.addEventListener('click', e => { if (e.target === making) making.close(); });   // a click on the backdrop
+    making.addEventListener('close', () => { if (lenis) lenis.start(); doc.classList.remove('is-making-open'); });
+  } else {
+    $$('[data-making-open]').forEach(b => { b.hidden = true; });
+  }
+
   /* ---------- nav hide/show + progress line ---------- */
   const nav = $('[data-nav]'), prog = $('[data-progress]');
   let lastY = scrollY;

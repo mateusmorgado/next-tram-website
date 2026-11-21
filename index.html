@@ -712,8 +712,41 @@ Content-Type: text/plain; charset=utf-8
     <p>nextTram. Live departures for Leipzig (LVB / MDV) and Berlin (BVG / VBB). Not affiliated with LVB or BVG.</p>
     <p class="mono">Built by <a href="https://morgado.tech/">Mateus Morgado</a> · <a href="#top">Back to top &uarr;</a></p>
   </div>
+  <div class="wrap foot__make">
+    <button class="btn btn--ghost" type="button" data-making-open aria-haspopup="dialog"><span>The making of</span><span aria-hidden="true">&rarr;</span></button>
+  </div>
   <p class="foot__word" aria-hidden="true"><span class="word--trams">nextTram<span class="tram tram--lvb">nextTram</span><span class="tram tram--bvg">nextTram</span></span></p>
 </footer>
+
+<!-- ============ The making of (popup) ============
+     Numbers come from this repo's GitHub history; update them when the site changes.
+     Hours are an estimate from commit times (work sessions), so they carry a "≈". -->
+<dialog class="making" id="making" aria-labelledby="making-title" data-lenis-prevent>
+  <div class="making__card">
+    <header class="making__head">
+      <p class="label">The making of</p>
+      <button class="making__close" type="button" data-making-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </header>
+    <h2 class="making__title" id="making-title">Six days, one conversation.</h2>
+    <p class="making__lede">This site was built in chat, with <strong>Mateus</strong> steering and <strong>Claude Code</strong> writing the code. Every change went through GitHub, so the numbers below come straight from the repository.</p>
+    <dl class="making__stats">
+      <div><dt>Commits</dt><dd class="mono" data-to="54">54</dd></div>
+      <div><dt>Merged pull requests</dt><dd class="mono" data-to="15">15</dd></div>
+      <div><dt>Days of work</dt><dd class="mono" data-to="6">6</dd></div>
+      <div><dt>Hours of work</dt><dd class="mono" data-to="18" data-pre="≈ ">≈ 18</dd></div>
+      <div><dt>Lines of HTML, CSS and JS</dt><dd class="mono" data-to="2240">2,240</dd></div>
+      <div><dt>AI films</dt><dd class="mono" data-to="3">3</dd></div>
+    </dl>
+    <ol class="making__log">
+      <li><time class="mono" datetime="2026-11-11">11 Nov</time><p><b>First version.</b> A plain showcase, then thrown out: “it should look like a huge New York agency made it.” A dark redesign the same day.</p></li>
+      <li><time class="mono" datetime="2026-11-12">12 Nov</time><p><b>The app’s own look.</b> Its palette, type and line colours, the three films cut into one 15 second hero, and a new name: nextTram.</p></li>
+      <li><time class="mono" datetime="2026-11-14">14 Nov</time><p><b>Alexa launches.</b> A launch section and a badge in the hero.</p></li>
+      <li><time class="mono" datetime="2026-11-20">20 Nov</time><p><b>The big redo.</b> 14 pull requests in one day: trams driving through the logo, integrations for Claude, ChatGPT, Siri and Alexa, how it works with live call counts, Run mode and a live ticker.</p></li>
+      <li><time class="mono" datetime="2026-11-21">21 Nov</time><p><b>This popup.</b></p></li>
+    </ol>
+    <p class="making__foot">Tools: Claude Code for the code, Gemini Veo for the films. Plain HTML, CSS and JavaScript, no build step. <a href="https://github.com/mateusmorgado/next-tram-website" target="_blank" rel="noopener">See the repository ↗</a></p>
+  </div>
+</dialog>
 
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
