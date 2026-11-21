@@ -740,8 +740,73 @@ Content-Type: text/plain; charset=utf-8
     <p>nextTram. Live departures for Leipzig (LVB / MDV) and Berlin (BVG / VBB). Not affiliated with LVB or BVG.</p>
     <p class="mono">Built by <a href="https://morgado.tech/">Mateus Morgado</a> · <a href="#top">Back to top &uarr;</a></p>
   </div>
+  <div class="wrap foot__make">
+    <button class="btn btn--ghost" type="button" data-making-open aria-haspopup="dialog"><span>The making of</span><span aria-hidden="true">&rarr;</span></button>
+  </div>
   <p class="foot__word" aria-hidden="true"><span class="word--trams">nextTram<span class="tram tram--lvb">nextTram</span><span class="tram tram--bvg">nextTram</span></span></p>
 </footer>
+
+<!-- ============ The making of (popup) ============
+     Numbers come from this repo's GitHub history; update them when the site changes.
+     Hours are an estimate from commit times (work sessions), so they carry a "≈". -->
+<dialog class="making" id="making" aria-labelledby="making-label" data-lenis-prevent>
+  <div class="making__card">
+    <header class="making__head">
+      <p class="label" id="making-label">The making of</p>
+      <button class="making__close" type="button" data-making-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </header>
+    <div class="making__switch" role="tablist" aria-label="Which story">
+      <button type="button" role="tab" id="making-tab-site" aria-controls="making-site" aria-selected="true" data-making-tab="site">This website</button>
+      <button type="button" role="tab" id="making-tab-app" aria-controls="making-app" aria-selected="false" tabindex="-1" data-making-tab="app">The app</button>
+    </div>
+
+    <!-- This website: github.com/mateusmorgado/next-tram-website -->
+    <section class="making__panel" id="making-site" role="tabpanel" aria-labelledby="making-tab-site">
+      <h2 class="making__title">Six days, one conversation.</h2>
+      <p class="making__lede">This site was built in chat, with <strong>Mateus</strong> steering and <strong>Claude Code</strong> writing the code. Every change went through GitHub, so the numbers below come straight from the repository.</p>
+      <dl class="making__stats">
+        <div><dt>Commits</dt><dd class="mono" data-to="54">54</dd></div>
+        <div><dt>Merged pull requests</dt><dd class="mono" data-to="15">15</dd></div>
+        <div><dt>Days of work</dt><dd class="mono" data-to="6">6</dd></div>
+        <div><dt>Hours of work</dt><dd class="mono" data-to="18" data-pre="≈ ">≈ 18</dd></div>
+        <div><dt>Lines of HTML, CSS and JS</dt><dd class="mono" data-to="2240">2,240</dd></div>
+        <div><dt>AI films</dt><dd class="mono" data-to="3">3</dd></div>
+      </dl>
+      <ol class="making__log">
+        <li><time class="mono" datetime="2026-11-11">11 Nov</time><p><b>First version.</b> A plain showcase, then thrown out: “it should look like a huge New York agency made it.” A dark redesign the same day.</p></li>
+        <li><time class="mono" datetime="2026-11-12">12 Nov</time><p><b>The app’s own look.</b> Its palette, type and line colours, the three films cut into one 15 second hero, and a new name: nextTram.</p></li>
+        <li><time class="mono" datetime="2026-11-14">14 Nov</time><p><b>Alexa launches.</b> A launch section and a badge in the hero.</p></li>
+        <li><time class="mono" datetime="2026-11-20">20 Nov</time><p><b>The big redo.</b> 14 pull requests in one day: trams driving through the logo, integrations for Claude, ChatGPT, Siri and Alexa, how it works with live call counts, Run mode and a live ticker.</p></li>
+        <li><time class="mono" datetime="2026-11-21">21 Nov</time><p><b>This popup.</b></p></li>
+      </ol>
+      <p class="making__foot">Tools: Claude Code for the code, Gemini Veo for the films. Plain HTML, CSS and JavaScript, no build step. <a href="https://github.com/mateusmorgado/next-tram-website" target="_blank" rel="noopener">See the repository ↗</a></p>
+    </section>
+
+    <!-- The app: github.com/mateusmorgado/next-tram -->
+    <section class="making__panel" id="making-app" role="tabpanel" aria-labelledby="making-tab-app" hidden>
+      <h2 class="making__title">Nine days, from web app to voice.</h2>
+      <p class="making__lede">nextTram tells you when to leave for your tram. In nine days it grew from a web app into a watch face, an Android app and voice skills, built with <strong>Mateus</strong> steering and <strong>Claude Code</strong> writing the code. The numbers come from the app’s repository.</p>
+      <dl class="making__stats">
+        <div><dt>Commits</dt><dd class="mono" data-to="131">131</dd></div>
+        <div><dt>Merged pull requests</dt><dd class="mono" data-to="40">40</dd></div>
+        <div><dt>Days of work</dt><dd class="mono" data-to="9">9</dd></div>
+        <div><dt>Hours of work</dt><dd class="mono" data-to="48" data-pre="≈ ">≈ 48</dd></div>
+        <div><dt>Lines of TypeScript, Kotlin and CSS</dt><dd class="mono" data-to="14372">14,372</dd></div>
+        <div><dt>Languages</dt><dd class="mono" data-to="3">3</dd></div>
+      </dl>
+      <ol class="making__log">
+        <li><time class="mono" datetime="2026-11-11">11 Nov</time><p><b>A web app with no dependencies.</b> Live departures, a countdown that says when to leave, a watch layout and favourites synced online.</p></li>
+        <li><time class="mono" datetime="2026-11-12">12 Nov</time><p><b>Alexa, the trip home and LVB colours.</b> One public skill, a stopwatch to time your walk, the fastest way home, and line colours from the LVB network map.</p></li>
+        <li><time class="mono" datetime="2026-11-13">13 Nov</time><p><b>Siri and Claude.</b> Siri reads the next tram out loud, the Claude connector gets a guide, and every assistant call is counted in public.</p></li>
+        <li><time class="mono" datetime="2026-11-15">15 Nov</time><p><b>Alexa in Portuguese</b> and a step-by-step setup for every assistant.</p></li>
+        <li><time class="mono" datetime="2026-11-17">17 Nov</time><p><b>A bigger rebuild.</b> TypeScript, German and Portuguese, a first-run intro and a first Android app.</p></li>
+        <li><time class="mono" datetime="2026-11-19">19 Nov</time><p><b>More places.</b> Buses in Altenburg and route links you can share.</p></li>
+        <li><time class="mono" datetime="2026-11-21">21 Nov</time><p><b>Native Android and Wear OS.</b> A home screen widget, a live countdown notification and a watch tile.</p></li>
+      </ol>
+      <p class="making__foot">Tools: Claude Code for the code. A TypeScript web app on Vercel, plus Kotlin for Android and Wear OS. <a href="https://github.com/mateusmorgado/next-tram" target="_blank" rel="noopener">See the repository ↗</a></p>
+    </section>
+  </div>
+</dialog>
 
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
