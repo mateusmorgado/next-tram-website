@@ -191,6 +191,56 @@
     if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.4 }); else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
   }));
 
+  /* ---------- the making of (popup) ---------- */
+  const making = $('#making');
+  if (making && typeof making.showModal === 'function') {
+    const tabs = $$('[data-making-tab]', making);
+    let nums = [];
+    const show = (d, v) => { d.textContent = (d.dataset.pre || '') + Math.round(v).toLocaleString('en-US'); };
+    let raf = 0;
+    const countUp = () => {
+      cancelAnimationFrame(raf);
+      if (reduce) { nums.forEach(d => show(d, +d.dataset.to)); return; }
+      const t0 = performance.now(), dur = 1400, ease = p => 1 - Math.pow(1 - p, 4);
+      const step = t => {
+        const p = Math.min(1, Math.max(0, (t - t0) / dur));
+        nums.forEach(d => show(d, +d.dataset.to * ease(p)));
+        if (p < 1) raf = requestAnimationFrame(step);
+      };
+      raf = requestAnimationFrame(step);
+    };
+    // Toggle between "This website" and "The app"; each switch counts its numbers up again.
+    const pick = (name, focus) => {
+      tabs.forEach(t => {
+        const on = t.dataset.makingTab === name;
+        t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+        $('#' + t.getAttribute('aria-controls')).hidden = !on;
+        if (on && focus) t.focus();
+      });
+      nums = $$('#making-' + name + ' dd[data-to]');
+      countUp();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => pick(t.dataset.makingTab));
+      t.addEventListener('keydown', e => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        pick(tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length].dataset.makingTab, true);
+      });
+    });
+    $$('[data-making-open]').forEach(b => b.addEventListener('click', () => {
+      if (lenis) lenis.stop();
+      doc.classList.add('is-making-open');
+      making.showModal(); making.scrollTop = 0;
+      pick((tabs.find(t => t.getAttribute('aria-selected') === 'true') || tabs[0]).dataset.makingTab);
+    }));
+    $$('[data-making-close]', making).forEach(b => b.addEventListener('click', () => making.close()));
+    making.addEventListener('click', e => { if (e.target === making) making.close(); });   // a click on the backdrop
+    making.addEventListener('close', () => { if (lenis) lenis.start(); doc.classList.remove('is-making-open'); });
+  } else {
+    $$('[data-making-open]').forEach(b => { b.hidden = true; });
+  }
+
   /* ---------- nav hide/show + progress line ---------- */
   const nav = $('[data-nav]'), prog = $('[data-progress]');
   let lastY = scrollY;
