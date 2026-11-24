@@ -191,6 +191,36 @@
     if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.4 }); else el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
   }));
 
+  /* ---------- soft magnet: when scrolling comes to rest with a film near the middle, it eases to centre ----------
+     Only acts once the page is still (wheel smoothing and touch momentum included), never while a finger is down,
+     and any new scroll input simply takes over, so it never holds the page. */
+  const magnets = $$('[data-film-frame]');
+  if (magnets.length && !reduce) {
+    const ZONE = 0.26;        // pull in when the film's centre is within 26% of the screen height from the middle
+    const easeOut = t => 1 - Math.pow(1 - t, 3);
+    let touching = false, rest = 0;
+    const settle = () => {
+      if (touching || doc.classList.contains('is-making-open')) return;
+      const vh = innerHeight;
+      let off = null;
+      magnets.forEach(f => {
+        const r = f.getBoundingClientRect();
+        if (r.height >= vh) return;                        // taller than the screen: nothing to centre
+        const d = r.top + r.height / 2 - vh / 2;
+        if (Math.abs(d) < vh * ZONE && (off === null || Math.abs(d) < Math.abs(off))) off = d;
+      });
+      if (off === null || Math.abs(off) < 4) return;       // far away, or already centred
+      const dur = 0.45 + Math.min(0.45, Math.abs(off) / vh); // short hops are quick, longer ones glide
+      if (lenis) lenis.scrollTo(lenis.animatedScroll + off, { duration: dur, easing: easeOut });
+      else scrollTo({ top: scrollY + off, behavior: 'smooth' });
+    };
+    const later = () => { clearTimeout(rest); rest = setTimeout(settle, 180); };
+    addEventListener('scroll', later, { passive: true });
+    addEventListener('touchstart', () => { touching = true; clearTimeout(rest); }, { passive: true });
+    addEventListener('touchend', () => { touching = false; later(); }, { passive: true });
+    addEventListener('touchcancel', () => { touching = false; later(); }, { passive: true });
+  }
+
   /* ---------- the making of (popup) ---------- */
   const making = $('#making');
   if (making && typeof making.showModal === 'function') {
@@ -525,7 +555,7 @@
       // films open from a card to full bleed
       const inset = ctx.conditions.wide ? 'inset(9% 16% 9% 16% round 32px)' : 'inset(6% 5% 6% 5% round 22px)';
       $$('[data-film-frame]').forEach(f => {
-        gsap.fromTo(f, { clipPath: inset }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none', scrollTrigger: { trigger: f, start: 'top 85%', end: 'top 15%', scrub: true } });
+        gsap.fromTo(f, { clipPath: inset }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'none', scrollTrigger: { trigger: f, start: 'top 85%', end: 'center center', scrub: true } });
       });
 
       // 04-06 on wide screens: the page pins and the three panels pass sideways, one after the other
