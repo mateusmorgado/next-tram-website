@@ -199,20 +199,7 @@ html.js-intro.intro-live:not(.intro-done):not(.intro-skip) .hero__title .word--t
 html.js-intro .hero .tram--lvb { animation-delay: 5s; }
 html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
 
-/* ---------- cursor, grain, progress ---------- */
-.cursor {
-  position: fixed; left: 0; top: 0; z-index: 95; pointer-events: none;
-  width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%;
-  background: var(--signal);
-  display: grid; place-items: center;
-  transition: width .35s var(--ease-out), height .35s var(--ease-out), margin .35s var(--ease-out), opacity .3s;
-  opacity: 0;
-}
-.cursor.is-on { opacity: 1; }
-.cursor.is-big { width: 84px; height: 84px; margin: -42px 0 0 -42px; }
-.cursor__label { font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--signal-ink); opacity: 0; transition: opacity .2s; }
-.cursor.is-big .cursor__label { opacity: 1; }
-@media (hover: none), (pointer: coarse) { .cursor { display: none; } }
+/* ---------- grain, progress ---------- */
 
 .grain {
   position: fixed; inset: -50%; z-index: 90; pointer-events: none; opacity: .07;
@@ -1074,3 +1061,20 @@ html.is-making-open { overflow: hidden; }
 .taps__col--slow b { color: var(--mute); text-decoration: line-through; text-decoration-thickness: .06em; text-decoration-color: var(--alarm); }
 .taps__col--us { border-color: var(--go); }
 .taps__col--us b { color: var(--go); }
+
+/* ---------- tram-signal mouse pointer (fine pointers only; touch keeps the system cursor) ---------- */
+@media (hover: hover) and (pointer: fine) {
+  html {
+    cursor: url("assets/cursor/signal.png") 2 2, auto;
+    cursor: -webkit-image-set(url("assets/cursor/signal.png") 1x, url("assets/cursor/signal@2x.png") 2x) 2 2, auto;
+    cursor: image-set(url("assets/cursor/signal.png") 1x, url("assets/cursor/signal@2x.png") 2x) 2 2, auto;
+  }
+  a, button, [role="button"], summary, label[for], select,
+  .how__toggle, .making__close, .making__switch button {
+    cursor: url("assets/cursor/signal-link.png") 2 2, pointer;
+    cursor: -webkit-image-set(url("assets/cursor/signal-link.png") 1x, url("assets/cursor/signal-link@2x.png") 2x) 2 2, pointer;
+    cursor: image-set(url("assets/cursor/signal-link.png") 1x, url("assets/cursor/signal-link@2x.png") 2x) 2 2, pointer;
+  }
+  input:not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea { cursor: text; }
+  button:disabled { cursor: not-allowed; }
+}
