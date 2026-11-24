@@ -824,7 +824,8 @@ button.how-chip:hover { border-color: var(--c); }
 .cta__inner { position: relative; z-index: 2; padding-block: var(--sec); }
 .cta__title { margin: 0; font-size: clamp(2.8rem, 7.4vw, 7.6rem); line-height: .86; letter-spacing: -0.068em; font-weight: 700; max-width: 10ch; text-wrap: balance; }
 .cta__title .serif { letter-spacing: -0.06em; }
-.cta__btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+.cta__btns { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 36px; }
+.cta__more { display: contents; }
 .btn { display: inline-flex; align-items: center; gap: 14px; padding: 16px 26px; border-radius: 999px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; transition: background .3s, color .3s, transform .4s var(--ease-out); will-change: transform; }
 .btn--primary { background: var(--signal); color: var(--signal-ink); }
 .btn--primary:hover { background: var(--paper); }
@@ -838,7 +839,8 @@ button.how-chip:hover { border-color: var(--c); }
 .foot__row a:hover { color: var(--signal); }
 .foot__word { margin: 32px 0 0; font-size: 15vw; font-weight: 700; letter-spacing: -0.075em; line-height: .74; white-space: nowrap; color: var(--signal); text-align: center; transform: translateY(.14em); padding-bottom: env(safe-area-inset-bottom, 0px); }
 
-.foot__make { margin-top: 28px; }
+.foot__making { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: .2em; text-decoration-color: rgb(167 169 176 / .5); }
+.foot__making:hover { color: var(--signal); }
 
 /* ---------- the making of (popup) ---------- */
 .making { width: min(760px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 1px solid var(--ink-3); border-radius: 28px; background: var(--ink-2); color: var(--paper); overflow: auto; overscroll-behavior: contain; }
@@ -918,6 +920,17 @@ html.is-making-open { overflow: hidden; }
   .nav { padding-block: 14px; }
   .nav__links .nav__cta { padding: 9px 14px; }
   .btn { padding: 15px 22px; font-size: 16px; }
+  /* closing call: one full-width primary, then the two secondary actions side by side, same size */
+  .cta__btns { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .cta__btns .btn { justify-content: center; }
+  .cta__btns > .btn--primary { padding-block: 18px; font-size: 17px; }
+  .cta__more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .cta__more .btn { padding-inline: 12px; font-size: 15px; white-space: nowrap; }
+  .foot__row { gap: 14px; }
+  .foot__links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .foot__links > span[aria-hidden] { display: none; }
+  /* the closing wordmark spans the screen on phones */
+  .foot__word { margin-top: 40px; font-size: 25.5vw; }
 }
 
 /* ---------- reduced motion ---------- */
