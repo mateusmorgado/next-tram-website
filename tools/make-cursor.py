@@ -37,7 +37,7 @@ def layout(angle_deg, pitch, margin):
     return [(px + ox, py + oy) for px, py in pts], (ox, oy)
 
 
-def render(s, angle, pitch, R, dot, core, glowc, glowa, coreR=0.5, size=32, margin=2.6):
+def render(s, angle, pitch, R, dot, core, glowc, glowa, coreR=0.5, size=44, margin=3.4):
     pts, (hx, hy) = layout(angle, pitch, margin)
     SS = 8; S = s * SS; W = size * S
     img = Image.new('RGBA', (W, W), (0, 0, 0, 0))
@@ -49,15 +49,15 @@ def render(s, angle, pitch, R, dot, core, glowc, glowa, coreR=0.5, size=32, marg
             d.ellipse([cx - rr, cy - rr, cx + rr, cy + rr], fill=fill)
         return m.filter(ImageFilter.GaussianBlur(blur * S)) if blur else m
 
-    img.paste(Image.new('RGBA', (W, W), (16, 17, 20, 240)), (0, 0), layer(R + 1.25, 255))
-    img.paste(Image.new('RGBA', (W, W), glowc + (255,)), (0, 0), layer(R + 0.8, glowa, 0.7))
+    img.paste(Image.new('RGBA', (W, W), (16, 17, 20, 240)), (0, 0), layer(R + 1.6, 255))
+    img.paste(Image.new('RGBA', (W, W), glowc + (255,)), (0, 0), layer(R + 1.1, glowa, 0.9))
     img.paste(Image.new('RGBA', (W, W), dot + (255,)), (0, 0), layer(R, 255))
     img.paste(Image.new('RGBA', (W, W), core + (255,)), (0, 0), layer(R * coreR, 255))
     ext = (max(p[0] for p in pts), max(p[1] for p in pts))
     return img.resize((size * s, size * s), Image.LANCZOS), (hx, hy), ext
 
 
-ANGLE, PITCH, R = 122, 1.75, 0.72
+ANGLE, PITCH, R = 122, 2.6, 1.07
 
 if __name__ == '__main__':
     out = sys.argv[1] if len(sys.argv) > 1 else 'assets/cursor'
