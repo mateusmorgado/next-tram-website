@@ -332,6 +332,8 @@
       hparts.hidden = !open;
       const lab = $('[data-how-label]', htoggle); if (lab) lab.textContent = open ? 'Hide' : 'Show me how';
       if (open) how.dispatchEvent(new Event('how:open'));
+      if (hasGsap) ScrollTrigger.refresh(); // the pinned run further down must start from the new height
+      if (lenis) lenis.resize();
     });
 
     // the cards scroll sideways: arrows, dots, a 01 / 05 counter and the arrow keys
@@ -553,6 +555,18 @@
     // footer word rises
     gsap.from('.foot__word', { yPercent: 40, ease: 'none', scrollTrigger: { trigger: '.foot', start: 'top bottom', end: 'bottom bottom', scrub: true } });
     addEventListener('load', () => ScrollTrigger.refresh());
+
+    // when the page changes height without a window resize ("Show me how" opening, late images),
+    // re-measure every trigger: otherwise the pinned sideways run below keeps its old start and the page jumps
+    if ('ResizeObserver' in window) {
+      let lastH = document.body.offsetHeight, rt = 0;
+      new ResizeObserver(() => {
+        const h = document.body.offsetHeight;
+        if (Math.abs(h - lastH) < 2) return;
+        lastH = h; clearTimeout(rt);
+        rt = setTimeout(() => { if (lenis) lenis.resize(); ScrollTrigger.refresh(); lastH = document.body.offsetHeight; }, 120);
+      }).observe(document.body);
+    }
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
   }
 
