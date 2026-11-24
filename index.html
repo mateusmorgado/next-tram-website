@@ -738,9 +738,20 @@ Content-Type: text/plain; charset=utf-8
 </main>
 
 <footer class="foot">
+  <div class="wrap">
+    <button class="makeit" type="button" data-making-open aria-haspopup="dialog">
+      <span class="makeit__copy">
+        <span class="label">The making of</span>
+        <span class="makeit__title">Built in chat, <span class="serif">with Claude.</span></span>
+        <span class="makeit__lede">How this site and the app came together, with Mateus steering and Claude Code writing the code.</span>
+        <span class="makeit__stats mono"><span><b>185</b> commits</span><span><b>55</b> pull requests</span><span><b>&asymp; 66</b> hours</span></span>
+      </span>
+      <span class="makeit__go" aria-hidden="true"><span class="makeit__cta">Read the story</span><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </button>
+  </div>
   <div class="wrap foot__row">
     <p>nextTram. Live departures for Leipzig (LVB / MDV) and Berlin (BVG / VBB). Not affiliated with LVB or BVG.</p>
-    <p class="mono foot__links"><span>Built by <a href="https://morgado.tech/">Mateus Morgado</a></span><span aria-hidden="true"> · </span><button class="foot__making" type="button" data-making-open aria-haspopup="dialog">The making of</button><span aria-hidden="true"> · </span><a href="#top">Back to top &uarr;</a></p>
+    <p class="mono foot__links"><span>Built by <a href="https://morgado.tech/">Mateus Morgado</a></span><span aria-hidden="true"> · </span><a href="#top">Back to top &uarr;</a></p>
   </div>
   <p class="foot__word" aria-hidden="true"><span class="word--trams">nextTram<span class="tram tram--lvb">nextTram</span><span class="tram tram--bvg">nextTram</span></span></p>
 </footer>

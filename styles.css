@@ -833,14 +833,26 @@ button.how-chip:hover { border-color: var(--c); }
 .btn--ghost:hover { background: var(--paper); color: var(--ink); }
 
 /* ---------- footer ---------- */
-.foot { padding-top: 40px; overflow: hidden; border-top: 1px solid var(--ink-3); }
+.foot { padding-top: clamp(40px, 6vw, 72px); overflow: hidden; border-top: 1px solid var(--ink-3); }
 .foot__row { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; color: var(--mute); font-size: 14px; }
 .foot__row p { margin: 0; max-width: 46em; }
 .foot__row a:hover { color: var(--signal); }
 .foot__word { margin: 32px 0 0; font-size: 15vw; font-weight: 700; letter-spacing: -0.075em; line-height: .74; white-space: nowrap; color: var(--signal); text-align: center; transform: translateY(.14em); padding-bottom: env(safe-area-inset-bottom, 0px); }
 
-.foot__making { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: .2em; text-decoration-color: rgb(167 169 176 / .5); }
-.foot__making:hover { color: var(--signal); }
+/* the making of: a feature card that opens the story popup */
+.makeit { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 32px; width: 100%; margin: 0 0 40px; padding: clamp(24px, 4vw, 48px); text-align: left; font: inherit; color: var(--paper); background: var(--ink-2, #1a1b20); border: 1px solid var(--ink-3); border-radius: 28px; cursor: pointer; transition: border-color .3s, background .3s; }
+.makeit:hover, .makeit:focus-visible { border-color: var(--signal); }
+.makeit__copy { display: grid; gap: 14px; }
+.makeit__copy .label { margin: 0; }
+.makeit__title { font-size: clamp(2.2rem, 5.4vw, 5.2rem); line-height: .9; letter-spacing: -0.06em; font-weight: 700; text-wrap: balance; }
+.makeit__title .serif { color: var(--go); }
+.makeit__lede { max-width: 34em; color: var(--mute); font-size: clamp(1rem, 1.2vw, 1.15rem); }
+.makeit__stats { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 4px; font-size: 13px; color: var(--mute); }
+.makeit__stats b { color: var(--paper); font-weight: 600; }
+.makeit__go { display: grid; place-items: center; width: clamp(56px, 6vw, 84px); aspect-ratio: 1; border-radius: 50%; background: var(--signal); color: var(--signal-ink); transition: transform .4s var(--ease-out); }
+.makeit__go svg { width: 42%; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.makeit:hover .makeit__go { transform: translateX(6px); }
+.makeit__cta { display: none; }
 
 /* ---------- the making of (popup) ---------- */
 .making { width: min(760px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 1px solid var(--ink-3); border-radius: 28px; background: var(--ink-2); color: var(--paper); overflow: auto; overscroll-behavior: contain; }
@@ -927,6 +939,11 @@ html.is-making-open { overflow: hidden; }
   .cta__more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .cta__more .btn { padding-inline: 12px; font-size: 15px; white-space: nowrap; }
   .foot__row { gap: 14px; }
+  .makeit { grid-template-columns: minmax(0, 1fr); gap: 22px; border-radius: 22px; padding: 24px 20px; }
+  .makeit__go { display: flex; justify-content: center; gap: 12px; width: 100%; aspect-ratio: auto; height: 54px; border-radius: 999px; font-weight: 600; }
+  .makeit__go svg { width: 22px; }
+  .makeit__cta { display: inline; }
+  .makeit:hover .makeit__go { transform: none; }
   .foot__links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
   .foot__links > span[aria-hidden] { display: none; }
   /* the closing wordmark spans the screen on phones */
