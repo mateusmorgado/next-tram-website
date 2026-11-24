@@ -1065,15 +1065,15 @@ html.is-making-open { overflow: hidden; }
 /* ---------- tram-signal mouse pointer (fine pointers only; touch keeps the system cursor) ---------- */
 @media (hover: hover) and (pointer: fine) {
   html {
-    cursor: url("assets/cursor/signal.png") 2 2, auto;
-    cursor: -webkit-image-set(url("assets/cursor/signal.png") 1x, url("assets/cursor/signal@2x.png") 2x) 2 2, auto;
-    cursor: image-set(url("assets/cursor/signal.png") 1x, url("assets/cursor/signal@2x.png") 2x) 2 2, auto;
+    cursor: url("assets/cursor/signal.png") 3 3, auto;
+    cursor: -webkit-image-set(url("assets/cursor/signal.png") 1x, url("assets/cursor/signal@2x.png") 2x) 3 3, auto;
+    cursor: image-set(url("assets/cursor/signal.png") 1x, url("assets/cursor/signal@2x.png") 2x) 3 3, auto;
   }
   a, button, [role="button"], summary, label[for], select,
   .how__toggle, .making__close, .making__switch button, .foot__making {
-    cursor: url("assets/cursor/signal-link.png") 2 2, pointer;
-    cursor: -webkit-image-set(url("assets/cursor/signal-link.png") 1x, url("assets/cursor/signal-link@2x.png") 2x) 2 2, pointer;
-    cursor: image-set(url("assets/cursor/signal-link.png") 1x, url("assets/cursor/signal-link@2x.png") 2x) 2 2, pointer;
+    cursor: url("assets/cursor/signal-link.png") 3 3, pointer;
+    cursor: -webkit-image-set(url("assets/cursor/signal-link.png") 1x, url("assets/cursor/signal-link@2x.png") 2x) 3 3, pointer;
+    cursor: image-set(url("assets/cursor/signal-link.png") 1x, url("assets/cursor/signal-link@2x.png") 2x) 3 3, pointer;
   }
   input:not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea { cursor: text; }
   button:disabled { cursor: not-allowed; }
