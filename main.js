@@ -570,23 +570,8 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
   }
 
-  /* ---------- cursor + magnetic buttons (fine pointers only) ---------- */
-  const cursor = $('.cursor');
-  if (cursor && matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce) {
-    const label = $('.cursor__label', cursor);
-    let x = innerWidth / 2, y = innerHeight / 2, cx = x, cy = y;
-    addEventListener('mousemove', e => { x = e.clientX; y = e.clientY; cursor.classList.add('is-on'); }, { passive: true });
-    document.addEventListener('mouseleave', () => cursor.classList.remove('is-on'));
-    const cLoop = () => { cx += (x - cx) * 0.2; cy += (y - cy) * 0.2; cursor.style.transform = `translate(${cx}px, ${cy}px)`; requestAnimationFrame(cLoop); };
-    requestAnimationFrame(cLoop);
-    $$('[data-cursor]').forEach(s => {
-      s.addEventListener('mouseenter', () => { label.textContent = s.dataset.cursor; cursor.classList.add('is-big'); });
-      s.addEventListener('mouseleave', () => cursor.classList.remove('is-big'));
-    });
-    $$('a, button, input').forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.remove('is-big'));
-      el.addEventListener('mouseleave', () => { const s = el.closest('[data-cursor]'); if (s) { label.textContent = s.dataset.cursor; cursor.classList.add('is-big'); } });
-    });
+  /* ---------- magnetic buttons (fine pointers only) ---------- */
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce) {
     $$('[data-magnetic]').forEach(b => {
       b.addEventListener('mousemove', e => { const r = b.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.25}px, ${(e.clientY - r.top - r.height / 2) * 0.35}px)`; });
       b.addEventListener('mouseleave', () => { b.style.transform = ''; });
