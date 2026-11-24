@@ -839,8 +839,11 @@ button.how-chip:hover { border-color: var(--c); }
 .foot__row a:hover { color: var(--signal); }
 .foot__word { margin: 32px 0 0; font-size: 15vw; font-weight: 700; letter-spacing: -0.075em; line-height: .74; white-space: nowrap; color: var(--signal); text-align: center; transform: translateY(.14em); padding-bottom: env(safe-area-inset-bottom, 0px); }
 
-.foot__making { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: .2em; text-decoration-color: rgb(167 169 176 / .5); }
-.foot__making:hover { color: var(--signal); }
+.foot__links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; }
+.foot__links > span[aria-hidden] { display: none; }
+/* the making of: a small outlined pill among the footer links */
+.foot__making { display: inline-flex; align-items: center; gap: 8px; font: inherit; color: var(--paper); background: none; border: 1px solid rgb(242 242 240 / .4); border-radius: 999px; padding: 7px 14px; cursor: pointer; transition: border-color .3s, color .3s, background .3s; }
+.foot__making:hover, .foot__making:focus-visible { border-color: var(--signal); color: var(--signal); }
 
 /* ---------- the making of (popup) ---------- */
 .making { width: min(760px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 1px solid var(--ink-3); border-radius: 28px; background: var(--ink-2); color: var(--paper); overflow: auto; overscroll-behavior: contain; }
@@ -927,8 +930,6 @@ html.is-making-open { overflow: hidden; }
   .cta__more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .cta__more .btn { padding-inline: 12px; font-size: 15px; white-space: nowrap; }
   .foot__row { gap: 14px; }
-  .foot__links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
-  .foot__links > span[aria-hidden] { display: none; }
   /* the closing wordmark spans the screen on phones */
   .foot__word { margin-top: 40px; font-size: 25.5vw; }
 }
