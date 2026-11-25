@@ -81,7 +81,7 @@
   }
 
   /* ---------- hero reel: one edit that intercuts the three films ---------- */
-  // Chapters are time ranges in assets/video/hero-*.mp4 (15.4 s): Ask = the question,
+  // Chapters (no longer shown as a bar) are time ranges in assets/video/hero-*.mp4 (15.4 s): Ask = the question,
   // Leave = phone away, watch check, the run starts, Make it = all three boardings.
   const heroV = $('[data-hero-video]');
   const chapters = $$('[data-chapter]');
