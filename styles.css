@@ -257,10 +257,9 @@ html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
 .film-tone { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
 .film-tone::before { content: ""; position: absolute; inset: 0; background: #12292e; mix-blend-mode: lighten; opacity: .6; }
 .film-tone::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(120 190 210 / .18), rgb(255 170 100 / .22) 55%); mix-blend-mode: soft-light; }
-/* hero: a lighter teal wash so the film shows through and its colours pop */
-.hero .reel__clip video { filter: brightness(1.1) contrast(1.06) saturate(1.22); }
-.hero .film-tone::before { opacity: .22; }
-.hero .film-tone::after { opacity: .5; }
+/* hero: a slightly softer teal wash than the films below, so its colours pop a little more */
+.hero .reel__clip video { filter: brightness(1.12) contrast(1.05) saturate(1.14) sepia(.04); }
+.hero .film-tone::before { opacity: .45; }
 @keyframes hgrain { 0% { transform: translate(0,0) } 33% { transform: translate(-37px,23px) } 66% { transform: translate(29px,-41px) } 100% { transform: translate(0,0) } }
 .hero__shade {
   position: absolute; inset: 0; z-index: 5; pointer-events: none;
@@ -331,7 +330,8 @@ html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
 .foot__word .tram { animation-delay: 2s; }
 .foot__word .tram--bvg { animation-delay: 3.4s; }
 .hero__title .serif { letter-spacing: -0.06em; padding-right: .04em; }
-.hero__bottom { grid-row: 4; display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: end; }
+.hero__bottom { grid-row: 4; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: end; }
+.hero__ctas { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; }
 .hero__lede { margin: 0; max-width: 30em; font-size: clamp(1rem, 1.2vw, 1.18rem); color: rgb(242 242 240 / .8); }
 .hero__lede strong { color: var(--paper); font-weight: 600; }
 
@@ -888,6 +888,7 @@ html.is-making-open { overflow: hidden; }
   .nav__links a:not(.nav__cta) { display: none; }
   .grid12 > * { grid-column: 1 / -1 !important; }
   .hero__bottom { grid-template-columns: 1fr; gap: 18px; }
+  .hero__ctas { justify-content: flex-start; }
   .film__frame { height: auto; aspect-ratio: 4 / 5; min-height: 0; }
   .film__caption { bottom: clamp(48px, 10vw, 90px); }
   .stops::after { background: linear-gradient(to bottom, var(--ink) 0%, rgb(16 17 20 / .6) 20%, rgb(16 17 20 / .7) 80%, var(--ink) 100%); }
