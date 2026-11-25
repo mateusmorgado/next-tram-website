@@ -82,7 +82,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* countdown numerals, the way the app sets them: heavy, tight, tabular */
 .num { font-family: var(--f-display); font-weight: 750; font-variant-numeric: tabular-nums; letter-spacing: -0.04em; }
 /* accent words: the same family, light and slanted, in the app's go green */
-.serif { font-family: var(--f-display); font-weight: 400; font-style: normal; font-variation-settings: 'slnt' -10; letter-spacing: -0.045em; color: var(--go); }
+.serif { font-family: var(--f-display); font-weight: 400; font-style: normal; letter-spacing: -0.045em; color: var(--go); }
 .hl { color: var(--signal); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
@@ -257,6 +257,9 @@ html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
 .film-tone { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
 .film-tone::before { content: ""; position: absolute; inset: 0; background: #12292e; mix-blend-mode: lighten; opacity: .6; }
 .film-tone::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(120 190 210 / .18), rgb(255 170 100 / .22) 55%); mix-blend-mode: soft-light; }
+/* hero: a slightly softer teal wash than the films below, so its colours pop a little more */
+.hero .reel__clip video { filter: brightness(1.12) contrast(1.05) saturate(1.14) sepia(.04); }
+.hero .film-tone::before { opacity: .45; }
 @keyframes hgrain { 0% { transform: translate(0,0) } 33% { transform: translate(-37px,23px) } 66% { transform: translate(29px,-41px) } 100% { transform: translate(0,0) } }
 .hero__shade {
   position: absolute; inset: 0; z-index: 5; pointer-events: none;
@@ -327,17 +330,11 @@ html.js-intro .hero .tram--bvg { animation-delay: 6.4s; }
 .foot__word .tram { animation-delay: 2s; }
 .foot__word .tram--bvg { animation-delay: 3.4s; }
 .hero__title .serif { letter-spacing: -0.06em; padding-right: .04em; }
-.hero__bottom { grid-row: 4; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 32px; align-items: end; }
+.hero__bottom { grid-row: 4; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: end; }
+.hero__ctas { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; }
 .hero__lede { margin: 0; max-width: 30em; font-size: clamp(1rem, 1.2vw, 1.18rem); color: rgb(242 242 240 / .8); }
 .hero__lede strong { color: var(--paper); font-weight: 600; }
 
-.chapters { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-.chapter { width: 100%; text-align: left; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; padding: 10px 0; }
-.chapter__n { font-family: var(--f-mono); font-size: 12px; color: var(--mute); padding-top: 2px; }
-.chapter__t { font-size: 15px; font-weight: 600; opacity: .55; transition: opacity .3s; }
-.chapter.is-active .chapter__t, .chapter:hover .chapter__t { opacity: 1; }
-.chapter__p { grid-column: 1 / -1; height: 2px; background: rgb(242 242 240 / .22); border-radius: 2px; overflow: hidden; margin-top: 6px; }
-.chapter__p i { display: block; height: 100%; background: var(--signal); transform: scaleX(0); transform-origin: left; }
 
 /* ---------- ticker (stop display) ---------- */
 .ticker { background: #000; overflow: hidden; padding-block: clamp(14px, 1.8vw, 24px); border-block: 1px solid var(--ink-3); }
@@ -891,6 +888,7 @@ html.is-making-open { overflow: hidden; }
   .nav__links a:not(.nav__cta) { display: none; }
   .grid12 > * { grid-column: 1 / -1 !important; }
   .hero__bottom { grid-template-columns: 1fr; gap: 18px; }
+  .hero__ctas { justify-content: flex-start; }
   .film__frame { height: auto; aspect-ratio: 4 / 5; min-height: 0; }
   .film__caption { bottom: clamp(48px, 10vw, 90px); }
   .stops::after { background: linear-gradient(to bottom, var(--ink) 0%, rgb(16 17 20 / .6) 20%, rgb(16 17 20 / .7) 80%, var(--ink) 100%); }
@@ -899,7 +897,6 @@ html.is-making-open { overflow: hidden; }
 @media (max-width: 560px) {
   .hero { min-height: 680px; }
   .hero__inner { padding-top: calc(env(safe-area-inset-top, 0px) + 80px); row-gap: 14px; }
-  .chapter__t { font-size: 13px; }
   .hero__lede { font-size: 15px; }
   /* phone: the box hugs its text on the right, with tighter padding and smaller type */
   .subs { grid-row: 2; justify-self: end; max-width: 92%; padding: 10px 13px 12px; border-radius: 12px; }

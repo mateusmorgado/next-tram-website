@@ -75,13 +75,6 @@
 
     <div class="hero__inner">
 
-      <div class="subs">
-        <p class="subs__q"><span data-voice-q>&ldquo;Hey Google, when&rsquo;s the next tram?&rdquo;</span></p>
-        <p class="subs__a" data-voice-a>Tram 3 in 6 min. Leave in&nbsp;2.</p>
-        <p class="subs__timer mono" aria-hidden="true"><span>Leave in</span> <b class="num" data-voice-t>0:15</b></p>
-      </div>
-
-      <p class="sr-only" aria-live="polite" data-voice-sr></p>
       <h1 class="hero__title" data-hero-title>
         <span class="line"><span class="word">Just</span> <span class="word serif">ask.</span></span>
         <span class="line"><span class="word word--trams">nextTram.<span class="tram tram--lvb" aria-hidden="true">nextTram.</span><span class="tram tram--bvg" aria-hidden="true">nextTram.</span></span></span>
@@ -89,11 +82,10 @@
 
       <div class="hero__bottom">
         <p class="hero__lede"><strong>nextTram</strong> is the tram app that gives you the information you want: when the next tram leaves.</p>
-        <ol class="chapters" aria-label="Film chapters">
-          <li><button type="button" class="chapter is-active" data-chapter="0"><span class="chapter__n">01</span><span class="chapter__t">Ask</span><span class="chapter__p"><i></i></span></button></li>
-          <li><button type="button" class="chapter" data-chapter="1"><span class="chapter__n">02</span><span class="chapter__t">Leave</span><span class="chapter__p"><i></i></span></button></li>
-          <li><button type="button" class="chapter" data-chapter="2"><span class="chapter__n">03</span><span class="chapter__t">Make it</span><span class="chapter__p"><i></i></span></button></li>
-        </ol>
+        <div class="hero__ctas">
+          <a class="btn btn--ghost" href="#android"><span>Learn more</span><span aria-hidden="true">&darr;</span></a>
+          <a class="btn btn--primary" href="https://app.nexttram.morgado.tech/" target="_blank" rel="noopener" data-magnetic><span>Open the app</span><span aria-hidden="true">&rarr;</span></a>
+        </div>
       </div>
     </div>
   </section>

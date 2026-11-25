@@ -41,7 +41,7 @@
     let askAt = delay + 0.45;
     if (!handoff && heroWord) { gsap.from(heroWord, { yPercent: 115, duration: 1.1, ease: 'expo.out', delay }); askAt = delay + 0.75; }
     gsap.from(ask, { yPercent: 120, duration: 1.1, ease: 'expo.out', stagger: 0.07, delay: askAt });
-    gsap.from(['.subs', '.hero__bottom'], { opacity: 0, y: 24, duration: 1.1, ease: 'expo.out', delay: delay + 0.2, stagger: 0.1 });
+    gsap.from(['.hero__bottom'], { opacity: 0, y: 24, duration: 1.1, ease: 'expo.out', delay: delay + 0.2, stagger: 0.1 });
   };
   let introEnded = false;
   const endIntro = () => {
@@ -81,7 +81,7 @@
   }
 
   /* ---------- hero reel: one edit that intercuts the three films ---------- */
-  // Chapters are time ranges in assets/video/hero-*.mp4 (15.4 s): Ask = the question,
+  // Chapters (no longer shown as a bar) are time ranges in assets/video/hero-*.mp4 (15.4 s): Ask = the question,
   // Leave = phone away, watch check, the run starts, Make it = all three boardings.
   const heroV = $('[data-hero-video]');
   const chapters = $$('[data-chapter]');
